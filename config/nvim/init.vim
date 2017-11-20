@@ -3,8 +3,8 @@
 " Automatically download vim-plug, if not present
 if !filereadable(expand('~/.local/share/nvim/site/autoload/plug.vim'))
   echo 'vim-plug not installed, downloading'
-  !curl -fLo '~/.local/share/nvim/site/autoload/plug.vim' --create-dirs
-    \ https://aw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   echo 'vim-plug downloaded, will install plugins once vim loads'
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
