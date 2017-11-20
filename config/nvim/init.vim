@@ -21,8 +21,31 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'sheerun/vim-polyglot'
+Plug 'nathanaelkane/vim-indent-guides'
 
-" Git plugin
+" Git integration
+" Run Git commands from within Vim
+" :Gstatus show `git status` in preview window
+" - <C-N>/<C-P> next/prev file
+" - - add/reset file under cursor
+" - ca :Gcommit --amend
+" - cc :Gcommit
+" - D :Gdiff
+" - p :Git add --patch (reset on staged files)
+" - q close status
+" - r reload status
+" :Gcommit for committing
+" :Gblame run blame on current file
+" - <cr> open commit
+" - o/O open commit in split/tab
+" - - reblame commit
+Plug 'tpope/vim-fugitive'
+" Adds gutter signs and highlights based on git diff
+" <leader>hn to go to next hunk
+" <leader>hp to go to previous hunk
+" <leader>hs to stage hunks within cursor
+" <leader>hr to revert hunks within cursor
+" <leader>hv to preview the hunk
 Plug 'airblade/vim-gitgutter'
 
 " Language plugin
@@ -98,6 +121,9 @@ endif
 " Neoformat {{{
 " Use formatprg when available
 let g:neoformat_try_formatprg = 1
+
+" Enable trimmming of trailing whitespace
+let g:neoformat_basic_format_trim = 1
 " }}}
 
 " Fuzzy Finding (FZF) {{{
@@ -145,4 +171,25 @@ if executable('fzf')
   vnoremap K :<C-u>norm! gv"sy<cr>:silent! Rag! <C-R>s<cr>
   nnoremap Q :Rag!<SPACE>
 end
+" }}}
+
+" GitGutter {{{
+nmap <Leader>hn <Plug>GitGutterNextHunk
+nmap <Leader>hp <Plug>GitGutterPrevHunk " }}}
+
+" Indent Guides {{{
+" Default guides to on everywhere
+let g:indent_guides_enable_on_vim_startup=1
+
+" Don't turn on mapping for toggling guides
+let g:indent_guides_default_mapping=0
+
+" Don't use their colors, depending on the colorscheme to define
+let g:indent_guides_auto_colors=0
+
+" Wait until we've nested a little before showing
+let g:indent_guides_start_level=3
+
+" Skinny guides
+let g:indent_guides_guide_size=1
 " }}}
