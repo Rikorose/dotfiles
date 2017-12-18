@@ -535,6 +535,34 @@ nnoremap <leader>y :Osc52CopyYank<cr>
 vnoremap <leader>y :<C-u>norm! gvy<cr>:Osc52CopyYank<cr>
 " }}}
 
+" Run python within vim
+function! JobHandler(job_id, data, event) dict
+  if a:eventnt == 'stdout'
+    let str = self.shell.' stdout: '.join(a:data)
+  elseif a:event == 'stderr'
+    let str = self.shell.' stderr: '.join(a:data)
+  else
+    let str = self.shell.' exited'
+  endif
+
+  call append(line('$'), str)
+endfunction
+let g:callbacks = {
+\ 'on_stdout': function('g:JobHandler'),
+\ 'on_stderr': function('g:JobHandler'),
+\ 'on_exit': function('g:JobHandler')
+\ }
+
+let b:pyprg='/usr/bin/env python3'
+let b:pyargs=' '
+function! Python()
+  " let l:pyfile = expand('%')
+  " let l:tmpfile = system("mktemp -q")
+  " silent exe "!touch ".l:tmpfile
+  " silent execute "!".b:pyprg." ".l:pyfile." ".b:pyargs." 2>&1 > ".l:tmpfile." | vs|view ".l:tmpfile
+  " silent execute "vnew | 0read ! ".b:pyprg." ".l:pyfile." ".b:pyargs." 2>&1 "
+  execute "vsplit term://".b:pyprg." % ".b:pyargs
+endfunction 
 " Filetype configuration {{{
 augroup filetype_tweaks
   autocmd!
@@ -571,6 +599,9 @@ augroup filetype_tweaks
 
   " Python uses 2 spaces
   autocmd FileType python setlocal shiftwidth=2
+
+  " Python run scripts
+  " autocmd FileType python call
 augroup END
 " }}}
 
