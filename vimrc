@@ -38,8 +38,6 @@ if !has('nvim')
     " Disable langmap for characters from a mapping (on by default in neovim)
     set langnoremap
   endif
-  " Support mouse
-  set mouse=a
   " The future is now!
   set nocompatible
   " Neovim default
@@ -60,6 +58,9 @@ endif
 " }}}
 
 " Base Configuration {?<{{
+
+" Support mouse
+set mouse=a
 
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
