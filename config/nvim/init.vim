@@ -21,6 +21,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'joshdick/onedark.vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'sheerun/vim-polyglot'
+let g:polyglot_disabled = ['latex']
 Plug 'nathanaelkane/vim-indent-guides'
 
 " Git integration
@@ -52,10 +53,13 @@ Plug 'airblade/vim-gitgutter'
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 
 " Syntax highlighting and language server
-Plug 'reasonml-editor/vim-reason-plus'
+" Plug 'reasonml-editor/vim-reason-plus'
 
 " Async completion
 Plug 'roxma/nvim-completion-manager'
+
+"  Asynchronous Lint Engine
+Plug 'w0rp/ale'
 
 " async code formatting
 " :Neoformat <opt_formatter> for entire file
@@ -67,6 +71,12 @@ if executable('fzf')
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
 end
+
+" Latex plugin
+Plug 'lervag/vimtex'
+
+" Tmux integration
+Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
