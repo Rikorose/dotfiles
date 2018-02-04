@@ -597,12 +597,6 @@ augroup filetype_tweaks
 
   " Fold via syntax for JS/TypeScript
   autocmd FileType javascript,typescript setlocal foldmethod=syntax
-
-  " Python uses 2 spaces
-  autocmd FileType python setlocal shiftwidth=2
-
-  " Python run scripts
-  " autocmd FileType python call
 augroup END
 " }}}
 
