@@ -18,8 +18,8 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Syntax highlighting
-Plug 'joshdick/onedark.vim'
-Plug 'altercation/vim-colors-solarized'
+" Plug 'joshdick/onedark.vim'
+Plug 'lifepillar/vim-solarized8'
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex']
 Plug 'nathanaelkane/vim-indent-guides'
@@ -56,13 +56,13 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 
 " Syntax highlighting and language server
-" Plug 'reasonml-editor/vim-reason-plus'
+Plug 'reasonml-editor/vim-reason-plus'
 
 " Async completion
 Plug 'roxma/nvim-completion-manager'
 
 "  Asynchronous Lint Engine
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 
 " async code formatting
 " :Neoformat <opt_formatter> for entire file
@@ -89,7 +89,7 @@ call plug#end()
 let g:solarized_termcolors=256
 " Use for beamer: set background=light
 set background=dark
-colorscheme solarized
+colorscheme solarized8
 
 set number
 
@@ -124,11 +124,29 @@ augroup LanguageClientConfig
 
   " Use as omnifunc by default
   autocmd FileType python setlocal omnifunc=LanguageClient#complete
+
+  " <leader>ld to go to definition
+  autocmd FileType cpp nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
+  " <leader>lf to autoformat document
+  autocmd FileType cpp nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
+  " <leader>lh for type info under cursor
+  autocmd FileType cpp nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
+  " <leader>lr to rename variable under cursor
+  autocmd FileType cpp nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
+  " <leader>lc to switch omnifunc to LanguageClient
+  autocmd FileType cpp nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
+  " <leader>ls to fuzzy find the symbols in the current document
+  autocmd FileType cpp nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
 augroup END
 
 " Python LSP configuration
 if executable('pyls')
   let g:LanguageClient_serverCommands.python = ['pyls']
+endif
+
+" C++ LSP configuration
+if executable('clangd')
+  let g:LanguageClient_serverCommands.cpp = ['clangd']
 endif
 
 " Neoformat {{{
