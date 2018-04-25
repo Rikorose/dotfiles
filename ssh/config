@@ -1,0 +1,50 @@
+Host github.com
+  HostName github.com
+  User git
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_gmail
+
+Host gitlab.cs.fau.de
+  HostName gitlab.cs.fau.de
+  User git
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host gitlab.com
+  HostName gitlab.com
+  User git
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/id_rsa_pm
+
+Host fedora
+  HostName admin.fedoraproject.org
+  IdentityFile ~/.shh/id_rsa_gmail
+
+Host faui04d
+  User ko01jaxu
+  HostName faui04d.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04e
+  User ko01jaxu
+  HostName faui04e.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04l
+  User ko01jaxu
+  HostName faui04l.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04n
+  User ko01jaxu
+  HostName faui04n.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04p
+  User ko01jaxu
+  HostName faui04p.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host i5.cluster
+  User ko01jaxu
+  HostName cluster.i5.informatik.uni-erlangen.de
