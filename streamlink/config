@@ -1,0 +1,3 @@
+default-stream=best
+
+player=mpv --cache 2048
