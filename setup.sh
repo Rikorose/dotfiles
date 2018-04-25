@@ -158,3 +158,9 @@ fi
 
 ln $1 -s "$(readlink -f bin/update-hosts.sh)" ~/.local/bin/update-hosts
 ln $1 -s "$(readlink -f bin/extract.sh)" ~/.local/bin/extract
+ln $1 -s "$(readlink -f bin/launch-sway.sh)" ~/.local/bin/launch-sway
+ln $1 -s "$(readlink -f bin/lock-screen.sh)" ~/.local/bin/lock-screen
+
+if ask "Add /dev/sdb3 /run/media/rik/transfer to /etc/fstab?" N; then
+  sudo bash -c "echo '/dev/sdb3               /run/media/rik/transfer exfat   defaults        0 0' >> /etc/fstab"
+fi
