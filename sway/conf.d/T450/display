@@ -1,0 +1,2 @@
+#output eDP-1 pos 0.0 res 1920x1080 bg ~/.current_wallpaper fill
+output HDMI-A-1 pos 1920.0 res 3440x1440 bg ~/.current_wallpaper fill
