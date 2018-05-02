@@ -1,4 +1,4 @@
-command=/usr/local/libexec/i3blocks/$BLOCK_NAME
+command=/usr/libexec/i3blocks/$BLOCK_NAME
 separator_block_width=20
 markup=none
 
@@ -35,8 +35,8 @@ signal=17
 [battery0]
 command=~/.config/i3blocks/battery
 instance=0
-separator=false
 interval=30
+separator=false
 
 [battery1]
 command=BLOCK_INSTANCE=1; ~/.config/i3blocks/battery
