@@ -7,4 +7,4 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 
 set -U EDITOR nvim
 
-fish_vi_mode
+fish_vi_key_bindings
