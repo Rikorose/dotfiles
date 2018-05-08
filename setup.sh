@@ -112,7 +112,6 @@ fi
 
 if check_for_software nvim; then
   mkdir -p ~/.config
-  mkdir -p ~/.config/nvim
   echo "linking .config/nvim/init.vim"
   ln $1 -s "$(readlink -f nvim)" ~/.config/
 else
@@ -140,14 +139,6 @@ else
   echo "mpv not installed, not linking config"
 fi
 
-if ask "Setup StevenBlack/hosts?" Y; then
-  if check_for_software git; then
-    git clone https://github.com/StevenBlack/hosts ~/.hosts
-  else
-    echo "git not installed, can't clone StevenBlack/hosts."
-  fi
-fi
-
 if ask "Install miniconda?" N; then
   if check_for_software wget; then
     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
@@ -156,11 +147,10 @@ if ask "Install miniconda?" N; then
   fi
 fi
 
+mkdir -p ~/.local/bin
 ln $1 -s "$(readlink -f bin/update-hosts.sh)" ~/.local/bin/update-hosts
 ln $1 -s "$(readlink -f bin/extract.sh)" ~/.local/bin/extract
 ln $1 -s "$(readlink -f bin/launch-sway.sh)" ~/.local/bin/launch-sway
 ln $1 -s "$(readlink -f bin/lock-screen.sh)" ~/.local/bin/lock-screen
+ln $1 -s "$(readlink -f bin/lock-suspend.sh)" ~/.local/bin/lock-suspend
 
-if ask "Add /dev/sdb3 /run/media/rik/transfer to /etc/fstab?" N; then
-  sudo bash -c "echo '/dev/sdb3               /run/media/rik/transfer exfat   defaults        0 0' >> /etc/fstab"
-fi
