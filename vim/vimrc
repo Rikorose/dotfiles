@@ -62,11 +62,6 @@ endif
 " Support mouse
 set mouse=a
 
-" Load matchit.vim, but only if the user hasn't installed a newer version.
-if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
-  runtime! macros/matchit.vim
-endif
-
 " Core Behavior {{{
 " Read .vimrc from current dir, if present
 set exrc
@@ -157,12 +152,6 @@ set splitright
 
 " Reasonable tab completion
 set wildmode=full
-
-" Resize splits when the window is resized
-" augroup on_vim_resized
-"   autocmd!
-"   autocmd VimResized * wincmd =
-" augroup END
 " }}}
 
 " File Handling {{{
@@ -209,7 +198,7 @@ set wildignorecase
 " Status line {{{
 if version >= 704
   " Show git repo information (if available)
-  let g:activeStatusLine="%{StatuslineTag()}»"
+  let g:activeStatusLine="%{functions#StatuslineTag()}»"
 else
   let g:activeStatusLine=""
 endif
@@ -221,14 +210,6 @@ let g:activeStatusLine.="%{&readonly ? \"! \" : &modified ? '+ ' : ''}"
 let g:activeStatusLine.="%= %{&filetype == '' ? 'none' : &filetype} "
 " Line/col/percent
 let g:activeStatusLine.="%l:%2c "
-function! StatuslineTag()
-  if exists('b:git_dir')
-    " Shitty unicode character w/o patched fonts
-    return "‡".fugitive#head(7)
-  else
-    return fnamemodify(getwinvar(0, 'getcwd', getcwd()), ':t')
-  endif
-endfunction
 
 let g:quickfixStatusLine="%t (%l of %L)"
 let g:quickfixStatusLine.="%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
@@ -237,24 +218,10 @@ let g:quickfixStatusLine.="%=%-15(%l,%c%V%) %P"
 " Default status line
 let statusline=g:activeStatusLine
 
-" Use different status line for active vs. inactive buffers
-function! UpdateStatusLine(status)
-  if &filetype=="qf"
-    let &l:statusline=g:quickfixStatusLine
-  elseif &filetype=="help" || &filetype=="netrw"
-    let &l:statusline=&filetype
-  elseif a:status
-    let &l:statusline=g:activeStatusLine
-  else
-    " Just show filename & modified when inactive
-    let &l:statusline='%f %{&modified ? "+" : ""}'
-  endif
-endfunction
-
 augroup status_line
   autocmd!
-  autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call UpdateStatusLine(1)
-  autocmd BufLeave,TabLeave,WinLeave * call UpdateStatusLine(0)
+  autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call functions#UpdateStatusLine(1)
+  autocmd BufLeave,TabLeave,WinLeave * call functions#UpdateStatusLine(0)
 augroup END
 " }}}
 
@@ -350,57 +317,23 @@ set smartcase
 " Clear search highlights with <C-L>
 nnoremap <silent> <C-L> :nohlsearch<cr><C-L>
 
-" Helper for visual search
-function! s:VisualSetSearch(cmdtype)
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-
 " */# in visual mode searches for selected text, similar to normal mode
-vnoremap * :<C-u>call <SID>VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
-vnoremap # :<C-u>call <SID>VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
+vnoremap * :<C-u>call <SID>functions#VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
+vnoremap # :<C-u>call <SID>functions#VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
 
 " <leader>s starts a find a replace for word under cursor
 nnoremap <leader>s :%s/\<<C-R><C-W>\>/<C-R><C-W>/g<Left><Left>
 
 " Change to git root of current file (if in a repo)
-function! FindGitRootCD()
-  let root = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
-  if v:shell_error
-    return ''
-  else
-    return {'dir': root}
-  endif
-endfunction
-
-function! GitRootCD()
-  let result = FindGitRootCD()
-  if type(result) == type({})
-    execute 'lcd' fnameescape(result['dir'])
-    echo 'Now in '.result['dir']
-  else
-    echo 'Not in git repo!'
-  endif
-endfunction
-command! GitRootCD :call GitRootCD()
+command! GitRootCD :call functions#GitRootCD()
 
 " K searches for word under cursor in root of project (remove default binding)
-nnoremap K :GitRootCD<cr>:silent! lgrep! "<C-R><C-W>"<cr>
+nnoremap K :functions#GitRootCD<cr>:silent! lgrep! "<C-R><C-W>"<cr>
 " Grep for visual selection, just like in normal mode. Note that this clears /
 " uses the `s` register
-vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:silent! lgrep! "<C-R>s"<cr>
+vnoremap K :<C-u>norm! gv"sy<cr>:functions#GitRootCD<cr>:silent! lgrep! "<C-R>s"<cr>
 " Never use Ex-mode, map to project search command instead
-nnoremap Q :GitRootCD<cr>:lgrep!<SPACE>
-
-" Automatically open quickfix/location list after grep/make
-augroup auto_quickfix
-  autocmd!
-  " Make sure to redraw to avoid strange render bugs
-  autocmd QuickFixCmdPost lgrep lwindow|redraw!
-  autocmd QuickFixCmdPost grep,make cwindow|redraw!
-augroup END
+nnoremap Q :functions#GitRootCD<cr>:lgrep!<SPACE>
 
 " Use ag instead of grep, if available
 if executable('ag')
@@ -413,9 +346,9 @@ else
 
   " Unlike ag, grep needs to have a file path after the search command. Add that
   " in for the K bindings (default to current directory)
-  nnoremap K :GitRootCD<cr>:lgrep! "<C-R><C-W>" .<cr>
-  vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:lgrep! "<C-R>s" .<cr>
-  nnoremap Q :GitRootCD<cr>:lgrep!<SPACE><SPACE>.<LEFT><LEFT>
+  nnoremap K :functions#GitRootCD<cr>:lgrep! "<C-R><C-W>" .<cr>
+  vnoremap K :<C-u>norm! gv"sy<cr>:functions#GitRootCD<cr>:lgrep! "<C-R>s" .<cr>
+  nnoremap Q :functions#GitRootCD<cr>:lgrep!<SPACE><SPACE>.<LEFT><LEFT>
 endif
 " }}}
 
@@ -423,13 +356,6 @@ endif
 " Use space as leader
 let mapleader=" "
 let maplocalleader=" "
-
-" Use enter as colon for faster commands
-nnoremap <cr> :
-vnoremap <cr> :
-" Meta-enter in case you need an actual <cr>
-nnoremap <M-cr> <cr>
-vnoremap <M-cr> <cr>
 
 " Kick the habit of using <C-c> instead of <C-[>, since <C-c> breaks
 " nvim-completion-manager
@@ -471,11 +397,6 @@ nnoremap ZZ <nop>
 nnoremap <Tab> <C-W>w
 nnoremap <S-Tab> <C-W>W
 
-" Run `.` or macro over selected lines, taken from:
-" https://reddit.com/r/vim/comments/3y2mgt
-vnoremap . :normal .<CR>
-vnoremap @ :normal @
-
 " Use | and _ to split windows (while preserving original behaviour of
 " [count]bar and [count]_).
 " Stolen from http://howivim.com/2016/andy-stewart/
@@ -492,7 +413,7 @@ nnoremap cop :set invpaste<cr>:set paste?<cr>
 " Change local directory to current file
 nnoremap <leader>lcd :lcd %:p:h<cr>
 " Go back to root
-nnoremap <leader>cd :GitRootCD<cr>
+nnoremap <leader>cd :functions#GitRootCD<cr>
 
 " Quickly edit current buffer in a new tab (poor-man's maximize)
 nnoremap <leader>te :tabedit %<cr>
@@ -503,67 +424,10 @@ nnoremap <leader>tn :tabnew<cr>
 " Close a tab
 nnoremap <leader>tc :tabclose<cr>
 
-" Easy editing & reloading of .nvimrc
-nnoremap <leader>ev :tabedit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
 " Sort lines within braces with <leader>s{
 nnoremap <leader>s{ vi{:sort<cr>
 " }}}
-
-" Copy yank buffer to system clipboard
-" Use OSC52 to put things into the system clipboard, works over SSH!
-function! Osc52Yank()
-  let buffer=system('base64 -w0', @0)
-  let buffer=substitute(buffer, "\n$", "", "")
-  let buffer='\e]52;c;'.buffer.'\x07'
-
-  " Need special escaping if within tmux
-  if $TMUX != ''
-    let buffer='\ePtmux;\e'.buffer.'\e\\'
-  endif
-
-  " Must output to /dev/tty, otherwise the escape codes don't make it out to the
-  " terminal
-  silent exe "!echo -ne ".shellescape(buffer)." > /dev/tty"
-endfunction
-
-command! Osc52CopyYank call Osc52Yank()
-
-" Copy yank register to system
-nnoremap <leader>y :Osc52CopyYank<cr>
-" Copy selection to system clipboard
-vnoremap <leader>y :<C-u>norm! gvy<cr>:Osc52CopyYank<cr>
-" }}}
-
-" Run python within vim
-function! JobHandler(job_id, data, event) dict
-  if a:eventnt == 'stdout'
-    let str = self.shell.' stdout: '.join(a:data)
-  elseif a:event == 'stderr'
-    let str = self.shell.' stderr: '.join(a:data)
-  else
-    let str = self.shell.' exited'
-  endif
-
-  call append(line('$'), str)
-endfunction
-let g:callbacks = {
-\ 'on_stdout': function('g:JobHandler'),
-\ 'on_stderr': function('g:JobHandler'),
-\ 'on_exit': function('g:JobHandler')
-\ }
-
-let b:pyprg='/usr/bin/env python3'
-let b:pyargs=' '
-function! Python()
-  " let l:pyfile = expand('%')
-  " let l:tmpfile = system("mktemp -q")
-  " silent exe "!touch ".l:tmpfile
-  " silent execute "!".b:pyprg." ".l:pyfile." ".b:pyargs." 2>&1 > ".l:tmpfile." | vs|view ".l:tmpfile
-  " silent execute "vnew | 0read ! ".b:pyprg." ".l:pyfile." ".b:pyargs." 2>&1 "
-  execute "vsplit term://".b:pyprg." % ".b:pyargs
-endfunction 
+"
 " Filetype configuration {{{
 augroup filetype_tweaks
   autocmd!
@@ -592,11 +456,6 @@ augroup filetype_tweaks
     autocmd FileType python setlocal formatprg=yapf
   endif
 
-  " Fold via indent in CoffeeScript and Python
-  autocmd FileType coffee,python setlocal foldmethod=indent
-
-  " Fold via syntax for JS/TypeScript
-  autocmd FileType javascript,typescript setlocal foldmethod=syntax
 augroup END
 " }}}
 
@@ -613,9 +472,7 @@ let g:netrw_altv=1
 " Tree view
 let g:netrw_liststyle=3
 
-" Hide files in .gitignore
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
 " }}}
 
 " Local Settings {{{
