@@ -1,0 +1,47 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+
+export VISUAL=nvim
+export EDITOR=nvim
+
+export PROMPT_DIRTRIM=2
+export PS1='[\u@\h \w]\$ '
+
+## Helper functions
+ff () { find . -not \( -wholename "./.git" -prune \) -type f -name "*$1*" -ls ; }
+fd () { find . -not \( -wholename "./.git" -prune \) -type d -name "*$1*" -ls ; }
+
+## Some handy aliases
+
+# ls
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ll -a'
+alias lt='ll -t'
+
+# git
+source /usr/share/doc/git/contrib/completion/git-completion.bash
+alias g='git'
+__git_complete g __git_main
+alias gc='git commit'
+__git_complete gc _git_commit
+alias gco='git checkout'
+__git_complete gco _git_checkout
+alias gs='git status'
+alias gd='git diff'
+__git_complete gd _git_diff
+alias ga='git add'
+__git_complete ga _git_add
+
+# dnf
+alias dnfs='dnf search'
+alias dnfi='dnf install'

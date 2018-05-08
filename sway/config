@@ -8,8 +8,7 @@ set $right l
 set $term /usr/bin/termite
 
 set $browser /usr/bin/firefox
-set $menu $term --title term_menu -e 'fish -c "fish_compgen | sort -u | fzf | xargs -r swaymsg -t command exec"'
-# set $menu $term --title term_menu -e '/bin/bash -c "compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec"'
+set $menu $term --title term_menu -e '/bin/bash -c "compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec"'
 for_window [title="term_menu"] floating enable
 set $lockscreen ~/.local/bin/lock-screen
 set $locksuspend ~/.local/bin/lock-suspend
