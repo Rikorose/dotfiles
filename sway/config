@@ -5,10 +5,12 @@ set $left h
 set $down j
 set $up k
 set $right l
-#set $term /usr/bin/termite
-set $term /usr/bin/konsole
+set $term /usr/bin/termite
+
 set $browser /usr/bin/firefox
-set $menu j4-dmenu-desktop --no-generic --term=konsole --dmenu="dmenu -i -fn 'RobotoCondensed-11.5' -sb '#b8bb26' -nb '#303030' -nf '#ebdbb2' -sf '#1f1f1f'"
+set $menu $term --title term_menu -e 'fish -c "fish_compgen | sort -u | fzf | xargs -r swaymsg -t command exec"'
+# set $menu $term --title term_menu -e '/bin/bash -c "compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec"'
+for_window [title="term_menu"] floating enable
 set $lockscreen ~/.local/bin/lock-screen
 set $locksuspend ~/.local/bin/lock-suspend
 
@@ -33,8 +35,6 @@ bindsym $mod+d exec $menu
 
 # lock screen
 bindsym $mod+Delete exec $lockscreen
-
-# lock and suspend
 bindsym $mod+Shift+Delete exec $locksuspend
 
 # open browser
@@ -156,11 +156,13 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+focus_follows_mouse no
+
 include ~/.config/sway/conf.d/*
 include ~/.config/sway/conf.d/`hostname\ -s`/*
 
 workspace 1:I
 
 # start libinput-gestures
-exec --no-startup-id libinput-gestures
+# exec --no-startup-id libinput-gestures
 exec --no-startup-id dunst
