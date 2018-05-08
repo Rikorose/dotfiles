@@ -17,9 +17,10 @@ endif
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Color scheme
+Plug 'rakr/vim-one'
+
 " Syntax highlighting
-" Plug 'joshdick/onedark.vim'
-Plug 'lifepillar/vim-solarized8'
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['latex']
 Plug 'nathanaelkane/vim-indent-guides'
@@ -41,13 +42,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 " - o/O open commit in split/tab
 " - - reblame commit
 Plug 'tpope/vim-fugitive'
-" Adds gutter signs and highlights based on git diff
-" <leader>hn to go to next hunk
-" <leader>hp to go to previous hunk
-" <leader>hs to stage hunks within cursor
-" <leader>hr to revert hunks within cursor
-" <leader>hv to preview the hunk
-Plug 'airblade/vim-gitgutter'
+Plug 'mhinz/vim-signify'
 
 " Language plugin
 Plug 'autozimu/LanguageClient-neovim', {
@@ -76,20 +71,30 @@ if executable('fzf')
 end
 
 " Latex plugin
-Plug 'lervag/vimtex'
+Plug 'lervag/vimtex', { 'for': 'latex' }
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 
+" Nerd lazy loading
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
+
 call plug#end()
 
-" set termguicolors
-" :colorscheme onedark
-
-let g:solarized_termcolors=256
-" Use for beamer: set background=light
+set termguicolors
+let g:one_allow_italics = 1
 set background=dark
-colorscheme solarized8
+" set background=light " Usefull for beamer presentation
+colorscheme one
 
 set number
 
@@ -192,7 +197,7 @@ if executable('fzf')
   " :Rag  - hidden preview enabled with "?" key
   " :Rag! - fullscreen and preview window above
   command! -bang -nargs=* Rag
-    \ call GitRootCD() | call fzf#vim#ag(<q-args>,
+    \ call functions#GitRootCD() | call fzf#vim#ag(<q-args>,
     \                 <bang>0 ? fzf#vim#with_preview('up:60%', '?')
     \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
     \                 <bang>0)
@@ -204,9 +209,15 @@ if executable('fzf')
 end
 " }}}
 
-" GitGutter {{{
-nmap <Leader>hn <Plug>GitGutterNextHunk
-nmap <Leader>hp <Plug>GitGutterPrevHunk " }}}
+" <F10> | NERD Tree
+nnoremap <F10> :NERDTreeToggle<cr>
+
+" vim-signify
+nmap <Leader>hn <Plug>(signify-next-hunk)
+nmap <Leader>hp <Plug>(signify-prev-hunk)
+nmap <Leader>Hn 9999<leader>hn
+nmap <Leader>Hp 9999<leader>hp
+let g:signify_vcs_list = ['git']
 
 " Indent Guides {{{
 " Default guides to on everywhere
