@@ -52,6 +52,9 @@ ask() {
   done
 }
 
+ln $1 -s "$(readlink -f bash/bashrc)" ~/.bashrc
+ln $1 -s "$(readlink -f bash/bash_profile)" ~/.bash_profile
+ln $1 -s "$(readlink -f bash/inputrc)" ~/.inputrc
 
 if check_for_software sway; then
   echo linking .config/sway/
@@ -76,15 +79,6 @@ if check_for_software dunst; then
   ln $1 -s "$(readlink -f dunst)" ~/.config/
 else
   echo "dunst not installed, not linking config"
-fi
-
-if check_for_software fish; then
-  if change_default_shell fish; then
-    mkdir -p ~/.config
-    ln $1 -s "$(readlink -f fish)" ~/.config/
-  fi
-else
-  echo "fish shell not installed, not linkning config"
 fi
 
 if check_for_software vim; then
