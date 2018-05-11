@@ -9,7 +9,10 @@ fi
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 PATH=$HOME/miniconda3/bin:$PATH
-
 export PATH
 
+# QT applications theme and icons
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
+
+# ssh key management
+eval `keychain --eval --agents ssh id_rsa_fau id_rsa_pm`

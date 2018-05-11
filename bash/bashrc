@@ -22,9 +22,13 @@ fd () { find . -not \( -wholename "./.git" -prune \) -type d -name "*$1*" -ls ; 
 
 ## Some handy aliases
 
+# cd
+alias ..="cd .."
+
 # ls
 alias ls='ls --color=auto'
 alias ll='ls -l'
+alias l1='ls -1'
 alias la='ll -a'
 alias lt='ll -t'
 
@@ -32,16 +36,19 @@ alias lt='ll -t'
 source /usr/share/doc/git/contrib/completion/git-completion.bash
 alias g='git'
 __git_complete g __git_main
-alias gc='git commit'
+alias gcommit='git commit'
 __git_complete gc _git_commit
 alias gco='git checkout'
 __git_complete gco _git_checkout
-alias gs='git status'
-alias gd='git diff'
+alias gstatus='git status'
+alias gdiff='git diff'
 __git_complete gd _git_diff
-alias ga='git add'
+alias gadd='git add'
 __git_complete ga _git_add
 
 # dnf
 alias dnfs='dnf search'
 alias dnfi='dnf install'
+
+# rg
+alias grep=rg

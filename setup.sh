@@ -52,19 +52,6 @@ ask() {
   done
 }
 
-change_default_shell() {
-  if [ "$(getent passwd $LOGNAME | cut -d: -f7)" == "$(which $1)" ];then
-      echo "Default shell is $1."
-  else
-    echo "Default shell is not $1."
-    if ask "Do you want to chsh -s \$(which $1)?" Y; then
-      chsh -s $(which $1)
-      return 0
-    else
-      return 1 # 1 = false
-    fi
-  fi
-}
 
 if check_for_software sway; then
   echo linking .config/sway/
