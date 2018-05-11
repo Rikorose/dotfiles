@@ -37,14 +37,16 @@ source /usr/share/doc/git/contrib/completion/git-completion.bash
 alias g='git'
 __git_complete g __git_main
 alias gcommit='git commit'
-__git_complete gc _git_commit
+__git_complete gcommit _git_commit
 alias gco='git checkout'
 __git_complete gco _git_checkout
 alias gstatus='git status'
 alias gdiff='git diff'
-__git_complete gd _git_diff
+__git_complete gdiff _git_diff
 alias gadd='git add'
-__git_complete ga _git_add
+__git_complete gadd _git_add
+alias gpush='git push'
+__git_complete gpush __git_push
 
 # dnf
 alias dnfs='dnf search'
