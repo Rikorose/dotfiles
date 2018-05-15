@@ -54,3 +54,6 @@ alias dnfi='dnf install'
 
 # rg
 alias grep=rg
+
+# ssh
+alias ssh=ssh-ident

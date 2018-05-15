@@ -56,6 +56,20 @@ ln $1 -s "$(readlink -f bash/bashrc)" ~/.bashrc
 ln $1 -s "$(readlink -f bash/bash_profile)" ~/.bash_profile
 ln $1 -s "$(readlink -f bash/inputrc)" ~/.inputrc
 
+if check_for_software ssh; then
+  echo linking .ssh/config
+  mkdir -p ~/.ssh
+  ln $1 -s "$(readlink -f ssh/config)" ~/.ssh/
+  chmod 600 ~/.ssh/config
+  chown $USER ~/.ssh/config
+  if ! check_for_software ssh-ident; then
+    if ask "Install ssh-ident?" Y; then
+      mkdir -p ~/.local/bin
+      ln $1 -s "$(readlink -f ssh/ssh-ident/ssh-ident)" ~/.local/bin
+    fi
+  fi
+fi
+
 if check_for_software sway; then
   echo linking .config/sway/
   mkdir -p ~/.config
