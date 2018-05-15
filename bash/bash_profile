@@ -11,9 +11,9 @@ export PATH=$HOME/.local/bin:$PATH
 
 # Setup Virtualenvwrapper
 export VIRTUALENV_PYTHON=python3
-export WORKON_HOME=$HOME/tmp/.virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/tmp
-source $HOME/.local/bin/virtualenvwrapper.sh
+source "$(which virtualenvwrapper.sh)"
 
 # QT applications theme and icons
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
