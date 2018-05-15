@@ -65,7 +65,10 @@ if check_for_software ssh; then
   if ! check_for_software ssh-ident; then
     if ask "Install ssh-ident?" Y; then
       mkdir -p ~/.local/bin
-      ln $1 -s "$(readlink -f ssh/ssh-ident/ssh-ident)" ~/.local/bin
+      ln $1 -s "$(readlink -f ssh/ssh-ident/ssh-ident)" ~/.local/bin/ssh
+      if check_for_software scp; then
+        ln $1 -s "$(readlink -f ssh/ssh-ident/ssh-ident)" ~/.local/bin/scp
+      fi
     fi
   fi
 fi
@@ -132,14 +135,6 @@ if check_for_software mpv; then
   ln $1 -s "$(readlink -f mpv)" ~/.config/
 else
   echo "mpv not installed, not linking config"
-fi
-
-if ask "Install miniconda?" N; then
-  if check_for_software wget; then
-    wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-         -P /tmp
-    /usr/bin/env bash /tmp/Miniconda3-latest-Linux-x86_64.sh
-  fi
 fi
 
 mkdir -p ~/.local/bin
