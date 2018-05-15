@@ -198,7 +198,7 @@ set wildignorecase
 " Status line {{{
 if version >= 704
   " Show git repo information (if available)
-  let g:activeStatusLine="%{functions#StatuslineTag()}»"
+  let g:activeStatusLine="%{StatuslineTag()}»"
 else
   let g:activeStatusLine=""
 endif
@@ -210,6 +210,14 @@ let g:activeStatusLine.="%{&readonly ? \"! \" : &modified ? '+ ' : ''}"
 let g:activeStatusLine.="%= %{&filetype == '' ? 'none' : &filetype} "
 " Line/col/percent
 let g:activeStatusLine.="%l:%2c "
+function! StatuslineTag()
+  if exists('b:git_dir')
+    " Shitty unicode character w/o patched fonts
+    return "‡".fugitive#head(7)
+  else
+    return fnamemodify(getwinvar(0, 'getcwd', getcwd()), ':t')
+  endif
+endfunction
 
 let g:quickfixStatusLine="%t (%l of %L)"
 let g:quickfixStatusLine.="%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
@@ -218,10 +226,24 @@ let g:quickfixStatusLine.="%=%-15(%l,%c%V%) %P"
 " Default status line
 let statusline=g:activeStatusLine
 
+" Use different status line for active vs. inactive buffers
+function! UpdateStatusLine(status)
+  if &filetype=="qf"
+    let &l:statusline=g:quickfixStatusLine
+  elseif &filetype=="help" || &filetype=="netrw"
+    let &l:statusline=&filetype
+  elseif a:status
+    let &l:statusline=g:activeStatusLine
+  else
+    " Just show filename & modified when inactive
+    let &l:statusline='%f %{&modified ? "+" : ""}'
+  endif
+endfunction
+
 augroup status_line
   autocmd!
-  autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call functions#UpdateStatusLine(1)
-  autocmd BufLeave,TabLeave,WinLeave * call functions#UpdateStatusLine(0)
+  autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call UpdateStatusLine(1)
+  autocmd BufLeave,TabLeave,WinLeave * call UpdateStatusLine(0)
 augroup END
 " }}}
 
@@ -317,23 +339,49 @@ set smartcase
 " Clear search highlights with <C-L>
 nnoremap <silent> <C-L> :nohlsearch<cr><C-L>
 
+" Helper for visual search
+function! s:VisualSetSearch(cmdtype)
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
 " */# in visual mode searches for selected text, similar to normal mode
-vnoremap * :<C-u>call <SID>functions#VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
-vnoremap # :<C-u>call <SID>functions#VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
+vnoremap * :<C-u>call <SID>VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
+vnoremap # :<C-u>call <SID>VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
 
 " <leader>s starts a find a replace for word under cursor
 nnoremap <leader>s :%s/\<<C-R><C-W>\>/<C-R><C-W>/g<Left><Left>
 
 " Change to git root of current file (if in a repo)
-command! GitRootCD :call functions#GitRootCD()
+function! FindGitRootCD()
+  let root = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
+  if v:shell_error
+    return ''
+  else
+    return {'dir': root}
+  endif
+endfunction
+
+function! GitRootCD()
+  let result = FindGitRootCD()
+  if type(result) == type({})
+    execute 'lcd' fnameescape(result['dir'])
+    echo 'Now in '.result['dir']
+  else
+    echo 'Not in git repo!'
+  endif
+endfunction
+command! GitRootCD :call GitRootCD()
 
 " K searches for word under cursor in root of project (remove default binding)
-nnoremap K :functions#GitRootCD<cr>:silent! lgrep! "<C-R><C-W>"<cr>
+nnoremap K :GitRootCD<cr>:silent! lgrep! "<C-R><C-W>"<cr>
 " Grep for visual selection, just like in normal mode. Note that this clears /
 " uses the `s` register
-vnoremap K :<C-u>norm! gv"sy<cr>:functions#GitRootCD<cr>:silent! lgrep! "<C-R>s"<cr>
+vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:silent! lgrep! "<C-R>s"<cr>
 " Never use Ex-mode, map to project search command instead
-nnoremap Q :functions#GitRootCD<cr>:lgrep!<SPACE>
+nnoremap Q :GitRootCD<cr>:lgrep!<SPACE>
 
 " Use ag instead of grep, if available
 if executable('ag')
@@ -346,9 +394,9 @@ else
 
   " Unlike ag, grep needs to have a file path after the search command. Add that
   " in for the K bindings (default to current directory)
-  nnoremap K :functions#GitRootCD<cr>:lgrep! "<C-R><C-W>" .<cr>
-  vnoremap K :<C-u>norm! gv"sy<cr>:functions#GitRootCD<cr>:lgrep! "<C-R>s" .<cr>
-  nnoremap Q :functions#GitRootCD<cr>:lgrep!<SPACE><SPACE>.<LEFT><LEFT>
+  nnoremap K :GitRootCD<cr>:lgrep! "<C-R><C-W>" .<cr>
+  vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:lgrep! "<C-R>s" .<cr>
+  nnoremap Q :GitRootCD<cr>:lgrep!<SPACE><SPACE>.<LEFT><LEFT>
 endif
 " }}}
 
@@ -413,7 +461,7 @@ nnoremap cop :set invpaste<cr>:set paste?<cr>
 " Change local directory to current file
 nnoremap <leader>lcd :lcd %:p:h<cr>
 " Go back to root
-nnoremap <leader>cd :functions#GitRootCD<cr>
+nnoremap <leader>cd :GitRootCD<cr>
 
 " Quickly edit current buffer in a new tab (poor-man's maximize)
 nnoremap <leader>te :tabedit %<cr>
