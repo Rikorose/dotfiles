@@ -62,3 +62,6 @@ alias dnfi='dnf install'
 
 # rg
 alias grep=rg
+
+# feh
+alias feh='feh --auto-zoom'
