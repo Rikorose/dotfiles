@@ -98,6 +98,11 @@ else
   echo "dunst not installed, not linking config"
 fi
 
+if check_for_software python; then
+  echo "linking .pythonrc"
+  ln $1 -s "$(readlink -f python/pythonrc)" ~/.pythonrc
+fi
+
 if check_for_software vim; then
   echo "linking .vimrc"
   ln $1 -s "$(readlink -f vim/vimrc)" ~/.vimrc

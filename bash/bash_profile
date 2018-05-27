@@ -15,5 +15,8 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/tmp
 source "$(which virtualenvwrapper.sh)"
 
+# Python shell auto completion
+export PYTHONSTARTUP=~/.pythonrc
+
 # QT applications theme and icons
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
