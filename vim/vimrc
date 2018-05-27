@@ -282,7 +282,7 @@ inoremap <expr> <S-Tab> (pumvisible() ? "\<C-p>" : "\<S-Tab>")
 " }}}
 
 " Default formatoptions (as of neovim): tcqj
-" Only break the line if wasn't longer than 80 chars when editing began
+" Only break the line if wasn't longer than 88 chars when editing began
 " and there is a blank somewhere in the line
 set formatoptions+=lb
 " Don't continue comments when pressing o/O
@@ -309,8 +309,8 @@ set nrformats-=octal
 set showmatch
 set matchtime=5
 
-" Wrap at 80 characters
-set textwidth=80
+" Wrap at 88 characters
+set textwidth=88
 
 " Make h/l move across beginning/end of line
 set whichwrap+=hl
