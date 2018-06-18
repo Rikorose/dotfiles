@@ -73,6 +73,11 @@ if check_for_software ssh; then
   fi
 fi
 
+if check_for_software git; then
+  echo linking .gitconfig
+  ln $1 -s "$(readlink -f git/gitconfig)" ~/.gitconfig
+fi
+
 if check_for_software sway; then
   echo linking .config/sway/
   mkdir -p ~/.config
