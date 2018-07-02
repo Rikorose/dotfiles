@@ -17,8 +17,22 @@ export PROMPT_DIRTRIM=2
 export PS1='[\u@\h \w]\$ '
 
 ## Helper functions
-ff () { find . -not \( -wholename "./.git" -prune \) -type f -name "*$1*" -ls ; }
-fd () { find . -not \( -wholename "./.git" -prune \) -type d -name "*$1*" -ls ; }
+ff () { 
+  find . -not \( -wholename "./.git" -prune \) -type f -name "*$1*" -ls ;
+}
+fd () {
+  find . -not \( -wholename "./.git" -prune \) -type d -name "*$1*" -ls ;
+}
+
+dirname() {
+  # Usage: dirname "path"
+  printf '%s\n' "${1%/*}/"
+}
+basename() {
+  # Usage: basename "path"
+  : "${1%/}"
+  printf '%s\n' "${_##*/}"
+}
 
 ## Some handy aliases
 
@@ -31,6 +45,8 @@ alias ll='ls -l'
 alias l1='ls -1'
 alias la='ll -a'
 alias lt='ll -t'
+alias lh='ll -h'
+alias lth='lt -h'
 
 # git
 if [ -f /usr/share/doc/git/contrib/completion/git-completion.bash ]; then
@@ -59,9 +75,6 @@ __git_complete gpush __git_push
 # dnf
 alias dnfs='dnf search'
 alias dnfi='dnf install'
-
-# rg
-alias grep=rg
 
 # feh
 alias feh='feh --auto-zoom'
