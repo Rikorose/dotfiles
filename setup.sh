@@ -153,4 +153,4 @@ ln $1 -s "$(readlink -f bin/extract.sh)" ~/.local/bin/extract
 ln $1 -s "$(readlink -f bin/launch-sway.sh)" ~/.local/bin/launch-sway
 ln $1 -s "$(readlink -f bin/lock-screen.sh)" ~/.local/bin/lock-screen
 ln $1 -s "$(readlink -f bin/lock-suspend.sh)" ~/.local/bin/lock-suspend
-
+ln $1 -s "$(readlink -f bin/power.sh)" ~/.local/bin/power
