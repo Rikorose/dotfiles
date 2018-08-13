@@ -1,3 +1,13 @@
 default-stream=best
 
 player=mpv --cache 2048
+
+hds-segment-timeout=30
+hds-timeout=120
+hls-segment-timeout=30
+hls-timeout=120
+http-stream-timeout=120
+rtmp-timeout=120
+stream-segment-timeout=30
+stream-timeout=120
+http-timeout=60
