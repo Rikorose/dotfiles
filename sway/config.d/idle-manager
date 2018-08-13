@@ -1,0 +1,7 @@
+exec swayidle \
+    timeout 1800 'swaymsg "output * dpms off"' \
+            resume 'swaymsg "output * dpms on"' \
+    timeout 1830 'swaylock -i ~/.lockscreen_wallpaper -s fill' \
+    timeout 3600 'systemctl suspend' \
+    before-sleep 'swaylock -i ~/.lockscreen_wallpaper -s fill'
+   

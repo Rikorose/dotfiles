@@ -1,0 +1,3 @@
+exec mako \
+    --anchor bottom-right \
+    --default-timeout 7500

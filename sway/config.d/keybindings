@@ -2,3 +2,6 @@
 bindsym XF86AudioRaiseVolume exec /usr/bin/amixer set Master 5%+ && pkill -SIGRTMIN+15 i3blocks
 bindsym XF86AudioLowerVolume exec /usr/bin/amixer set Master 5%- && pkill -SIGRTMIN+15 i3blocks
 bindsym XF86AudioMute exec /usr/bin/amixer set Master 1+ toggle && pkill -SIGRTMIN+15 i3blocks
+# Screen brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+ && pkill -SIGRTMIN+16 i3blocks
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%- && pkill -SIGRTMIN+16 i3blocks

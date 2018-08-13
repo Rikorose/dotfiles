@@ -1,28 +1,32 @@
-# Logo key, Use Mod1 for Alt and Mod4 for Windows/Super key
+# Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
 set $left h
 set $down j
 set $up k
 set $right l
-set $term /usr/bin/termite
-
-set $browser /usr/bin/firefox
+# Applications
+set $term termite
 set $menu $term --title term_menu -e '/bin/bash -c "compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec"'
 for_window [title="term_menu"] floating enable
-set $lockscreen ~/.local/bin/lock-screen
-set $locksuspend ~/.local/bin/lock-suspend
+set $browser firefox
 
-font pango:FiraMono 10
+output eDP-1 pos 0 0 res 1920x1080 bg ~/.current_wallpaper fill
 
-gaps inner 28
-gaps outer 0
+### Input configuration
+input * {
+    accel_profile flat
+    pointer_accel 0
+}
+input 2:7:SynPS/2_Synaptics_TouchPad {
+    tap enabled
+    natural_scroll enabled
+}
+input 1:1:AT_Translated_Set_2_keyboard {
+    repeat_delay 250
+    repeat_rate 50
+}
 
-default_border pixel 2
-default_floating_border none
-hide_edge_borders both
-
-### Key bindings
 # start a terminal
 bindsym $mod+Return exec $term
 
@@ -32,20 +36,18 @@ bindsym $mod+Shift+q kill
 # start your launcher
 bindsym $mod+d exec $menu
 
-# lock screen
-bindsym $mod+Delete exec $lockscreen
-bindsym $mod+Shift+Delete exec $locksuspend
+# suspend
+bindsym $mod+Delete exec systemctl suspend
 
-# open browser
+# start browser
 bindsym $mod+i exec $browser
 
-floating_modifier $mod normal
+floating_modifier $mod
 
-# reload the configuration file
+# reload sway config
 bindsym $mod+Shift+c reload
 
-# exit sway (logs you out of your wayland session)
-bindsym $mod+Shift+e exit
+# floating_modifier $mod normal
 
 # move focus around
 bindsym $mod+$left focus left
@@ -78,10 +80,6 @@ set $workspace8 8:VIII
 set $workspace9 9:IX
 set $workspace10 10:X
 
-workspace $workspace1 output HDMI-A-1
-workspace $workspace2 output HDMI-A-1
-workspace $workspace9 output eDP-1
-
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
@@ -94,6 +92,9 @@ bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
+bindsym $mod+tab workspace next
+bindsym $mod+Shift+tab workspace prev
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
@@ -105,10 +106,6 @@ bindsym $mod+Shift+7 move container to workspace $workspace7
 bindsym $mod+Shift+8 move container to workspace $workspace8
 bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
-
-# switch through workspaces
-bindsym $mod+Alt+Left workspace prev
-bindsym $mod+Alt+Right workspace next
 
 # split containers
 bindsym $mod+Shift+h splith
@@ -143,25 +140,38 @@ bindsym $mod+Shift+minus move scratchpad
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym $mod+minus scratchpad show
 
+
 mode "resize" {
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Left resize grow width 10 px or 10 ppt
+    bindsym Down resize shrink height 10 px or 10 ppt
+    bindsym Up resize grow  height 10 px or 10 ppt
+    bindsym Right resize shrink width 10 px or 10 ppt
 
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
 focus_follows_mouse no
 
-include ~/.config/sway/conf.d/*
-include ~/.config/sway/conf.d/`hostname\ -s`/*
+bar {
+    output eDP-1
+    position top
+    status_command i3blocks
 
-workspace 1:I
+    strip_workspace_numbers yes
+    # tray_output primary
 
-# start libinput-gestures
-# exec --no-startup-id libinput-gestures
-exec --no-startup-id dunst
+    colors {
+        statusline  #ebdbb2
+        background  #303030
+        separator   #505050
+
+        focused_workspace   #505050 #202020 #ebdbb2
+        inactive_workspace  #303030 #303030 #ebdbb2
+
+        binding_mode        #505050 #202020 #ebdbb2
+    }
+}
+
+include ~/.config/sway/config.d/*
