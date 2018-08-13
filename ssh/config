@@ -45,6 +45,11 @@ Host faui04p
   HostName faui04p.informatik.uni-erlangen.de
   IdentityFile ~/.ssh/id_rsa_fau
 
+Host faui0ba
+  User ko01jaxu
+  HostName faui0ba.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
 Host i5.cluster
   User ko01jaxu
   HostName cluster.i5.informatik.uni-erlangen.de
