@@ -51,5 +51,6 @@ signal=16
 
 [time]
 label=
-command=date '+%H:%M %d.%m.%Y'
+#command=date '+%H:%M %d.%m.%Y'
+command=~/.config/i3blocks/calendar -f '+%H:%M %d.%m.%Y'
 interval=1
