@@ -17,13 +17,6 @@ export PROMPT_DIRTRIM=2
 export PS1='[\u@\h \w]\$ '
 
 ## Helper functions
-ff () { 
-  find . -not \( -wholename "./.git" -prune \) -type f -name "*$1*" -ls ;
-}
-fd () {
-  find . -not \( -wholename "./.git" -prune \) -type d -name "*$1*" -ls ;
-}
-
 dirname() {
   # Usage: dirname "path"
   printf '%s\n' "${1%/*}/"
