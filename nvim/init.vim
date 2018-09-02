@@ -50,11 +50,15 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'do': 'bash install.sh',
     \ }
 
-" Syntax highlighting and language server
-Plug 'reasonml-editor/vim-reason-plus'
-
 " Async completion
-Plug 'roxma/nvim-completion-manager'
+Plug 'ncm2/ncm2'
+" ncm2 requires nvim-yarp
+Plug 'roxma/nvim-yarp'
+" Completion sources
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-jedi'
 
 "  Asynchronous Lint Engine
 " Plug 'w0rp/ale'
@@ -104,9 +108,13 @@ set number
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 
-" nvim-completion-manager {{{
+" completion with ncm2 {{{
 " Use fuzzy matching
-let g:cm_matcher = {'case': 'smartcase', 'module': 'cm_matchers.fuzzy_matcher'}
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" IMPORTANTE: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+let g:ncm2#matcher = 'substrfuzzy'
 " }}}
 
 " Automatically start language servers.
@@ -150,6 +158,7 @@ augroup END
 " Python LSP configuration
 if executable('pyls')
   let g:LanguageClient_serverCommands.python = ['pyls']
+  call ncm2#override_source('LanguageClient_python', {'enable': 0})
 endif
 
 " C++ LSP configuration
