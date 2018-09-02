@@ -78,7 +78,11 @@ if executable('fzf')
 end
 
 " Latex plugin
-Plug 'lervag/vimtex', { 'for': 'latex' }
+Plug 'lervag/vimtex', { 'for': 'tex' }
+let g:vimtex_compiler_progname = 'nvr'
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:vimtex_view_general_options_latexmk = '--unique'
 
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
