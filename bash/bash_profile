@@ -20,3 +20,4 @@ export PYTHONSTARTUP=~/.pythonrc
 
 # QT applications theme and icons
 [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_WAYLAND_FORCE_DPI=96
