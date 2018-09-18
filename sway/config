@@ -8,6 +8,7 @@ set $right l
 # Applications
 set $term termite
 set $menu $term --title term_menu -e '/bin/bash -c "compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec"'
+for_window [class="Yad"] floating enable
 for_window [title="term_menu"] floating enable
 set $browser firefox
 
@@ -23,6 +24,16 @@ input 2:7:SynPS/2_Synaptics_TouchPad {
     natural_scroll enabled
 }
 input 1:1:AT_Translated_Set_2_keyboard {
+    xkb_layout de
+    xkb_options caps:escape
+    xkb_numlock enabled
+    repeat_delay 250
+    repeat_rate 50
+}
+input 1130:269:HID_046a:010d {
+    xkb_layout de
+    xkb_options caps:escape
+    xkb_numlock enabled
     repeat_delay 250
     repeat_rate 50
 }
@@ -44,10 +55,11 @@ bindsym $mod+i exec $browser
 
 floating_modifier $mod
 
+# Got to urgend window
+bindsym $mod+x [urgent=latest] focus
+
 # reload sway config
 bindsym $mod+Shift+c reload
-
-# floating_modifier $mod normal
 
 # move focus around
 bindsym $mod+$left focus left
@@ -155,7 +167,6 @@ bindsym $mod+r mode "resize"
 focus_follows_mouse no
 
 bar {
-    output eDP-1
     position top
     status_command i3blocks
 
@@ -169,8 +180,9 @@ bar {
 
         focused_workspace   #505050 #202020 #ebdbb2
         inactive_workspace  #303030 #303030 #ebdbb2
+        active_workspace    #303030 #303030 #ffffff
+        urgent_workspace    #900000 #900000 #ffffff
 
-        binding_mode        #505050 #202020 #ebdbb2
     }
 }
 
