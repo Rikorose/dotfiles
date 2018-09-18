@@ -71,3 +71,6 @@ source $HOME/mpv-completion.bash
 
 # feh
 alias feh='feh --auto-zoom'
+
+# Snipping tool
+alias snip='sleep 1s; slurp | grim -g - snippet.png'
