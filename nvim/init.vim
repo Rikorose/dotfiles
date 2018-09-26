@@ -82,6 +82,12 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_general_viewer = 'zathura'
 
+" Grammar plugin for latex
+Plug 'rhysd/vim-grammarous'
+
+" Auto close brackets etc.
+Plug 'cohama/lexima.vim'
+
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -232,6 +238,27 @@ nmap <Leader>hp <Plug>(signify-prev-hunk)
 nmap <Leader>Hn 9999<leader>hn
 nmap <Leader>Hp 9999<leader>hp
 let g:signify_vcs_list = ['git']
+
+" Latex shortcuts
+call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': 'tex'})
+call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': 'tex'})
+call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': 'tex'})
+call lexima#add_rule({'char': '}', 'at': '\\begin{.*\%#', 'input': '}<CR>\end{'})
+
+" Configure grammarous
+let g:grammarous#default_comments_only_filetypes = {
+            \ '*' : 1, 'help': 0, 'markdown': 0, 'tex': 0,
+            \ }
+
+nmap <Leader>gs :GrammarousCheck<CR>
+nmap <Leader>gre <Plug>(grammarous-reset)
+nmap <Leader>gi <Plug>(grammarous-move-to-info-window)
+nmap <Leader>go <Plug>(grammarous-open-info-window)
+nmap <Leader>gf <Plug>(grammarous-fixit)
+nmap <Leader>gc <Plug>(grammarous-close-info-window)
+nmap <Leader>gr <Plug>(grammarous-remove-error)
+nmap <Leader>gn <Plug>(grammarous-move-to-next-error)
+nmap <Leader>gp <Plug>(grammarous-move-to-previous-error)
 
 " Indent Guides {{{
 " Default guides to on everywhere
