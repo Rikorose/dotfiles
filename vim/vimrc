@@ -351,9 +351,6 @@ endfunction
 vnoremap * :<C-u>call <SID>VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
 vnoremap # :<C-u>call <SID>VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
 
-" <leader>s starts a find a replace for word under cursor
-nnoremap <leader>r :%s/\<<C-R><C-W>\>/<C-R><C-W>/g<Left><Left>
-
 " Change to git root of current file (if in a repo)
 function! FindGitRootCD()
   let root = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
@@ -423,6 +420,7 @@ augroup END
 " Map jj and jk to <ESC> to leave insert mode quickly
 inoremap jj <ESC>
 inoremap jk <ESC>
+inoremap kj <ESC>
 
 " Make j/k move screen visible lines, not file lines
 nnoremap j gj
@@ -430,10 +428,10 @@ nnoremap k gk
 
 " Move current line / visual line selection up or down.
 " Taken from https://github.com/airblade/dotvim/
-nnoremap <C-j> :m+<CR>==
-nnoremap <C-k> :m-2<CR>==
-vnoremap <C-j> :m'>+<CR>gv=gv
-vnoremap <C-k> :m-2<CR>gv=gv
+nnoremap <S-j> :m+<CR>==
+nnoremap <S-k> :m-2<CR>==
+vnoremap <S-j> :m'>+<CR>gv=gv
+vnoremap <S-k> :m-2<CR>gv=gv
 
 " CTRL-U for undo in insert mode
 inoremap <C-U> <C-G>u<C-U>
@@ -451,12 +449,17 @@ nnoremap <S-Tab> <C-W>W
 nnoremap <expr><silent> <Bar> v:count == 0 ? "<C-W>v<C-W><Right>" : ":<C-U>normal! 0".v:count."<Bar><CR>"
 nnoremap <expr><silent> _     v:count == 0 ? "<C-W>s<C-W><Down>"  : ":<C-U>normal! ".v:count."_<CR>"
 
-" Delete buffer via <C-W>d since I don't use tags
-nnoremap <C-w>d :bd<cr>
-nnoremap <C-w><C-d> :bd<cr>
+" <leader>r starts a find a replace for word under cursor
+nnoremap <leader>r :%s/\<<C-R><C-W>\>/<C-R><C-W>/g<Left><Left>
 
-" Unimpaired-style toggling of paste mode (and print result)
-nnoremap cop :set invpaste<cr>:set paste?<cr>
+" Go to next buffer
+nnoremap <leader>n :bn<cr>
+
+" Go to previous buffer
+nnoremap <leader>p :bp<cr>
+
+" Delete current buffer
+nnoremap <leader>d :bd<cr>
 
 " Change local directory to current file
 nnoremap <leader>lcd :lcd %:p:h<cr>
@@ -480,7 +483,7 @@ nnoremap <leader>s{ vi{:sort<cr>
 augroup filetype_tweaks
   autocmd!
   " Not all files should wrap automatically
-  autocmd BufNewFile,BufReadPost *.txt,*.md,*.json,*.conf,*.ini,*.pug
+  autocmd BufNewFile,BufReadPost *.txt,*.md,*.json,*.conf,*.ini,*.pug,*py
     \ setlocal textwidth=0
 
   " Enable spell checking & linebreaking at words in some filetypes
