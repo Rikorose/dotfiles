@@ -1,4 +1,4 @@
-" vim:fdm=marker et fdl=2 ft=vim sts=2 sw=2 ts=2
+"0 vim:fdm=marker et fdl=2 ft=vim sts=2 sw=2 ts=2
 
 " Configuration for vanilla (neo)vim, with no plugins
 
@@ -15,6 +15,9 @@ if !has('nvim')
   set backspace=indent,eol,start
   " Don't scan included files for keyword completion (too slow)
   set complete-=i
+  set complete-=t
+  set complete+=k
+  set completeopt=menu,preview
   " Display as much as possible as last line, instead of just showing @
   set display=lastline
   " Use modern encoding
@@ -81,7 +84,7 @@ set updatetime=750
 " Mapping & keycode timeouts
 set timeoutlen=600
 set ttimeout
-set ttimeoutlen=200
+set ttimeoutlen=10
 " }}}
 
 " UI {{{
@@ -277,8 +280,8 @@ if filereadable('/usr/share/dict/words')
 endif
 
 " Enable tab/enter if completion menu is open
-inoremap <expr> <Tab> (pumvisible() ? "\<C-n>" : "\<Tab>")
-inoremap <expr> <S-Tab> (pumvisible() ? "\<C-p>" : "\<S-Tab>")
+" inoremap <expr> <Tab> (pumvisible() ? "\<C-n>" : "\<Tab>")
+" inoremap <expr> <S-Tab> (pumvisible() ? "\<C-p>" : "\<S-Tab>")
 " }}}
 
 " Default formatoptions (as of neovim): tcqj
@@ -426,12 +429,28 @@ inoremap kj <ESC>
 nnoremap j gj
 nnoremap k gk
 
+" Map Ctrl-Backspace to delete the previous word in insert mode.
+noremap! <C-BS> <C-w>
+noremap! <C-h> <C-w>
+set backspace=indent,eol,start
+inoremap <C-BS> <C-w>
+
+" Delete current word
+noremap <C-w> daw
+
+"" Quick copy/paste
+vmap <C-c> "py
+nmap <C-c> "pyiw
+vmap <C-p> "pp
+nmap <C-p> "pP
+imap <C-p> <Esc>"ppa
+
 " Move current line / visual line selection up or down.
 " Taken from https://github.com/airblade/dotvim/
-nnoremap <S-j> :m+<CR>==
-nnoremap <S-k> :m-2<CR>==
-vnoremap <S-j> :m'>+<CR>gv=gv
-vnoremap <S-k> :m-2<CR>gv=gv
+nnoremap <C-S-j> :m+<CR>==
+nnoremap <C-S-k> :m-2<CR>==
+vnoremap <C-S-j> :m'>+<CR>gv=gv
+vnoremap <C-S-k> :m-2<CR>gv=gv
 
 " CTRL-U for undo in insert mode
 inoremap <C-U> <C-G>u<C-U>
