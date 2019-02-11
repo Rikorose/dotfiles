@@ -20,6 +20,21 @@ Host fedora
   HostName admin.fedoraproject.org
   IdentityFile ~/.shh/id_rsa_gmail
 
+Host faui04a
+  User ko01jaxu
+  HostName faui04a.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04b
+  User ko01jaxu
+  HostName faui04b.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04c
+  User ko01jaxu
+  HostName faui04c.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
 Host faui04d
   User ko01jaxu
   HostName faui04d.informatik.uni-erlangen.de
@@ -33,6 +48,11 @@ Host faui04e
 Host faui04l
   User ko01jaxu
   HostName faui04l.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host faui04m
+  User ko01jaxu
+  HostName faui04m.informatik.uni-erlangen.de
   IdentityFile ~/.ssh/id_rsa_fau
 
 Host faui04n
@@ -53,3 +73,9 @@ Host faui0ba
 Host i5.cluster
   User ko01jaxu
   HostName cluster.i5.informatik.uni-erlangen.de
+  IdentityFile ~/.ssh/id_rsa_fau
+
+Host lme123
+  User ko01jaxu
+  HostName lme123.cs.fau.de
+  IdentityFile ~/.ssh/id_rsa_fau
