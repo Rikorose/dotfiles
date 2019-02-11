@@ -14,7 +14,6 @@ if filereadable(expand($HOME.'/.vimrc'))
   source $HOME/.vimrc
 endif
 
-
 call plug#begin('~/.local/share/nvim/plugged')
 
 " Color scheme
@@ -45,20 +44,22 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Language plugin
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-
-" Async completion
-Plug 'ncm2/ncm2'
-" ncm2 requires nvim-yarp
-Plug 'roxma/nvim-yarp'
-" Completion sources
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-tmux'
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-jedi'
+" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+" 
+" " Async completion
+" Plug 'ncm2/ncm2'
+" " ncm2 requires nvim-yarp
+" Plug 'roxma/nvim-yarp'
+" " Completion sources
+" Plug 'ncm2/ncm2-bufword'
+" Plug 'ncm2/ncm2-tmux'
+" Plug 'ncm2/ncm2-path'
+" Plug 'ncm2/ncm2-jedi'
 
 "  Asynchronous Lint Engine
 " Plug 'w0rp/ale'
@@ -78,9 +79,20 @@ if executable('fzf')
 end
 
 " Latex plugin
-Plug 'lervag/vimtex', { 'for': 'tex' }
+let g:tex_flavor = "latex"
+Plug 'lervag/vimtex', { 'for': ['tex', 'latex'] }
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_general_viewer = 'zathura'
+let g:vimtex_compiler_latexmk = {
+  \ 'options' : [
+  \   '-pdf',
+  \   '-shell-escape',
+  \   '-verbose',
+  \   '-file-line-error',
+  \   '-synctex=1',
+  \   '-interaction=nonstopmode',
+  \ ],
+  \}
 
 " Grammar plugin for latex
 Plug 'rhysd/vim-grammarous'
@@ -114,65 +126,133 @@ colorscheme one
 set number
 
 filetype plugin on
-set omnifunc=syntaxcomplete#Complete
+autocmd FileType *
+  \ if &omnifunc == "" |
+  \   setlocal omnifunc=syntaxcomplete#Complete |
+  \ endif
 
-" completion with ncm2 {{{
-" Use fuzzy matching
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-" IMPORTANTE: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-let g:ncm2#matcher = 'substrfuzzy'
-" }}}
+" " completion with ncm2 {{{
+" " Use fuzzy matching
+" " enable ncm2 for all buffers
+" autocmd BufEnter * call ncm2#enable_for_buffer()
+" " IMPORTANTE: :help Ncm2PopupOpen for more information
+" set completeopt=noinsert,menuone,noselect
+" let g:ncm2#matcher = 'substrfuzzy'
+" " }}}
+
+" COC language server client
+
+" Update time for CursorHold & CursorHoldI
+set updatetime=500
+
+" always show signcolumns
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use <Tab> and <S-Tab> for navigate completion list
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" Close preview window when completion is done
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHoldI * silent call CocActionAsync('showSignatureHelp')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+vmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+" Use `:Format` for format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` for fold current buffer
+command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Automatically start language servers.
-let g:LanguageClient_autoStart = 1
-
-let g:LanguageClient_serverCommands = {}
-
-augroup LanguageClientConfig
-  autocmd!
-
-  " <leader>ld to go to definition
-  autocmd FileType python nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-  " <leader>lf to autoformat document
-  autocmd FileType python nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
-  " <leader>lh for type info under cursor
-  autocmd FileType python nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
-  " <leader>lr to rename variable under cursor
-  autocmd FileType python nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-  " <leader>lc to switch omnifunc to LanguageClient
-  autocmd FileType python nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
-  " <leader>ls to fuzzy find the symbols in the current document
-  autocmd FileType python nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
-
-  " Use as omnifunc by default
-  autocmd FileType python setlocal omnifunc=LanguageClient#complete
-
-  " <leader>ld to go to definition
-  autocmd FileType cpp nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-  " <leader>lf to autoformat document
-  autocmd FileType cpp nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
-  " <leader>lh for type info under cursor
-  autocmd FileType cpp nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
-  " <leader>lr to rename variable under cursor
-  autocmd FileType cpp nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-  " <leader>lc to switch omnifunc to LanguageClient
-  autocmd FileType cpp nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
-  " <leader>ls to fuzzy find the symbols in the current document
-  autocmd FileType cpp nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
-augroup END
-
-" Python LSP configuration
-if executable('pyls')
-  let g:LanguageClient_serverCommands.python = ['pyls']
-  call ncm2#override_source('LanguageClient_python', {'enable': 0})
-endif
-
-" C++ LSP configuration
-if executable('clangd')
-  let g:LanguageClient_serverCommands.cpp = ['clangd']
-endif
+" let g:LanguageClient_autoStart = 1
+" 
+" let g:LanguageClient_serverCommands = {}
+" 
+" augroup LanguageClientConfig
+"   autocmd!
+" 
+"   " <leader>ld to go to definition
+"   autocmd FileType python nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
+"   " <leader>lf to autoformat document
+"   autocmd FileType python nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
+"   " <leader>lh for type info under cursor
+"   autocmd FileType python nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
+"   " <leader>lr to rename variable under cursor
+"   autocmd FileType python nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
+"   " <leader>lc to switch omnifunc to LanguageClient
+"   autocmd FileType python nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
+"   " <leader>ls to fuzzy find the symbols in the current document
+"   autocmd FileType python nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+" 
+"   " Use as omnifunc by default
+"   autocmd FileType python setlocal omnifunc=LanguageClient#complete
+" 
+"   " <leader>ld to go to definition
+"   autocmd FileType cpp nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
+"   " <leader>lf to autoformat document
+"   autocmd FileType cpp nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
+"   " <leader>lh for type info under cursor
+"   autocmd FileType cpp nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
+"   " <leader>lr to rename variable under cursor
+"   autocmd FileType cpp nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
+"   " <leader>lc to switch omnifunc to LanguageClient
+"   autocmd FileType cpp nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
+"   " <leader>ls to fuzzy find the symbols in the current document
+"   autocmd FileType cpp nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+" augroup END
+" 
+" " Python LSP configuration
+" " if executable('pyls')
+" "   let g:LanguageClient_serverCommands.python = ['pyls']
+" "   call ncm2#override_source('LanguageClient_python', {'enable': 0})
+" " endif
+" 
+" " Rust LSP configuration
+" if executable("rls")
+"   let g:LanguageClient_serverCommands.rust = ['rls']
+" endif
+" 
+" " C++ LSP configuration
+" if executable('clangd')
+"   let g:LanguageClient_serverCommands.cpp = ['clangd']
+" endif
 
 " Neoformat {{{
 " Use formatprg when available
