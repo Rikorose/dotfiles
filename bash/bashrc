@@ -26,6 +26,12 @@ basename() {
 
 ## Some handy aliases
 
+# when I think I'm in vim
+alias :e=$EDITOR
+alias :q='exit'
+alias :w='echo not in vim'
+alias :wq='echo not in vim'
+
 # cd
 alias ..="cd .."
 
@@ -71,5 +77,7 @@ alias feh='feh --auto-zoom'
 
 # alacritty works better with xwayland
 # alias alacritty='env WAYLAND_DISPLAY= alacritty'
+
+alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

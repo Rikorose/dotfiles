@@ -17,7 +17,7 @@ export PATH=$HOME/.cargo/bin:$PATH
 # Setup Virtualenvwrapper
 export VIRTUALENV_PYTHON=python3
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/tmp
+export PROJECT_HOME=$HOME/Projects
 source "$(which virtualenvwrapper.sh)"
 
 # Python shell auto completion
