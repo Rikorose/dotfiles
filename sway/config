@@ -12,6 +12,10 @@ set $menu exec termite -t launcher --class Floating -e "bash -c 'compgen -c | so
 set $scratchterm exec source scratchterm
 for_window [title="launcher"] floating enable, border none
 for_window [title="scratchterm"] floating enable, border pixel 1
+for_window [window_type=dialog] focus
+for_window [app_id="pavucontrol-qt"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [class="Thunderbird"  window_role="Msgcompose"] floating enable
 set $browser firefox
 set $window_switcher window_switcher
 
@@ -21,7 +25,11 @@ output eDP-1 pos 0 0 res 1920x1080 bg ~/.current_wallpaper fill
 input * {
     accel_profile flat
     pointer_accel 0
-}
+    xkb_options caps:escape
+    xkb_numlock enabled
+    repeat_delay 250
+    repeat_rate 50
+  }
 input 2:7:SynPS/2_Synaptics_TouchPad {
     tap enabled
     natural_scroll enabled
@@ -31,17 +39,14 @@ input 2:10:TPPS/2_IBM_TrackPoint {
 }
 input 1:1:AT_Translated_Set_2_keyboard {
     xkb_layout de
-    xkb_options caps:escape
-    xkb_numlock enabled
-    repeat_delay 250
-    repeat_rate 50
+    xkb_variant nodeadkeys
 }
 input 1130:269:HID_046a:010d {
     xkb_layout de
-    xkb_options caps:escape
-    xkb_numlock enabled
-    repeat_delay 250
-    repeat_rate 50
+    xkb_variant nodeadkeys
+}
+input 3064:4108:Fujitsu_Siemens_Computers_GmbH_FSC_KBPC_PX {
+    xkb_layout us
 }
 
 # start a terminal
@@ -59,8 +64,15 @@ bindsym $mod_alt+tab exec $window_switcher
 # suspend
 bindsym $mod+Delete exec systemctl suspend
 
+# lockscreen
+bindsym $mod+Shift+Delete exec swaylock -i ~/.lockscreen_wallpaper -s fill
+
 # start browser
 bindsym $mod+i exec $browser
+
+# Media player
+bindsym $mod+p exec playerctl play-pause
+bindsym $mod+m exec amixer set Master toggle
 
 floating_modifier $mod
 
@@ -70,6 +82,11 @@ bindsym $mod+x [urgent=latest] focus
 # reload sway config
 bindsym $mod+Shift+c reload
 
+# Move workspace to other outputs
+bindsym $mod+Alt+$left move workspace to output left
+bindsym $mod+Alt+$down move workspace to output down
+bindsym $mod+Alt+$right move workspace to output right
+bindsym $mod+Alt+$up move workspace to output up
 # move focus around
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
