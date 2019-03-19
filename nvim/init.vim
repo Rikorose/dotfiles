@@ -44,30 +44,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 
 " Language plugin
-" Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-Plug 'neoclide/coc.nvim', {'do': 'yarn install'}
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-" 
-" " Async completion
-" Plug 'ncm2/ncm2'
-" " ncm2 requires nvim-yarp
-" Plug 'roxma/nvim-yarp'
-" " Completion sources
-" Plug 'ncm2/ncm2-bufword'
-" Plug 'ncm2/ncm2-tmux'
-" Plug 'ncm2/ncm2-path'
-" Plug 'ncm2/ncm2-jedi'
-
-"  Asynchronous Lint Engine
-" Plug 'w0rp/ale'
-
-" async code formatting
-" :Neoformat <opt_formatter> for entire file
-" :Neoformat! <filetype> for visual selection
-Plug 'sbdchd/neoformat', { 'on': ['Neoformat'] }
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Python formating with black
 Plug 'ambv/black'
@@ -103,21 +80,11 @@ Plug 'cohama/lexima.vim'
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 
-" Nerd lazy loading
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-augroup nerd_loader
-  autocmd!
-  autocmd VimEnter * silent! autocmd! FileExplorer
-  autocmd BufEnter,BufNew *
-        \  if isdirectory(expand('<amatch>'))
-        \|   call plug#load('nerdtree')
-        \|   execute 'autocmd! nerd_loader'
-        \| endif
-augroup END
-
 call plug#end()
 
-set termguicolors
+if (has("termguicolors"))
+  set termguicolors
+endif
 let g:one_allow_italics = 1
 set background=dark
 " set background=light " Usefull for beamer presentation
@@ -130,15 +97,6 @@ autocmd FileType *
   \ if &omnifunc == "" |
   \   setlocal omnifunc=syntaxcomplete#Complete |
   \ endif
-
-" " completion with ncm2 {{{
-" " Use fuzzy matching
-" " enable ncm2 for all buffers
-" autocmd BufEnter * call ncm2#enable_for_buffer()
-" " IMPORTANTE: :help Ncm2PopupOpen for more information
-" set completeopt=noinsert,menuone,noselect
-" let g:ncm2#matcher = 'substrfuzzy'
-" " }}}
 
 " COC language server client
 
@@ -308,10 +266,7 @@ if executable('fzf')
   nnoremap Q :Rag!<SPACE>
 end
 " }}}
-
-" <F10> | NERD Tree
-nnoremap <F10> :NERDTreeToggle<cr>
-
+"
 " vim-signify
 nmap <Leader>hn <Plug>(signify-next-hunk)
 nmap <Leader>hp <Plug>(signify-prev-hunk)
