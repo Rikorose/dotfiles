@@ -133,11 +133,11 @@ else
   echo "tmux not installed, not linking config"
 fi
 
-if check_for_software yapf; then
-  echo "linking .config/yapf/style"
-  ln $1 -s "$(readlink -f yapf)" ~/.config/
+if check_for_software termite; then
+  echo "linking .config/termite"
+  ln $1 -s "$(readlink -f termite)" ~/.config/
 else
-  echo "yapf not installed, not linking config"
+  echo "termite not installed, not linking config"
 fi
 
 if check_for_software mpv; then
