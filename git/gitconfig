@@ -69,8 +69,8 @@
   #############
   g = grep -p
   #############
-  l = log --oneline
-  lg = log --oneline --graph --decorate
+  l = log --oneline --graph -n20
+  ll = log --oneline --graph
   #############
   ls = ls-files
   lsf = !git ls-files | grep -i
