@@ -46,9 +46,6 @@ Plug 'mhinz/vim-signify'
 " Language plugin
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
-" Python formating with black
-Plug 'ambv/black'
-
 " Use FZF for fuzzy finding if available (see config below)
 if executable('fzf')
   Plug 'junegunn/fzf'
