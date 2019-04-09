@@ -522,10 +522,6 @@ augroup filetype_tweaks
     autocmd FileType vim setlocal makeprg=vint\ --enable-neovim\ \-s\ %
   endif
 
-  if executable('yapf')
-    autocmd FileType python setlocal formatprg=yapf
-  endif
-
 augroup END
 " }}}
 
