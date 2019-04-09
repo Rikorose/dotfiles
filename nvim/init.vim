@@ -48,7 +48,7 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Use FZF for fuzzy finding if available (see config below)
 if executable('fzf')
-  Plug 'junegunn/fzf'
+  Plug exepath('fzf')
   Plug 'junegunn/fzf.vim'
 end
 
