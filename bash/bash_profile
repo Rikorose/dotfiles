@@ -13,13 +13,14 @@ GDK_BACKEND=x11
 
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # Setup Virtualenvwrapper
 export VIRTUALENV_PYTHON=python3
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-source "$(which virtualenvwrapper.sh)"
+if [ -x "virtualenvwrapper.sh" ]; then
+  source virtualenvwrapper.sh
+fi
 
 # Python shell auto completion
 export PYTHONSTARTUP=~/.pythonrc
