@@ -3,5 +3,6 @@
   "python.linting.pylintEnabled": false,
   "python.linting.flake8Enabled": true,
   "python.autoComplete.addBrackets": true,
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSaveFiletypes": ["python"]
 }
