@@ -155,68 +155,6 @@ command! -nargs=0 Format :call CocAction('format')
 " Use `:Fold` for fold current buffer
 command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
-" Automatically start language servers.
-" let g:LanguageClient_autoStart = 1
-" 
-" let g:LanguageClient_serverCommands = {}
-" 
-" augroup LanguageClientConfig
-"   autocmd!
-" 
-"   " <leader>ld to go to definition
-"   autocmd FileType python nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-"   " <leader>lf to autoformat document
-"   autocmd FileType python nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
-"   " <leader>lh for type info under cursor
-"   autocmd FileType python nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
-"   " <leader>lr to rename variable under cursor
-"   autocmd FileType python nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-"   " <leader>lc to switch omnifunc to LanguageClient
-"   autocmd FileType python nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
-"   " <leader>ls to fuzzy find the symbols in the current document
-"   autocmd FileType python nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
-" 
-"   " Use as omnifunc by default
-"   autocmd FileType python setlocal omnifunc=LanguageClient#complete
-" 
-"   " <leader>ld to go to definition
-"   autocmd FileType cpp nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-"   " <leader>lf to autoformat document
-"   autocmd FileType cpp nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
-"   " <leader>lh for type info under cursor
-"   autocmd FileType cpp nnoremap <buffer> <leader>lh :call LanguageClient_textDocument_hover()<cr>
-"   " <leader>lr to rename variable under cursor
-"   autocmd FileType cpp nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-"   " <leader>lc to switch omnifunc to LanguageClient
-"   autocmd FileType cpp nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
-"   " <leader>ls to fuzzy find the symbols in the current document
-"   autocmd FileType cpp nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
-" augroup END
-" 
-" " Python LSP configuration
-" " if executable('pyls')
-" "   let g:LanguageClient_serverCommands.python = ['pyls']
-" "   call ncm2#override_source('LanguageClient_python', {'enable': 0})
-" " endif
-" 
-" " Rust LSP configuration
-" if executable("rls")
-"   let g:LanguageClient_serverCommands.rust = ['rls']
-" endif
-" 
-" " C++ LSP configuration
-" if executable('clangd')
-"   let g:LanguageClient_serverCommands.cpp = ['clangd']
-" endif
-
-" Neoformat {{{
-" Use formatprg when available
-let g:neoformat_try_formatprg = 1
-
-" Enable trimmming of trailing whitespace
-let g:neoformat_basic_format_trim = 1
-" }}}
-
 " Fuzzy Finding (FZF) {{{
 if executable('fzf')
   " <C-p> to search files
