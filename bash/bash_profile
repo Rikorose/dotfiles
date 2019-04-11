@@ -2,7 +2,7 @@
 
 # Get the aliases and functions
 if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
+  . ~/.bashrc
 fi
 
 # User specific environment and startup programs
@@ -18,7 +18,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export VIRTUALENV_PYTHON=python3
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
-if [ -x "virtualenvwrapper.sh" ]; then
+if [ -x "$(command -v virtualenvwrapper.sh)" ]; then
   source virtualenvwrapper.sh
 fi
 
