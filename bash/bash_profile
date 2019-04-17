@@ -11,7 +11,7 @@ export HISTIGNORE=$HISTIGNORE,fg
 # Libreoffice crashes in wayland; TODO remove this
 GDK_BACKEND=x11
 
-export PATH="/var/lib/snapd/snap/bin"
+export PATH="/var/lib/snapd/snap/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
