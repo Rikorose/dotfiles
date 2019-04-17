@@ -88,21 +88,6 @@ else
   echo "sway not installed, not linking config"
 fi
 
-if check_for_software i3blocks; then
-  echo linking .config/i3blocks/
-  mkdir -p ~/.config
-  ln $1 -s "$(readlink -f i3blocks)" ~/.config/
-else
-  echo "i3blocks not installed, not linking config"
-fi
-
-if check_for_software dunst; then
-  echo linking .config/dunst/dunstrc
-  ln $1 -s "$(readlink -f dunst)" ~/.config/
-else
-  echo "dunst not installed, not linking config"
-fi
-
 if check_for_software python; then
   echo "linking .pythonrc"
   ln $1 -s "$(readlink -f python/pythonrc)" ~/.pythonrc
