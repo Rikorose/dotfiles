@@ -11,8 +11,6 @@ if !has('nvim')
   set autoindent
   " Automatically reload modified files
   set autoread
-  " Remove silly restrictions from backspace
-  set backspace=indent,eol,start
   " Don't scan included files for keyword completion (too slow)
   set complete-=i
   set complete-=t
