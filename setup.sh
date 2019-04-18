@@ -54,6 +54,7 @@ ask() {
 
 ln $1 -s "$(readlink -f bash/bashrc)" ~/.bashrc
 ln $1 -s "$(readlink -f bash/bash_profile)" ~/.bash_profile
+ln $1 -s "$(readlink -f bash/bash_profile)" ~/.profile
 ln $1 -s "$(readlink -f bash/inputrc)" ~/.inputrc
 
 if check_for_software ssh; then
@@ -139,3 +140,5 @@ ln $1 -s "$(readlink -f bin/launch-sway.sh)" ~/.local/bin/launch-sway
 ln $1 -s "$(readlink -f bin/lock-screen.sh)" ~/.local/bin/lock-screen
 ln $1 -s "$(readlink -f bin/lock-suspend.sh)" ~/.local/bin/lock-suspend
 ln $1 -s "$(readlink -f bin/power.sh)" ~/.local/bin/power
+ln $1 -s "$(readlink -f bin/launcher.sh)" ~/.local/bin/launcher
+ln $1 -s "$(readlink -f bin/cmdlist.sh)" ~/.local/bin/cmdlist

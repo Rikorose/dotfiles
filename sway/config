@@ -8,14 +8,14 @@ set $up k
 set $right l
 # Applications
 set $term termite
-set $menu exec termite -t launcher --class Floating -e "bash -c 'compgen -c | sort -u | fzf | xargs -r swaymsg -t command exec'"
+set $menu exec termite -t launcher -e "$SHELL --login -c 'launcher'"
 set $scratchterm exec source scratchterm
 for_window [title="launcher"] floating enable, border none
 for_window [title="scratchterm"] floating enable, border pixel 1
 for_window [window_type=dialog] focus
-for_window [app_id="pavucontrol-qt"] floating enable
+for_window [app_id="pavucontrol*"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
-for_window [class="Thunderbird"  window_role="Msgcompose"] floating enable
+for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
 set $browser firefox
 set $window_switcher window_switcher
 
