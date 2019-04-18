@@ -194,6 +194,9 @@ set wildignore+=build,lib,node_modules,public,_site,third_party
 set wildignore+=*.gif,*.jpg,*.jpeg,*.otf,*.png,*.svg,*.ttf
 " Ignore case when completing
 set wildignorecase
+
+" Use the system clipboard
+set clipboard=unnamedplus
 " }}}
 
 " Status line {{{
@@ -246,6 +249,17 @@ augroup status_line
   autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call UpdateStatusLine(1)
   autocmd BufLeave,TabLeave,WinLeave * call UpdateStatusLine(0)
 augroup END
+" }}}
+
+" Undo direcotry {{{
+if !isdirectory($HOME."/.vim")
+    call mkdir($HOME."/.vim", "", 0770)
+endif
+if !isdirectory($HOME."/.vim/undodir")
+    call mkdir($HOME."/.vim/undodir", "", 0700)
+endif
+set undodir=~/.vim/undodir
+set undofile
 " }}}
 
 " Editing Behavior {{{
