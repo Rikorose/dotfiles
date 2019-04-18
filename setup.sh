@@ -89,6 +89,15 @@ else
   echo "sway not installed, not linking config"
 fi
 
+if check_for_software waybar; then
+  echo linking .config/waybar/
+  mkdir -p ~/.config
+  ln $1 -s "$(readlink -f waybar)" ~/.config/
+  ln $1 -s "$(readlink -f bin/waybar.sh)" ~/.local/bin/waybar
+else
+  echo "waybar not installed, not linking config"
+fi
+
 if check_for_software python; then
   echo "linking .pythonrc"
   ln $1 -s "$(readlink -f python/pythonrc)" ~/.pythonrc

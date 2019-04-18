@@ -1,0 +1,91 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 25, // Waybar height
+    // "width": 1280, // Waybar width
+
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-center": ["sway/window"],
+    "modules-right": ["custom/media", "pulseaudio", "network#ethernet1", "network#ethernet2", "network#wlan","backlight", "battery", "battery#bat2", "clock", "tray"],
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "backlight": {
+        "device": "acpi_video1",
+        "format": "{percent}% {icon}",
+        "format-icons": ["", ""],
+        "on-scroll-up": "brightnessctl s +5%",
+        "on-scroll-down": "brightnessctl s 5%-"
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "battery#bat2": {
+        "bat": "BAT2"
+    },
+    "network#wlan": {
+        "interface": "wlp61s0", // (Optioninterfaceal) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-disconnected": "⚠",
+        "on-click": "nm-connection-editor"
+    },
+    "network#ethernet1": {
+        "interface": "ens1u1",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "on-click": "nm-connection-editor",
+        "tooltip-format": "{ifname}"
+    },
+    "network#ethernet2": {
+        "interface": "enp0s31f6",
+        "format-ethernet": "",
+        "format-disconnected": "",
+        "on-click": "nm-connection-editor"
+    },
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{volume}%  {icon}",
+        "format-bluetooth": "{volume}%  {icon}",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "headset": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "tooltip": false
+    },
+    "custom/media": {
+        "format": "{icon} {}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "on-click": "playerctl next",
+        "on-click-middle": "playerctl play-pause",
+        "on-click-right": "playerctl previous",
+        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+    }
+}
