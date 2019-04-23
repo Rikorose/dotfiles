@@ -71,9 +71,6 @@ let g:vimtex_compiler_latexmk = {
 " Grammar plugin for latex
 Plug 'rhysd/vim-grammarous'
 
-" Auto close brackets etc.
-Plug 'cohama/lexima.vim'
-
 " Tmux integration
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -208,12 +205,6 @@ nmap <Leader>hp <Plug>(signify-prev-hunk)
 nmap <Leader>Hn 9999<leader>hn
 nmap <Leader>Hp 9999<leader>hp
 let g:signify_vcs_list = ['git']
-
-" Latex shortcuts
-call lexima#add_rule({'char': '$', 'input_after': '$', 'filetype': 'tex'})
-call lexima#add_rule({'char': '$', 'at': '\%#\$', 'leave': 1, 'filetype': 'tex'})
-call lexima#add_rule({'char': '<BS>', 'at': '\$\%#\$', 'delete': 1, 'filetype': 'tex'})
-call lexima#add_rule({'char': '}', 'at': '\\begin{.*\%#', 'input': '}<CR>\end{'})
 
 " Configure grammarous
 let g:grammarous#default_comments_only_filetypes = {
