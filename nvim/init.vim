@@ -48,9 +48,13 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
 " Use FZF for fuzzy finding if available (see config below)
 if executable('fzf')
-  Plug exepath('fzf')
-  Plug 'junegunn/fzf.vim'
-end
+  if system("fzf --version") >= "0.18.0"
+    Plug exepath('fzf')
+  else
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  endif
+endif
+Plug 'junegunn/fzf.vim'
 
 " Latex plugin
 let g:tex_flavor = "latex"
@@ -153,7 +157,6 @@ command! -nargs=0 Format :call CocAction('format')
 command! -nargs=? Fold :call CocAction('fold', <f-args>)
 
 " Fuzzy Finding (FZF) {{{
-if executable('fzf')
   " <C-p> to search files
   " Open in split via control-x / control-v
   " Select/Deselect all via alt-a / alt-d
@@ -196,7 +199,6 @@ if executable('fzf')
   nnoremap K :Rag! <C-R><C-W><cr>
   vnoremap K :<C-u>norm! gv"sy<cr>:silent! Rag! <C-R>s<cr>
   nnoremap Q :Rag!<SPACE>
-end
 " }}}
 "
 " vim-signify
