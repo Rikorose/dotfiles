@@ -80,6 +80,12 @@ Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
+" Resolving git merge conflicts {{{
+  nnoremap <leader>gd :Gvdiff<CR>
+  nnoremap gdh :diffget //2<CR>
+  nnoremap gdl :diffget //3<CR>
+" }}}
+
 if (has("termguicolors"))
   set termguicolors
 endif
@@ -131,10 +137,10 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> lgd <Plug>(coc-definition)
+nmap <silent> lgy <Plug>(coc-type-definition)
+nmap <silent> lgi <Plug>(coc-implementation)
+nmap <silent> lgr <Plug>(coc-references)
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
