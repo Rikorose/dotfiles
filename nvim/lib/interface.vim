@@ -11,10 +11,7 @@
 " }}}
 
 " configure behaviour of wildmenu when I press <Tab> in the Vim command prompt
-" 1. on the 1st <Tab>, complete the longest common prefix
-" 2. on the 2nd <Tab>, list all available completions and open wildmenu
-" this basically emulates Tab-completion behaviour in Zsh
-set wildmode=list:longest,list:full
+set wildmode=full
 
 " always show the sign column
 set signcolumn=yes
