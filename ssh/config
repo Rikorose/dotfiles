@@ -2,13 +2,13 @@ Host github.com
   HostName github.com
   User git
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_rsa_gmail
+  IdentityFile ~/.ssh/id_rsa
 
 Host gitlab.cs.fau.de
   HostName gitlab.cs.fau.de
   User git
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host gitlab.com
   HostName gitlab.com
@@ -23,59 +23,59 @@ Host fedora
 Host faui04a
   User ko01jaxu
   HostName faui04a.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04b
   User ko01jaxu
   HostName faui04b.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04c
   User ko01jaxu
   HostName faui04c.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04d
   User ko01jaxu
   HostName faui04d.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04e
   User ko01jaxu
   HostName faui04e.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04l
   User ko01jaxu
   HostName faui04l.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04m
   User ko01jaxu
   HostName faui04m.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04n
   User ko01jaxu
   HostName faui04n.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui04p
   User ko01jaxu
   HostName faui04p.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host faui0ba
   User ko01jaxu
   HostName faui0ba.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host i5.cluster
   User schroeter
   HostName cluster.i5.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
 
 Host lme123
   User ko01jaxu
   HostName lme123.cs.fau.de
-  IdentityFile ~/.ssh/id_rsa_fau
+  IdentityFile ~/.ssh/id_rsa
