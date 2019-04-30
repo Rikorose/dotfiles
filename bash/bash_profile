@@ -5,6 +5,9 @@ if [ -f ~/.bashrc ]; then
   . ~/.bashrc
 fi
 
+# Java under wayland
+export _JAVA_AWT_WM_NONREPARENTING=1
+
 # User specific environment and startup programs
 export HISTIGNORE=$HISTIGNORE,fg
 
