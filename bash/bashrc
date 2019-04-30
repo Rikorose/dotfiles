@@ -83,7 +83,13 @@ if [ ! -f $HOME/mpv-completion.bash ]; then
 fi
 source $HOME/mpv-completion.bash
 
-# alacritty works better with xwayland
-# alias alacritty='env WAYLAND_DISPLAY= alacritty'
+# fzf completion
+if [ -f ~/.fzf.bash ]; then
+  source ~/.fzf.bash
+elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
+ source /usr/share/fzf/shell/key-bindings.bash
+fi
+# Directly execute reverse history search item (CTRL-R)
+bind "$(bind -s | grep '^"\\C-r"' | grep -v '\\C-m' | sed 's/"$/\\C-m"/')"
 
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
