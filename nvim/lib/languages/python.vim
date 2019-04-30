@@ -18,6 +18,7 @@ call coc#config('python', {
 augroup vimrc-language-python
   autocmd!
   autocmd FileType python set shiftwidth=4
+  autocmd FileType python set foldmethod=indent
 augroup END
 
 let g:python_highlight_all = 1
