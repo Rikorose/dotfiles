@@ -29,6 +29,13 @@
       \|let &l:keywordprg = ":call CocAction('doHover')"
       \|endif
     autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+
+    call coc#config('diagnostic', {
+      \ 'checkCurrentLine': v:true,
+      \ 'refreshOnInsertMode': v:true,
+      \ })
+    call coc#config('signature.hideOnTextChange', v:true)
+    call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
   augroup end
 
   " mappings {{{
@@ -52,6 +59,12 @@
     " Remap for format selected region
     vmap <leader>lf  <Plug>(coc-format-selected)
     nmap <leader>lf  <Plug>(coc-format-selected)
+
+    " Use `:Format` for format current buffer
+    command! -nargs=0 Format :call CocAction('format')
+
+    " Use `:Fold` for fold current buffer
+    command! -nargs=? Fold :call CocAction('fold', <f-args>)
   " }}}
 
   call coc#add_extension('coc-snippets')
