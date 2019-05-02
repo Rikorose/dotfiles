@@ -20,7 +20,7 @@ set $browser firefox
 set $window_switcher window_switcher
 
 output eDP-1 pos 0 0
-output * bg /usr/share/backgrounds/f29/default/wide/f29.png fill
+output * bg ~/wallpaper fill
 
 ### Input configuration
 input * {
@@ -66,7 +66,7 @@ bindsym $mod_alt+tab exec $window_switcher
 bindsym $mod+Delete exec systemctl suspend
 
 # lockscreen
-bindsym $mod+Shift+Delete exec swaylock -i ~/.lockscreen_wallpaper -s fill
+bindsym $mod+Shift+Delete exec swaylock -i ~/wallpaper -s fill
 
 # start browser
 bindsym $mod+i exec $browser
