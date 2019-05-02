@@ -30,7 +30,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   
   " FZF {{{
   if executable('fzf')
-    Plug exepath('fzf')
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
   end
   " }}}
