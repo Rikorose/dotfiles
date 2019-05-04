@@ -1,6 +1,7 @@
 call coc#add_extension('coc-python')
 let g:coc_filetypes += ['python']
 call coc#config('pyls.plugins.pycodestyle.ignore', ['E501', 'E203'])
+call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
 call coc#config('python', {
 \ 'autocomplete': { 
 \   'showAdvancedMembers': v:false,
