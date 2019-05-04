@@ -15,7 +15,6 @@
       "network#wlan",
       "backlight",
       "battery",
-      "battery#bat1",
       "clock",
       "tray"
     ],
@@ -53,14 +52,14 @@
         "bat": "BAT1",
         "states": {
             "good": 95,
-            "warning": 30,
-            "critical": 15
+            "warning": 10,
+            "critical": 3
         },
         "format": "{capacity}% {icon}",
         "format-icons": ["", "", "", "", ""]
     },
     "network#wlan": {
-        "interface": "wlp*", // (Optioninterfaceal) To force the use of this interface
+        "interface": "wlp3s0", // (Optioninterfaceal) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-disconnected": "⚠",
         "on-click": "nm-connection-editor"
