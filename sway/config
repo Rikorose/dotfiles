@@ -30,7 +30,11 @@ input * {
     xkb_numlock enabled
     repeat_delay 250
     repeat_rate 50
-  }
+}
+input 1267:32:Elan_Touchpad {
+    tap enabled
+    natural_scroll enabled
+}
 input 2:7:SynPS/2_Synaptics_TouchPad {
     tap enabled
     natural_scroll enabled
