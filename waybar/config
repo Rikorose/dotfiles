@@ -64,6 +64,12 @@
         "format-disconnected": "⚠",
         "on-click": "nm-connection-editor"
     },
+    "network#wlan": {
+        "interface": "wlp61s0", // (Optioninterfaceal) To force the use of this interface
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-disconnected": "⚠",
+        "on-click": "nm-connection-editor"
+    },
     "network#ethernet1": {
         "interface": "ens1u1",
         "format-ethernet": "",
