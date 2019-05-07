@@ -6,19 +6,23 @@ set $left h
 set $down j
 set $up k
 set $right l
+
 # Applications
 set $term termite
-set $menu exec termite -t launcher -e "$SHELL --login -c 'launcher'"
-set $scratchterm exec source scratchterm
+set $menu exec $term -t launcher -e "$SHELL --login -c 'launcher'"
+exec $term -t scratchterm  # Launch srcatch terminal, it will be moved to scratchpad immediately
+set $browser firefox
+
+# Window roles
 for_window [title="launcher"] floating enable, border none
-for_window [title="scratchterm"] floating enable, border pixel 1
+for_window [title="scratchterm"] move scratchpad, border pixel 2, sticky enable, resize set 1440 810
 for_window [window_type=dialog] focus
 for_window [app_id="pavucontrol*"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
 for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
-set $browser firefox
-set $window_switcher window_switcher
+for_window [title="MEGAsync"] floating enable
 
+# Set wallpaper
 output eDP-1 pos 0 0
 output * bg ~/wallpaper fill
 
@@ -166,7 +170,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # Show scratchterm
-bindsym $mod+F12 $scratchterm
+bindsym $mod+F12 [title="scratchterm"] scratchpad show
 
 mode "resize" {
     bindsym Left resize grow width 10 px or 10 ppt
