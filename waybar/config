@@ -8,7 +8,7 @@
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
     "modules-right": [
-      "custom/media",
+      "custom/spotify",
       "pulseaudio",
       "network#ethernet1",
       "network#ethernet2",
@@ -97,18 +97,16 @@
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "tooltip": false
     },
-    "custom/media": {
-        "format": "{icon} {}",
+    "custom/spotify": {
+        "format": "{}",
         "return-type": "json",
         "max-length": 40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
-        },
         "escape": true,
+        "interval": 3,
+        "exec": "$HOME/.config/waybar/spotify.sh",
+        "exec-if": "pgrep -c spotify",
         "on-click": "playerctl next",
         "on-click-middle": "playerctl play-pause",
-        "on-click-right": "playerctl previous",
-        "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null" // Script in resources folder
+        "on-click-right": "playerctl previous"
     }
 }
