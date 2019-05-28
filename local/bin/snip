@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+# Snipping tool
+sleep 0.5s; slurp | grim -g - snippet.png

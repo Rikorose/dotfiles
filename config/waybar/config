@@ -48,7 +48,7 @@
         "format-icons": ["", "", "", "", ""]
     },
     "network#wlan": {
-        "interface": "wlp*",
+        "interface": "wlp*", // (Optioninterfaceal) To force the use of this interface
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-disconnected": "⚠",
         "on-click": "nm-connection-editor",

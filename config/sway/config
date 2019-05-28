@@ -8,8 +8,8 @@ set $up k
 set $right l
 
 # Applications
-set $term termite
-set $menu exec $term -t launcher -e "$SHELL --login -c 'launcher'"
+set $term alacritty
+set $menu exec $term -t launcher -e "launcher"
 set $browser firefox
 
 # Window roles
