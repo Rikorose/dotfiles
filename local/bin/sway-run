@@ -3,3 +3,5 @@
 eval `ssh-agent`
 
 sway --verbose > /tmp/sway.log 2>&1
+
+echo $SWAYSOCK > $HOME/.swaysock
