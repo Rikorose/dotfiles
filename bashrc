@@ -87,9 +87,12 @@ source $HOME/mpv-completion.bash
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
-  source /usr/share/fzf/shell/key-bindings.bash
+ source /usr/share/fzf/shell/key-bindings.bash
 fi
 # Directly execute reverse history search item (CTRL-R)
 bind "$(bind -s | grep '^"\\C-r"' | grep -v '\\C-m' | sed 's/"$/\\C-m"/')"
+
+# Open file with Ctrl-O with default application
+bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
 
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
