@@ -95,13 +95,7 @@ window#waybar.hidded {
     background: #f53c3c;
 }
 
-#network.ethernet1.disconnected {
-    opacity: 0;
-    padding: 0 0px;
-    margin: 0 0px;
-}
-
-#network.ethernet2.disconnected {
+#network.ethernet.disconnected {
     opacity: 0;
     padding: 0 0px;
     margin: 0 0px;

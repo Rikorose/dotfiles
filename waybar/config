@@ -47,21 +47,12 @@
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
-    "battery#bat1": {
-        "bat": "BAT1",
-        "states": {
-            "good": 95,
-            "warning": 10,
-            "critical": 3
-        },
-        "format": "{capacity}% {icon}",
-        "format-icons": ["", "", "", "", ""]
-    },
     "network#wlan": {
         "interface": "wlp*",
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-disconnected": "⚠",
-        "on-click": "nm-connection-editor"
+        "on-click": "nm-connection-editor",
+        "tooltip": false
     },
     "network#ethernet": {
         "interface": "en*",
