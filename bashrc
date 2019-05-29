@@ -41,13 +41,24 @@ alias :wq='echo not in vim'
 alias ..="cd .."
 
 # ls
-alias ls='ls --color=auto'
-alias ll='ls -l'
-alias l1='ls -1'
-alias la='ll -a'
-alias lt='ll -t'
-alias lh='ll -h'
-alias lth='lt -h'
+if [ -x "$(command -v exa)" ]; then
+  alias ls=exa
+  alias ll='exa -l'
+  alias l1='exa -1'
+  alias la='exa -a'
+  alias lla='exa -al'
+  alias lt='exa -l --sort=modified --reverse'
+  alias tree='exa --tree'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -l'
+  alias l1='ls -1'
+  alias la='ls -a'
+  alias lla='ls -al'
+  alias lt='ll -t'
+  alias lh='ll -h'
+  alias lth='lt -h'
+fi
 
 # tmux 256 color support
 alias tmux="env TERM=xterm-256color tmux"
