@@ -57,6 +57,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   
   " Tmux integration {{{
   Plug 'christoomey/vim-tmux-navigator'
+  Plug 'wellle/tmux-complete.vim'
   " }}}
 
 call plug#end()
