@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -e
+
+# default timeout is 5 minutes
+CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-5m}
+
+# Execute program in background and get its pid
+( $@ ) & pid_p=$!
+
+# cleanup will kill the background process
+function cleanup {
+  ps -p $pid_p >/dev/null 2>&1; killed=$?
+  if [ $killed -eq 0 ]; then
+    kill $pid_p
+  fi
+  exit
+}
+
+# Add timeout to kill the background process finally
+( sleep $CIPRUN_TIMEOUT; cleanup ) & pid_w=$!
+
+# Forward SIGINT
+sigint_program () {
+  kill -s INT $pid_p 2>/dev/null
+  kill -s INT $pid_w 2>/dev/null
+  exit
+}
+trap sigint_program INT
+
+# Check for user that are logged in and not idle
+while cip-logind-active-user; avail=$?; do
+  if [ $avail -eq 0 ]; then
+    echo "User logged in, killing process with pid_p $pid_p"
+    cleanup
+  fi
+  # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
+  if [ -x nvidia-smi ] &&
+     [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 1024 ];
+  then
+    echo "Not enough memory available"
+    cleanup
+  fi
+  # Check if process still exist and was not killed due to timeout or SIGINT
+  ps -p $pid_p >/dev/null 2>&1; killed=$?
+  if [ $killed -eq 1 ]; then
+    exit
+  fi
+  sleep 1s
+done
