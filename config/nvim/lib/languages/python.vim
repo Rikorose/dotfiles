@@ -1,6 +1,5 @@
 call coc#add_extension('coc-python')
 let g:coc_filetypes += ['python']
-call coc#config('pyls.plugins.pycodestyle.ignore', ['E501', 'E203'])
 call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
 call coc#config('python', {
 \ 'autocomplete': { 
@@ -12,7 +11,7 @@ call coc#config('python', {
 \   'pylintEnabled': v:false,
 \   'flake8Enabled': v:true,
 \   'mypyEnagled': v:true,
-\   'flake8Args': ['--ignore', 'E501', 'E203'],
+\   'flake8Args': ['--ignore', 'E501, E203'],
 \ },
 \})
 
