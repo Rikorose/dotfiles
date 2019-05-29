@@ -2,6 +2,9 @@
 
 if ! swaymsg -t get_tree | rg -q scratchterm; then
   swaymsg exec "alacritty -t scratchterm"
-  sleep 0.2  # Sleep 0.2s so sway can update its tree
+  # Wait until sway has updated its tree
+  while [[ ! $(swaymsg -t get_tree | rg -c scratchterm) -ge 1 ]]; do
+    sleep 0.1
+  done
 fi
 swaymsg "[title=scratchterm] scratchpad show"
