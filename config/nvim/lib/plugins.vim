@@ -23,18 +23,16 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'mhinz/vim-signify'
   " }}}
-  
+
   " Language plugin {{{
   Plug 'neoclide/coc.nvim', { 'do': { -> coc#util#install() } }
   " }}}
-  
+
   " FZF {{{
-  if executable('fzf')
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-    Plug 'junegunn/fzf.vim'
-  end
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
   " }}}
-  
+
   " Latex {{{
   Plug 'reedes/vim-pencil'
   let g:tex_flavor = "latex"
