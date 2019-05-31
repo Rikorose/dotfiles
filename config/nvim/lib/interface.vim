@@ -37,9 +37,9 @@ set mousemodel=popup
   set diffopt+=vertical
 
   " buffer navigation {{{
-    noremap <silent> <Tab> :bnext<CR>
-    noremap <silent> <S-Tab> :bprev<CR>
-    noremap <silent> gb :buffer #<CR>
+    noremap <silent> bn :bnext<CR>
+    noremap <silent> bp :bprev<CR>
+    nnoremap <Leader><Leader> <C-^>
   " }}}
 
   " Bbye with confirmation, or fancy buffer closer {{{
