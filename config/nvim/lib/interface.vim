@@ -95,6 +95,8 @@ if executable('fzf')
   nnoremap <silent> <leader>b :Buffers<CR>
   if executable('rg')
     nnoremap <silent> <leader>g :Rg<CR>
+  elseif executable('ag')
+    nnoremap <silent> <leader>g :Ag<CR>
   endif
 endif
 " }}}
