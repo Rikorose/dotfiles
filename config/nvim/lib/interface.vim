@@ -39,29 +39,8 @@ set mousemodel=popup
   " buffer navigation {{{
     noremap <silent> bn :bnext<CR>
     noremap <silent> bp :bprev<CR>
+    nnoremap <silent> bd :bdelete<CR>
     nnoremap <Leader><Leader> <C-^>
-  " }}}
-
-  " Bbye with confirmation, or fancy buffer closer {{{
-    function s:CloseBuffer(cmd) abort
-      let l:cmd = a:cmd
-      if &modified
-        let l:answer = confirm("Save changes?", "&Yes\n&No\n&Cancel")
-        if l:answer is# 1      " Yes
-          write
-        elseif l:answer is# 2  " No
-          let l:cmd .= '!'
-        else                   " Cancel/Other
-          return
-        endif
-      endif
-      execute l:cmd
-    endfunction
-  " }}}
-
-  " closing buffers {{{
-    nnoremap <silent> <BS> :<C-u>call <SID>CloseBuffer('bdelete')<CR>
-    nnoremap <silent> <Del> :<C-u>quit <bar> call <SID>CloseBuffer('bdelete')<CR>
   " }}}
 
 " }}}
