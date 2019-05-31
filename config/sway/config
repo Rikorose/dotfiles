@@ -66,21 +66,14 @@ bindsym $mod+Shift+q kill
 # start your launcher
 bindsym $mod+d exec $menu
 
-# window switching with alt+tab
-bindsym $mod_alt+tab exec $window_switcher
-
 # suspend
-bindsym $mod+Delete exec systemctl suspend
+bindsym --locked $mod+Delete exec systemctl suspend
 
 # lockscreen
 bindsym $mod+Shift+Delete exec swaylock -i ~/wallpaper -s fill
 
 # start browser
 bindsym $mod+i exec $browser
-
-# Media player
-bindsym $mod+p exec playerctl play-pause
-bindsym $mod+m exec amixer set Master toggle
 
 floating_modifier $mod
 
