@@ -18,7 +18,7 @@
   " coc mappings are enabled
   let g:coc_filetypes = []
 
-  function IsCocEnabled()
+  function! IsCocEnabled()
     return index(g:coc_filetypes, &filetype) >= 0
   endfunction
 
