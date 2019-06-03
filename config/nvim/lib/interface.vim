@@ -20,8 +20,29 @@ set signcolumn=yes
 set belloff=
 
 " title {{{
-set title
-let &titlestring = '%F% (nvim)'
+  set title
+  let &titlestring="%r\ [nvim]\ %f"
+
+  function! GitProject()
+    if exists('b:git_dir')
+      let l:project=fnamemodify(fugitive#RemoteUrl(),":t:r")
+      let l:branch=fugitive#head(7)
+      return "[".l:project."/".l:branch."] "
+    else
+      return ""
+    endif
+  endfunction
+
+  function! UpdateTitle()
+    " Get the git project and branch only on VimEnter/BufEnter
+    let l:gitproject=GitProject()
+    let &titlestring="%r\ [nvim]\ ".l:gitproject."%f"
+  endfunction
+
+  augroup title
+    autocmd!
+    autocmd VimEnter,BufEnter * call UpdateTitle()
+  augroup END
 " }}}
 
 set mouse=a
