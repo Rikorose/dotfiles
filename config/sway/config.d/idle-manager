@@ -1,5 +1,5 @@
 exec swayidle \
-    timeout 180 'swaymsg "output * dpms off"' \
+    timeout 270 'swaymsg "output * dpms off"' \
             resume 'swaymsg "output * dpms on"' \
     timeout 300 'swaylock -i ~/wallpaper -s fill' \
     timeout 3600 'systemctl suspend' \
