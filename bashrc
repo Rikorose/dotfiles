@@ -133,3 +133,5 @@ bind "$(bind -s | grep '^"\\C-r"' | grep -v '\\C-m' | sed 's/"$/\\C-m"/')"
 bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
 
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
+
+alias libreoffice="GDK_BACKEND=wayland libreoffice"
