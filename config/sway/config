@@ -83,6 +83,7 @@ bindsym $mod+x [urgent=latest] focus
 # reload sway config
 bindsym $mod+Shift+c reload
 
+bindsym $mod+Shift+s move scratchpad
 # Move workspace to other outputs
 bindsym $mod+Alt+$left move workspace to output left
 bindsym $mod+Alt+$down move workspace to output down
