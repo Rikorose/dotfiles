@@ -25,7 +25,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   " }}}
 
   " Language plugin {{{
-  Plug 'neoclide/coc.nvim', { 'do': { -> coc#util#install() } }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " }}}
 
   " FZF {{{
