@@ -8,6 +8,8 @@ call coc#config('languageserver', {
 \ },
 \})
 
+au BufRead * if search('\M-*- C++ -*-', 'n', 1) | setlocal ft=cpp | endif
+
 augroup vimrc-language-python
   autocmd!
   autocmd FileType c,cpp set shiftwidth=2
