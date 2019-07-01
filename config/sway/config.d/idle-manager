@@ -1,6 +1,10 @@
+set $locker 'swaylock -i ~/wallpaper -s fill'
 exec swayidle \
-    timeout 270 'swaymsg "output * dpms off"' \
-            resume 'swaymsg "output * dpms on"' \
-    timeout 300 'swaylock -i ~/wallpaper -s fill' \
+    timeout 300 $locker \
+    timeout 600 'if cat /sys/class/power_supply/BAT*/status | rg Discharging -c; then systemctl suspend; fi' \
+        resume 'swaymsg "output * dpms on"' \
     timeout 3600 'systemctl suspend' \
-    before-sleep 'swaylock -i ~/wallpaper -s fill'
+        resume 'swaymsg "output * dpms on"' \
+    timeout 30 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
+        resume 'swaymsg "output * dpms on"' \
+    before-sleep $locker
