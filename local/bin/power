@@ -1,7 +1,15 @@
-#/bin/sh
+#!/bin/sh
 
-bat0=$(cat /sys/class/power_supply/BAT0/power_now)
-bat1=$(cat /sys/class/power_supply/BAT1/power_now)
+if [ -f /sys/class/power_supply/BAT0/power_now ]; then
+  bat0=$(cat /sys/class/power_supply/BAT0/power_now)
+else
+  bat0=0
+fi
+if [ -f /sys/class/power_supply/BAT1/power_now ]; then
+  bat1=$(cat /sys/class/power_supply/BAT1/power_now)
+else
+  bat1=0
+fi
 power_now=$(echo "scale=2; ($bat0 + $bat1) / 1000000" | bc -s)
 
 echo $power_now
