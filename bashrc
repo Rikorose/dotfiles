@@ -126,12 +126,12 @@ if [ -f ~/.fzf.bash ]; then
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
  source /usr/share/fzf/shell/key-bindings.bash
 fi
-# Directly execute reverse history search item (CTRL-R)
-bind "$(bind -s | grep '^"\\C-r"' | grep -v '\\C-m' | sed 's/"$/\\C-m"/')"
 
-# Open file with Ctrl-O with default application
-bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
+if [[ $- == *i* ]] && [ -x sway ]; then
+  # Open file with Ctrl-O with default application
+  bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && 
+    [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
+fi
 
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
-
 alias libreoffice="GDK_BACKEND=wayland libreoffice"
