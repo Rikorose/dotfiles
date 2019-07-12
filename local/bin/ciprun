@@ -35,14 +35,14 @@ while cip-logind-active-user; avail=$?; do
     cleanup
   fi
   # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
-  if [ -x nvidia-smi ] &&
+  if [ -x "$(command -v nvidia-smi)" ] &&
      [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 1024 ];
   then
     echo "Not enough GPU memory available"
     cleanup
   fi
   # Check if there is enough RAM eavailable for a new user to login
-  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -lt 15 ];
+  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 85 ];
   then
     echo "Not enough RAM available"
     cleanup
