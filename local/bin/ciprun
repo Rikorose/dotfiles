@@ -22,8 +22,8 @@ function cleanup {
 
 # Forward SIGINT
 sigint_program () {
-  kill -s INT $pid_p 2>/dev/null
-  kill -s INT $pid_w 2>/dev/null
+  kill $pid_p 2>/dev/null
+  kill $pid_w 2>/dev/null
   exit
 }
 trap sigint_program INT
@@ -38,7 +38,13 @@ while cip-logind-active-user; avail=$?; do
   if [ -x nvidia-smi ] &&
      [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 1024 ];
   then
-    echo "Not enough memory available"
+    echo "Not enough GPU memory available"
+    cleanup
+  fi
+  # Check if there is enough RAM eavailable for a new user to login
+  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -lt 15 ];
+  then
+    echo "Not enough RAM available"
     cleanup
   fi
   # Check if process still exist and was not killed due to timeout or SIGINT
