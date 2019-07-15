@@ -2,6 +2,7 @@ call coc#add_extension('coc-python')
 let g:coc_filetypes += ['python']
 call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
 call coc#config('python', {
+\ 'jediEnabled': v:true,
 \ 'autocomplete': { 
 \   'showAdvancedMembers': v:false,
 \   'addBrackets': v:true,
