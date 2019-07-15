@@ -49,6 +49,8 @@ call plug#begin('~/.local/share/nvim/plugged')
     \   '-interaction=nonstopmode',
     \ ],
     \}
+  " Markdown preview
+  Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
   " Grammar plugin for latex
   Plug 'rhysd/vim-grammarous'
   " }}}
