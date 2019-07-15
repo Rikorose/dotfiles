@@ -86,22 +86,19 @@
   pr = prune -v
   #############
   ps = push
-  psf = push -f
+  psf = push --force-with-lease
+  psff = push -f
   psu = push -u
   pst = push --tags
   #############
   pso = push origin
   psao = push --all origin
-  psfo = push -f origin
+  psfo = push --force-with-lease origin
   psuo = push -u origin
   #############
-  psom = push origin master
-  psaom = push --all origin master
-  psfom = push -f origin master
-  psuom = push -u origin master
   psoc = !git push origin $(git bc)
   psaoc = !git push --all origin $(git bc)
-  psfoc = !git push -f origin $(git bc)
+  psfoc = !git push --force-with-lease origin $(git bc)
   psuoc = !git push -u origin $(git bc)
   psdc = !git push origin :$(git bc)
   #############
