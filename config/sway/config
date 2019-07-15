@@ -21,8 +21,12 @@ for_window [app_id="nm-connection-editor"] floating enable
 for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
 for_window [title="MEGAsync"] floating enable
 
+set $laptop eDP-1
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
+
 # Set wallpaper
-output eDP-1 pos 0 0
+output $laptop pos 0 0
 output * bg ~/wallpaper fill
 
 ### Input configuration
