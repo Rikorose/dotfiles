@@ -74,7 +74,7 @@ bindsym $mod+d exec $menu
 bindsym --locked $mod+Delete exec systemctl suspend
 
 # lockscreen
-bindsym $mod+Shift+Delete exec swaylock -i ~/wallpaper -s fill
+bindsym $mod+Shift+Delete exec swaylock -f -i ~/wallpaper -s fill
 
 # start browser
 bindsym $mod+i exec $browser
