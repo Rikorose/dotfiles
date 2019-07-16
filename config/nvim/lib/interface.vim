@@ -1,8 +1,27 @@
 " Colorsheme {{{
 
-  if (has("termguicolors"))
-    set termguicolors
-  endif
+" Latest Mosh release does still not support true colors
+  function! s:is_mosh()
+    let output = system("is-mosh -v")
+    if v:shell_error
+      return 0
+    endif
+    return !empty(l:output)
+  endfunction
+
+  function s:auto_termguicolors()
+    if !(has("termguicolors"))
+      return
+    endif
+
+    if (&term == 'xterm-256color' || &term == 'nvim') && !s:is_mosh()
+      set termguicolors
+    else
+      set notermguicolors
+    endif
+  endfunction
+  call s:auto_termguicolors()
+
   let g:one_allow_italics = 1
   set background=dark
   " set background=light " Usefull for beamer presentation
