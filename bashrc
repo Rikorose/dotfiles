@@ -127,7 +127,7 @@ elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
  source /usr/share/fzf/shell/key-bindings.bash
 fi
 
-if [[ $- == *i* ]] && [ -x sway ]; then
+if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
   # Open file with Ctrl-O with default application
   bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && 
     [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
