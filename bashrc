@@ -133,5 +133,11 @@ if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
     [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
 fi
 
+if [ $(pgrep -x sway) ]; then
+  # Set swaysock env variable if not set already
+  : ${SWAYSOCK:=/run/user/$(id -u)/sway-ipc.$(id -u).$(pgrep -x sway).sock}
+  export SWAYSOCK
+fi
+
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
 alias libreoffice="GDK_BACKEND=wayland libreoffice"
