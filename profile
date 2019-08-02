@@ -1,8 +1,5 @@
 # .profile
 
-# Java under wayland
-export _JAVA_AWT_WM_NONREPARENTING=1
-
 # User specific environment and startup programs
 export HISTIGNORE=$HISTIGNORE,fg
 
@@ -14,6 +11,10 @@ export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Projects
 if [ -x "$(command -v virtualenvwrapper.sh)" ]; then
   source virtualenvwrapper.sh
+fi
+
+if [ -x "$(command -v fuck)" ]; then
+  eval $(thefuck --alias)
 fi
 
 # Python shell auto completion
