@@ -1,5 +1,4 @@
 #!/bin/bash -l
 
+. ~/.config/sway/env
 sway --verbose > /tmp/sway.log 2>&1
-
-echo $SWAYSOCK > $HOME/.swaysock
