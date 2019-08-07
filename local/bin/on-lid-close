@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Check if the internal display is the only one
+if swaymsg -t get_outputs | jq '.[] | select(.name != "eDP-1")' -e > /dev/null; then
+  swaymsg "output eDP-1 disable"
+else
+  systemctl suspend
+fi

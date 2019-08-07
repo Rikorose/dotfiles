@@ -22,7 +22,7 @@ for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
 for_window [title="MEGAsync"] floating enable
 
 set $laptop eDP-1
-bindswitch lid:on output $laptop disable
+bindswitch lid:on exec on-lid-close
 bindswitch lid:off output $laptop enable
 
 # Set wallpaper
