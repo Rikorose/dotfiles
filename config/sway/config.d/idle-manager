@@ -1,10 +1,18 @@
-set $locker 'swaylock -i ~/wallpaper -s fill'
-exec swayidle \
-    timeout 300 $locker \
-    timeout 600 'if cat /sys/class/power_supply/BAT*/status | rg Discharging -c; then systemctl suspend; fi' \
-        resume 'swaymsg "output * dpms on"' \
+set $discharging cat /sys/class/power_supply/BAT*/status | rg Discharging -c
+set $locker swaylock -f -i ~/wallpaper -s fill
+set $get_outputs swaymsg "-t get_outputs"
+set $enable_display swaymsg "output eDP-1 enable"
+set $display_off swaymsg "output * dpms off"
+set $display_on swaymsg "output * dpms on"; if $get_outputs | rg -v active.*true; then $enable_display; fi
+exec swayidle -w \
+    timeout 300  'if $discharging; then light -G > ~/.light; light -S 5; fi' \
+         resume  'cat ~/.light | xargs light -S' \
+    timeout 360  '$display_off' \
+         resume  '$display_on' \
+    timeout 390  '$locker' \
     timeout 3600 'systemctl suspend' \
-        resume 'swaymsg "output * dpms on"' \
-    timeout 30 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
-        resume 'swaymsg "output * dpms on"' \
-    before-sleep $locker
+         resume  '$display_on' \
+    timeout 30   'if pgrep -x swaylock; then $display_off; fi' \
+         resume  '$display_on' \
+    timeout 60   'if $get_outputs | rg -v "focused.*true"; then systemctl suspend; fi' \
+    before-sleep '$locker'
