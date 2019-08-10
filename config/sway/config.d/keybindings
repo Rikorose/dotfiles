@@ -6,5 +6,5 @@ bindsym --locked XF86AudioRaiseVolume exec /usr/bin/amixer set Master 5%+
 bindsym --locked XF86AudioLowerVolume exec /usr/bin/amixer set Master 5%-
 bindsym --locked XF86AudioMute exec /usr/bin/amixer set Master 1+ toggle
 # Screen brightness
-bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
-bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec light -A 5%
+bindsym --locked XF86MonBrightnessDown exec light -U 5%

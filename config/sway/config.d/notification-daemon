@@ -1,3 +1,4 @@
 exec mako \
     --anchor bottom-right \
+    --layer overlay \
     --default-timeout 7500
