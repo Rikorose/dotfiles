@@ -63,6 +63,8 @@ input 3064:4108:Fujitsu_Siemens_Computers_GmbH_FSC_KBPC_PX {
     xkb_layout us
 }
 
+seat * hide_cursor 3000
+
 # start a terminal
 bindsym $mod+Return exec $term
 
