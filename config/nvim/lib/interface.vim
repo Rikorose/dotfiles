@@ -77,9 +77,9 @@ set mousemodel=popup
   set diffopt+=vertical
 
   " buffer navigation {{{
-    noremap <Leader> n :bnext<CR>
-    noremap <Leader> p :bprev<CR>
-    nnoremap <Leader> d :bdelete<CR>
+    noremap <Leader>n :bnext<CR>
+    noremap <Leader>p :bprev<CR>
+    nnoremap <Leader>d :bdelete<CR>
     nnoremap <Leader><Leader> <C-^>
   " }}}
 
@@ -117,5 +117,6 @@ if executable('fzf')
   elseif executable('ag')
     nnoremap <silent> <leader>g :Ag<CR>
   endif
+  nnoremap <silent> <leader>t :Tags<CR>
 endif
 " }}}
