@@ -19,3 +19,5 @@ fi
 
 # Python shell auto completion
 export PYTHONSTARTUP=~/.pythonrc
+
+export HISTSIZE=5000
