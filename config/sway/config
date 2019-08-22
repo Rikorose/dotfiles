@@ -10,6 +10,7 @@ set $right l
 # Applications
 set $term alacritty
 set $menu exec $term -t launcher -e "launcher"
+set $fzf-open exec $term -t launcher -e "fzf-open"
 set $browser firefox
 
 # Window roles
@@ -73,6 +74,9 @@ bindsym $mod+Shift+q kill
 
 # start your launcher
 bindsym $mod+d exec $menu
+
+# Open any file
+bindsym $mod+o exec $fzf-open
 
 # suspend
 bindsym --locked $mod+Delete exec systemctl suspend

@@ -129,8 +129,7 @@ fi
 
 if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
   # Open file with Ctrl-O with default application
-  bind -x '"\C-o": file="$(fzf --height 40% --reverse)" && 
-    [ -f "$file" ] && swaymsg exec xdg-open $(readlink -f "$file")'
+  bind -x '"\C-o": fzf-open'
 fi
 
 if [ $(pgrep -x sway) ]; then

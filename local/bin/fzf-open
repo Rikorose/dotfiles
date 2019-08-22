@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+file="$(fzf --height 40% --reverse)"
+if [ -f "$file" ]; then
+  swaymsg exec xdg-open $(readlink -f "$file")
+else
+  notify-send "File not found: $file"
+fi
