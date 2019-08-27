@@ -33,22 +33,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'junegunn/fzf.vim'
   " }}}
 
-  " Latex {{{
-  Plug 'reedes/vim-pencil'
+  " Text {{{
   let g:tex_flavor = "latex"
-  Plug 'lervag/vimtex', { 'for': ['tex', 'latex'] }
-  let g:vimtex_compiler_progname = 'nvr'
-  let g:vimtex_view_general_viewer = 'zathura'
-  let g:vimtex_compiler_latexmk = {
-    \ 'options' : [
-    \   '-pdf',
-    \   '-shell-escape',
-    \   '-verbose',
-    \   '-file-line-error',
-    \   '-synctex=1',
-    \   '-interaction=nonstopmode',
-    \ ],
-    \}
   " Markdown preview
   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
   " Grammar plugin for latex
