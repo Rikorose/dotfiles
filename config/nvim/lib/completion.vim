@@ -83,4 +83,5 @@
 
   call coc#add_extension('coc-snippets')
   call coc#add_extension('coc-yank')
+  call coc#add_extension('coc-pairs')
 " }}}
