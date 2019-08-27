@@ -49,10 +49,11 @@ dirname() {
   # Usage: dirname "path"
   printf '%s\n' "${1%/*}/"
 }
-basename() {
+basenames() {
   # Usage: basename "path"
-  : "${1%/}"
-  printf '%s\n' "${_##*/}"
+  # basename without suffix
+  f="$(basename $1)"
+  printf '%s\n' "${f%.*}"
 }
 
 ## Some handy aliases
