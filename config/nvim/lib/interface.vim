@@ -118,5 +118,6 @@ if executable('fzf')
     nnoremap <silent> <leader>g :Ag<CR>
   endif
   nnoremap <silent> <leader>t :Tags<CR>
+  nnoremap <silent> <leader>. :History:<CR>
 endif
 " }}}
