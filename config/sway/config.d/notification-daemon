@@ -1,4 +1,6 @@
+exec "pactl subscribe | grep --line-buffered "sink" | xargs -n1 volume_notify.sh"
 exec mako \
+    --icon-path='/usr/share/icons/breeze-dark' \
     --anchor bottom-right \
     --layer overlay \
     --default-timeout 7500
