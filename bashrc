@@ -9,26 +9,19 @@ fi
 SSH_ENV="$HOME/.ssh/env"
 
 function start_agent {
+  if [ ! -S ~/.ssh/ssh_auth_sock ]; then
     echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    eval `ssh-agent`
+    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
     echo succeeded
-    chmod 600 "${SSH_ENV}"
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add;
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+  ssh-add -l > /dev/null || ssh-add
 }
 
 # Source SSH settings, if applicable
-
-if [[ $- == *i* ]]; then
-  if [ -f "${SSH_ENV}" ]; then
-      . "${SSH_ENV}" > /dev/null
-      #ps ${SSH_AGENT_PID} doesn't work under cywgin
-      ps -ef | grep ${SSH_AGENT_PID} | grep "ssh-agent$" > /dev/null || {
-          start_agent;
-      }
-  else
-      start_agent;
-  fi
+if [[ $- == *i* ]]; then  # Is login shell
+  start_agent
 fi
 
 # User specific aliases and functions
