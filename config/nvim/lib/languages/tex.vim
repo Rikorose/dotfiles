@@ -13,3 +13,4 @@ augroup vimrc-language-tex
 augroup END
 
 noremap <F5> :CocCommand latex.Build<CR>
+noremap <F6> :CocCommand latex.ForwardSearch<CR>

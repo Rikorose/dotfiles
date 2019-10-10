@@ -20,6 +20,7 @@ augroup vimrc-language-python
   autocmd!
   autocmd FileType python set shiftwidth=4
   autocmd FileType python set foldmethod=indent
+  autocmd FileType python setlocal formatoptions+=ro
 augroup END
 
 let g:python_highlight_all = 1

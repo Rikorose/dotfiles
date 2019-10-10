@@ -1,3 +1,6 @@
+call coc#add_extension('coc-git')
+call coc#config('git.gitlab.hosts', ['git5.cs.fau.de'])
+
 " vim-signify {{{
   nmap <Leader>hn <Plug>(signify-next-hunk)
   nmap <Leader>hp <Plug>(signify-prev-hunk)

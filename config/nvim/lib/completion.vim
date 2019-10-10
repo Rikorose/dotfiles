@@ -33,9 +33,12 @@
     call coc#config('diagnostic', {
       \ 'checkCurrentLine': v:true,
       \ 'refreshOnInsertMode': v:true,
+      \ 'signature.hideOnTextChange': v:true,
+      \ 'coc.source.around.priority': 11,
+      \ 'coc.source.file.priority': 10,
+      \ 'coc.source.buffer.priority': 9,
+      \ 'yank.priority': 8,
       \ })
-    call coc#config('signature.hideOnTextChange', v:true)
-    call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
   augroup end
 
   " mappings {{{
