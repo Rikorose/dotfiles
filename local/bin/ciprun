@@ -31,7 +31,7 @@ trap sigint_program INT
 # Check for user that are logged in and not idle
 while cip-logind-active-user; avail=$?; do
   if [ $avail -eq 0 ]; then
-    echo "User logged in, killing process with pid_p $pid_p"
+    echo "User logged in at $(date), killing process with pid_p $pid_p"
     cleanup
   fi
   # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
@@ -42,7 +42,7 @@ while cip-logind-active-user; avail=$?; do
     cleanup
   fi
   # Check if there is enough RAM eavailable for a new user to login
-  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 85 ];
+  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 90 ];
   then
     echo "Not enough RAM available"
     cleanup
