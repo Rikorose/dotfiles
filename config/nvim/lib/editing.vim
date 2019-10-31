@@ -147,6 +147,8 @@ set splitright
 
   " <leader>r starts a find a replace for word under cursor
   nnoremap <leader>r :%s/\<<C-R><C-W>\>/<C-R><C-W>/g<Left><Left>
+  " or the selection
+  vnoremap <leader>r "hy:%s/<C-r>h//g<Left><Left>
 
   " Search for the ... arguments separated with whitespace (if no '!'),
   " or with non-word characters (if '!' added to command).
