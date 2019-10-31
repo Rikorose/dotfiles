@@ -1,6 +1,5 @@
 call coc#add_extension('coc-python')
 let g:coc_filetypes += ['python']
-call coc#config('coc.preferences.formatOnSaveFiletypes', ['python'])
 call coc#config('python', {
 \ 'jediEnabled': v:true,
 \ 'autocomplete': { 
@@ -21,6 +20,8 @@ augroup vimrc-language-python
   autocmd FileType python set shiftwidth=4
   autocmd FileType python set foldmethod=indent
   autocmd FileType python setlocal formatoptions+=ro
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup END
 
 let g:python_highlight_all = 1

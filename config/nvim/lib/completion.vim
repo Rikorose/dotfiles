@@ -71,14 +71,27 @@
     nmap <leader>lr <Plug>(coc-rename)
 
     " Remap for format selected region
-    vmap <leader>lf  <Plug>(coc-format-selected)
-    nmap <leader>lf  <Plug>(coc-format-selected)
+    vmap <leader>lsf <Plug>(coc-format-selected)
+    nmap <leader>lsf <Plug>(coc-format-selected)
 
     " Use `:Format` for format current buffer
     command! -nargs=0 Format :call CocAction('format')
+    nnoremap <leader>lf :call CocAction('format')<CR> <bar> :w<CR>
 
     " Use `:Fold` for fold current buffer
     command! -nargs=? Fold :call CocAction('fold', <f-args>)
+
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
+    " Search workspace symbols
+    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+    " Do default action for next item.
+    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+    " Do default action for previous item.
+    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+    " Resume latest coc list
+    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
     " Show yank list
     nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<CR>
