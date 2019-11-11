@@ -14,13 +14,16 @@ Host faui*
   HostName %h.informatik.uni-erlangen.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_rsa
+  ForwardAgent yes
 
 Host lme*
   HostName %h.informatik.uni-erlangen.de
   User schroeter
   IdentityFile ~/.ssh/id_rsa
+  ForwardAgent yes
 
 Host i5.cluster
   User schroeter
   HostName cluster.i5.informatik.uni-erlangen.de
   IdentityFile ~/.ssh/id_rsa
+  ForwardAgent yes
