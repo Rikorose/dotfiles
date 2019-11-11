@@ -82,6 +82,7 @@ set whichwrap+=hl
 " Wrapping {{{
   set nowrap
   set showbreak=«
+  set textwidth=80
   set colorcolumn=+1
 " }}}
 
@@ -117,8 +118,8 @@ set laststatus=2
 " Hide default mode text (i.e. INSERT below status line)
 set noshowmode
 
-" Use 5 characters for number well
-set numberwidth=5
+" determine the number of lines and set numberwidth accordingly
+au BufRead * let &numberwidth = float2nr(log10(line("$"))) + 2
 
 " Hide the intro screen, use [+] instead of [Modified], use [RO] instead
 " of [readyonly], and don't give completion match messages

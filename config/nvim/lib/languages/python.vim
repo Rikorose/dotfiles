@@ -19,6 +19,7 @@ augroup vimrc-language-python
   autocmd!
   autocmd FileType python set shiftwidth=4
   autocmd FileType python set foldmethod=indent
+  autocmd FileType python set textwidth=88
   autocmd FileType python setlocal formatoptions+=ro
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
