@@ -14,11 +14,16 @@ is_mosh() {
         esac
     done
 
+    # Set this variable if you have a nested SSH/mosh session
+    if [[ -v IS_MOSH ]]; then
+      echo IS_MOSH
+      return 0;        # exit code 0: is mosh
+    fi
+
     if [[ -n "$TMUX" ]]; then
         # current shell is under tmux
         local tmux_current_session=$(tmux display-message -p '#S')
         local tmux_client_id=$(tmux list-clients -t "${tmux_current_session}" -F '#{client_pid}')
-        # echo $tmux_current_session $tmux_client_id
         local pid="$tmux_client_id"
     else
         local pid="$$"
