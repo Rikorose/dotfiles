@@ -9,7 +9,7 @@ fi
 SSH_ENV="$HOME/.ssh/env"
 
 function start_agent {
-  if [ -S $SSH_AUTH_SOCK ]; then
+  if [ -S "$SSH_AUTH_SOCK" ]; then
     ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
   else
     if [ ! -S ~/.ssh/ssh_auth_sock ]; then
@@ -71,6 +71,7 @@ if [ -x "$(command -v exa)" ]; then
   alias l1='exa -1'
   alias la='exa -a'
   alias lla='exa -al'
+  alias lh='exa -l'
   alias lt='exa -l --sort=modified --reverse'
   alias tree='exa --tree'
 else
@@ -119,11 +120,13 @@ fi
 source $HOME/mpv-completion.bash
 
 # fzf completion
+export FZF_TMUX=1
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
  source /usr/share/fzf/shell/key-bindings.bash
 fi
+source ~/.fzf-plugins/history-exec.bash
 
 if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
   # Open file with Ctrl-O with default application
