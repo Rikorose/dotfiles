@@ -10,7 +10,7 @@ from urllib.parse import urljoin
 BING_URL = "https://www.bing.com"
 
 
-def json_url(n=1, mkt="en-US"):
+def json_url(n=1, mkt="de-DE"):
     return urljoin(BING_URL, f"HPImageArchive.aspx?format=js&idx=0&n={n}&mkt={mkt}")
 
 
