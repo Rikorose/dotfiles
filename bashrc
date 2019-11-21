@@ -121,6 +121,8 @@ source $HOME/mpv-completion.bash
 
 # fzf completion
 export FZF_TMUX=1
+export FZF_CTRL_R_EDIT_KEY=ctrl-e
+export FZF_CTRL_R_EXEC_KEY=enter
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
