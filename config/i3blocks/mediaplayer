@@ -10,6 +10,14 @@ else
   PCTLARGS="-a"
 fi
 
+case $BLOCK_BUTTON in
+  1) playerctl $PCTLARGS next ;;
+  2) playerctl $PCTLARGS play-pause ;;
+  3) playerctl $PCTLARGS prev ;;
+  4) playerctl $PCTLARGS position 5+ ;;
+  5) playerctl $PCTLARGS position 5- ;;
+esac
+
 STATUS=$(playerctl -p $instance status)
 if [[ "$STATUS" = "Playing" ]]; then
   # Check if has artist

@@ -20,8 +20,8 @@ done
 
 case "$BLOCK_BUTTON" in
   1|2|3) 
-
-  swaymsg -q "exec gnome-calendar"
+  swaymsg -q "exec gnome-calendar" ;;
 esac
+
 echo "$LABEL$(date "$DATEFMT")"
 echo "$LABEL$(date "$SHORTFMT")"
