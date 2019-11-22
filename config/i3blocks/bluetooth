@@ -22,5 +22,5 @@ if [[ $CONNECTED -eq 0 ]]; then
   echo "" # full text
   echo "Connected" # short text
 else
-  exit
+  echo "" # full text
 fi
