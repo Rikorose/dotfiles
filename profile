@@ -20,7 +20,4 @@ fi
 # Python shell auto completion
 export PYTHONSTARTUP=~/.pythonrc
 
-# Gitlab access token
-export GITLAB_PRIVATE_TOKEN=$(cat ~/.git5_cs_fau_token)
-
 export HISTSIZE=5000
