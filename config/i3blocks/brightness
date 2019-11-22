@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case $BLOCK_BUTTON in
+  4) light -A 5% ;; # scroll up, increase
+  5) light -U 5% ;; # scroll down, decrease
+esac
+
+# Round output of light
+BRIGHTNESS=$(echo "$(light)" | LC_ALL=C xargs /usr/bin/printf "%.*f\n" "$p")
+
+echo "$BRIGHTNESS%"

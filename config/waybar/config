@@ -10,7 +10,7 @@
     "modules-right": [
       "custom/spotify",
       "pulseaudio",
-      "network#ethernet",
+      // "network#ethernet",
       "network#wlan",
       "backlight",
       "battery",
@@ -43,24 +43,23 @@
             "critical": 3
         },
         "format": "{capacity}% {icon}",
-        // "format-good": "", // An empty format will hide the module
-        // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
     "network#wlan": {
-        "interface": "wlp*",
+        // "interface": "wlp*",
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-disconnected": "⚠",
+        "format-ethernet": "",
         "on-click": "nm-connection-editor",
         "tooltip": false
     },
-    "network#ethernet": {
-        "interface": "en*",
-        "format-ethernet": "",
-        "format-disconnected": "",
-        "on-click": "nm-connection-editor",
-        "tooltip-format": "{ifname}"
-    },
+    // "network#ethernet": {
+    //     "format-ethernet": "",
+    //     "format-wifi": "",
+    //     "format-disconnected": "asdf",
+    //     "on-click": "nm-connection-editor",
+    //     "tooltip-format": "{ifname}"
+    // },
     "pulseaudio": {
         "scroll-step": 5,
         "format": "{volume}%  {icon}",

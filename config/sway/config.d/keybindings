@@ -1,10 +1,10 @@
 # Media player
-bindsym --locked $mod+p exec playerctl play-pause
-bindsym --locked $mod+m exec amixer set Master toggle
+bindsym --locked $mod+p exec playerctl play-pause && pkill -RTMIN+11 i3blocks
+bindsym --locked $mod+m exec amixer set Master toggle && pkill -RTMIN+10 i3blocks
 # audio keys
-bindsym --locked XF86AudioRaiseVolume exec /usr/bin/amixer set Master 5%+
-bindsym --locked XF86AudioLowerVolume exec /usr/bin/amixer set Master 5%-
-bindsym --locked XF86AudioMute exec /usr/bin/amixer set Master 1+ toggle
+bindsym --locked XF86AudioRaiseVolume exec /usr/bin/amixer set Master 5%+ && pkill -RTMIN+10 i3blocks
+bindsym --locked XF86AudioLowerVolume exec /usr/bin/amixer set Master 5%- && pkill -RTMIN+10 i3blocks
+bindsym --locked XF86AudioMute exec /usr/bin/amixer set Master 1+ toggle && pkill -RTMIN+10 i3blocks
 # Screen brightness
-bindsym --locked XF86MonBrightnessUp exec light -A 5%
-bindsym --locked XF86MonBrightnessDown exec light -U 5%
+bindsym --locked XF86MonBrightnessUp exec light -A 5% && pkill -RTMIN+16 i3blocks
+bindsym --locked XF86MonBrightnessDown exec light -U 5% && pkill -RTMIN+16 i3blocks

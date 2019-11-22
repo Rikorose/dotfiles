@@ -9,18 +9,19 @@ set $right l
 
 # Applications
 set $term alacritty
-set $menu exec $term -t launcher -e "launcher"
+set $menu exec $term -d 70 20 -t launcher -e env TERMINAL_COMMAND="alacritty -e" launcher
 set $fzf-open exec $term -t launcher -e "fzf-open"
-set $browser firefox
+set $browser firefox-wayland
 
 # Window roles
-for_window [title="launcher"] floating enable, border none
+for_window [title="launcher"] floating enable, border pixel 5, sticky enable
 for_window [title="scratchterm"] move scratchpad, border pixel 2, sticky enable, resize set 1440 810
 for_window [window_type=dialog] focus
 for_window [app_id="pavucontrol*"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
 for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
 for_window [title="MEGAsync"] floating enable
+for_window [app_id="gnome-calendar"] floating enable
 
 set $laptop eDP-1
 bindswitch lid:on exec on-lid-close
@@ -196,7 +197,18 @@ focus_follows_mouse no
 popup_during_fullscreen leave_fullscreen
 
 bar {
-    swaybar_command waybar
+    font pango:DejaVu Sans Mono
+    position top
+    status_command i3blocks
+    colors {
+        separator #666666
+        background #222222
+        statusline #dddddd
+        focused_workspace #0088CC #0088CC #ffffff
+        active_workspace #333333 #333333 #ffffff
+        inactive_workspace #333333 #333333 #888888
+        urgent_workspace #2f343a #900000 #ffffff
+    }
 }
 
 include ~/.config/sway/config.d/*
