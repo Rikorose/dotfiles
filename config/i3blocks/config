@@ -36,15 +36,8 @@ signal=16
 markup=pango
 interval=30
 
-[ssid]
-label= 
-command=~/.config/i3blocks/essid -i wlp61s0
-interval=once
-signal=17
-separator_block_width=7
-separator=false
-
 [wifi]
+label= 
 instance=wlp61s0
 interval=10
 signal=17
