@@ -9,17 +9,18 @@ fi
 SSH_ENV="$HOME/.ssh/env"
 
 function start_agent {
-  if [ -S "$SSH_AUTH_SOCK" ]; then
+  if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+    echo "Initialising new SSH agent..."
+    pkill ssh-agent
+    eval `ssh-agent`
     ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-  else
-    if [ ! -S ~/.ssh/ssh_auth_sock ]; then
-      echo "Initialising new SSH agent..."
-      eval `ssh-agent`
-      ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
-      echo succeeded
-    fi
-    export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
-    ssh-add -l > /dev/null || ssh-add
+    echo succeeded
+  fi
+  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+  ssh-add -l > /dev/null || ssh-add
+  if [ $? -ne 0 ]; then
+    rm ~/.ssh/ssh_auth_sock
+    start_agent
   fi
 }
 
