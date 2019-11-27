@@ -7,13 +7,13 @@ full_text=
 
 [mediaplayer]
 instance=mpv
-interval=5
-signal=11
+timeout=10
+interval=persist
 
 [mediaplayer]
 instance=spotify
-interval=5
-signal=11
+timeout=30
+interval=persist
 
 [bluetooth]
 label= 
