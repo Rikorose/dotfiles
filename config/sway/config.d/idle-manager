@@ -5,7 +5,7 @@ set $enable_display swaymsg "output eDP-1 enable"
 set $display_off swaymsg "output * dpms off"
 set $display_on swaymsg "output * dpms on"; if $get_outputs | rg -v active.*true; then $enable_display; fi
 exec swayidle -w \
-    timeout 300  'if $discharging; then light -G > ~/.light; light -S 5; fi' \
+    timeout 300  'if $discharging; then light -G > ~/.light && light -S 5; fi' \
          resume  'cat ~/.light | xargs light -S' \
     timeout 360  '$display_off' \
          resume  '$display_on' \
