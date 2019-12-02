@@ -25,7 +25,11 @@ call plug#begin('~/.local/share/nvim/plugged')
   " }}}
 
   " Language plugin {{{
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'neovim/nvim-lsp'
+  Plug 'sirver/ultisnips'
+  Plug 'honza/vim-snippets'
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " }}}
 
   " FZF {{{
@@ -49,5 +53,5 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 " enable full plugin support
-filetype plugin indent on
+filetype plugin on
 syntax enable
