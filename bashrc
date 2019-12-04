@@ -7,19 +7,20 @@ fi
 
 # Setup ssh agent
 SSH_ENV="$HOME/.ssh/env"
+SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh_auth_sock_$(hostname)"
 
 function start_agent {
-  if [ ! -S ~/.ssh/ssh_auth_sock ]; then
+  if [ ! -S "$SSH_AUTH_SOCK_FILE" ]; then
     echo "Initialising new SSH agent..."
     pkill ssh-agent
     eval `ssh-agent`
-    ln -sf "$SSH_AUTH_SOCK" ~/.ssh/ssh_auth_sock
+    ln -sf "$SSH_AUTH_SOCK" "$SSH_AUTH_SOCK_FILE"
     echo succeeded
   fi
-  export SSH_AUTH_SOCK=~/.ssh/ssh_auth_sock
+  export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
   ssh-add -l > /dev/null || ssh-add
   if [ $? -ne 0 ]; then
-    rm ~/.ssh/ssh_auth_sock
+    rm "$SSH_AUTH_SOCK_FILE"
     start_agent
   fi
 }
