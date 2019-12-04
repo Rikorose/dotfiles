@@ -1,6 +1,7 @@
-#!/bin/env python3
+#!/usr/bin/env python3
 
 import json
+import os
 import sys
 
 
@@ -9,9 +10,10 @@ if __name__ == "__main__":
         file = sys.argv[1]
         key = sys.argv[2]
         new_val = sys.argv[3]
-    except KeyError:
-        print("Usage: json_update_value <file> <key> <new_value>")
-    with open(sys.argv[1], "w") as f:
-        content = json.load(f)
-        content[key] = new_val
-        json.dump(content, f)
+    except IndexError:
+        exit("Usage: json_update_value <file> <key> <new_value>")
+    if not os.path.isfile(file):
+        exit(f"{file} not found.")
+    content = json.load(open(file))
+    content[key] = new_val
+    json.dump(content, open(file, "w"), sort_keys=True, indent=4)
