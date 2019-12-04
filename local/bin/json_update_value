@@ -1,0 +1,17 @@
+#!/bin/env python3
+
+import json
+import sys
+
+
+if __name__ == "__main__":
+    try:
+        file = sys.argv[1]
+        key = sys.argv[2]
+        new_val = sys.argv[3]
+    except KeyError:
+        print("Usage: json_update_value <file> <key> <new_value>")
+    with open(sys.argv[1], "w") as f:
+        content = json.load(f)
+        content[key] = new_val
+        json.dump(content, f)
