@@ -4,6 +4,7 @@ set -e
 
 # default timeout is 5 minutes
 CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-5m}
+CIPRUN_USER=${CIPRUN_USER:-1}
 
 # Execute program in background and get its pid
 ( $@ ) & pid_p=$!
@@ -29,9 +30,9 @@ sigint_program () {
 trap sigint_program INT
 
 # Check for user that are logged in and not idle
-while cip-logind-active-user; avail=$?; do
-  if [ $avail -eq 0 ]; then
-    echo "User logged in at $(date), killing process with pid_p $pid_p"
+while user=$(cip-logind-active-user); avail=$?; do
+  if [ $avail -eq 0 ] && [ "$CIPRUN_USER" -eq 1 ]; then
+    echo "User $user logged in at $(date), killing process with pid_p $pid_p"
     cleanup
   fi
   # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
