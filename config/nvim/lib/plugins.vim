@@ -26,9 +26,12 @@ call plug#begin('~/.local/share/nvim/plugged')
 
   " Language plugin {{{
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+  "Plug 'honza/vim-snippets'
   Plug 'neovim/nvim-lsp'
-  Plug 'sirver/ultisnips'
-  Plug 'honza/vim-snippets'
+  Plug 'jiangmiao/auto-pairs'
   " Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " }}}
 
