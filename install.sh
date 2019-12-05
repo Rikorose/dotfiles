@@ -27,35 +27,17 @@ verbose() {
     echo "$@"
   fi
 }
-handle_file_cp() {
-  if [ -e "$2" ]; then
-    printf "%s " "overwrite $2? [yN]"
-    read overwrite
-    case "$overwrite" in
-      y)
-        $RM -rf "$2"
-        ;;
-      *)
-        echo "skipping $2"
-        return
-        ;;
-    esac
-  fi
-  verbose "'$1' -> '$2'"
-  $MKDIR -p "$($DIRNAME "$2")"
-  $CP -R "$1" "$2"
-}
 handle_file_ln() {
   if [ -e "$2" ]; then
-    printf "%s " "overwrite $2? [yN]"
+    printf "%s " "overwrite $2? [Yn]"
     read overwrite
     case "$overwrite" in
-      y)
-        $RM -rf "$2"
-        ;;
-      *)
+      n)
         echo "skipping $2"
         return
+        ;;
+      *)
+        $RM -rf "$2"
         ;;
     esac
   fi
