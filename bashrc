@@ -71,35 +71,10 @@ alias tmux="env TERM=xterm-256color tmux"
 # set term variable over ssh
 alias ssh="TERM=xterm ssh"
 
-# git
-if [ -f /usr/share/doc/git/contrib/completion/git-completion.bash ]; then
-  source /usr/share/doc/git/contrib/completion/git-completion.bash
-else
-  if [ ! -f $HOME/git-completion.bash ]; then
-    wget -q https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
-      -O $HOME/git-completion.bash
-  fi
-  source $HOME/git-completion.bash
-fi
-alias g='git'
-__git_complete g __git_main
-
 # dnf
 alias dnfs='dnf search'
 
-# mpv
-_mpv_use_media_globexpr=1
-_mpv_media_globexpr='@(mkv)'
-if [ ! -f $HOME/mpv-completion.bash ]; then
-  wget -q https://raw.githubusercontent.com/2ion/mpv-bash-completion/master/gen.lua \
-    -O /tmp/gen.lua
-  chmod +x /tmp/gen.lua
-  /tmp/gen.lua > $HOME/mpv-completion.bash
-  rm /tmp/gen.lua
-fi
-source $HOME/mpv-completion.bash
-
-# fzf completion
+# fzf keybindings
 export FZF_TMUX=1
 export FZF_CTRL_R_EDIT_KEY=ctrl-e
 export FZF_CTRL_R_EXEC_KEY=enter
