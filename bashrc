@@ -5,30 +5,8 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-# Setup ssh agent
-SSH_ENV="$HOME/.ssh/env"
-SSH_AUTH_SOCK_FILE="$HOME/.ssh/ssh_auth_sock_$(hostname)"
-
-function start_agent {
-  if [ ! -S "$SSH_AUTH_SOCK_FILE" ]; then
-    echo "Initialising new SSH agent..."
-    pkill ssh-agent
-    eval `ssh-agent`
-    ln -sf "$SSH_AUTH_SOCK" "$SSH_AUTH_SOCK_FILE"
-    echo succeeded
-  fi
-  export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_FILE"
-  ssh-add -l > /dev/null || ssh-add
-  if [ $? -ne 0 ]; then
-    rm "$SSH_AUTH_SOCK_FILE"
-    start_agent
-  fi
-}
-
-# Source SSH settings, if applicable
-if [[ $- == *i* ]]; then  # Is login shell
-  start_agent
-fi
+# Setup ssh agent via keychain
+eval `keychain --nogui --quiet --eval --timeout 600 --agents ssh id_rsa`
 
 # User specific aliases and functions
 
