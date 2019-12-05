@@ -62,8 +62,8 @@ else
   alias lla='ls -al'
   alias lt='ll -t'
   alias lh='ll -h'
-  alias lth='lt -h'
 fi
+  alias lth='lt | head'
 
 # tmux 256 color support
 alias tmux="env TERM=xterm-256color tmux"
