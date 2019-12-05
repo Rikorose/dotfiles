@@ -5,6 +5,22 @@ import os
 import sys
 
 
+def isfloat(value):
+    try:
+        float(value)
+        return True
+    except ValueError:
+        return False
+
+
+def isint(value):
+    try:
+        int(value)
+        return True
+    except ValueError:
+        return False
+
+
 if __name__ == "__main__":
     try:
         file = sys.argv[1]
@@ -15,5 +31,9 @@ if __name__ == "__main__":
     if not os.path.isfile(file):
         exit(f"{file} not found.")
     content = json.load(open(file))
+    if isint(new_val):
+        new_val = int(new_val)
+    elif isfloat(new_val):
+        new_val = float(new_val)
     content[key] = new_val
     json.dump(content, open(file, "w"), sort_keys=True, indent=4)
