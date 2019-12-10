@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Cache squeue output
+readarray squeue_out < <( squeue )
+# Find all pids that requested more than 1 GPU
+function get_multi_gpu_pids {
+  for id in $(echo "${squeue_out[@]}" | awk '{print $1}'); do
+    scontrol show jobid $id 2>&1 | rg -q 'Gres=gpu:[2-9]'
+    use_multi_gpu=$?
+    if [ "$use_multi_gpu" -eq 0 ]; then
+      echo $id
+    fi;
+  done
+}
+readarray -t pids < <( get_multi_gpu_pids )
+# Write headding; use '-n' because squeue_out already contains '\n'
+echo -n "${squeue_out[0]}"
+# Write all lines that contain such a pid
+for line in "${squeue_out[@]}"; do
+  cur_id=$(echo $line | awk '{print $1}')
+  # Check if the pid of the current line is in the pids array
+  if [[ " ${pids[@]} " =~ " ${cur_id} " ]]; then
+    echo -n "$line";
+  fi
+done
