@@ -5,9 +5,6 @@ if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
 
-# Setup ssh agent via keychain
-eval `keychain --nogui --quiet --eval --timeout 600 --agents ssh id_rsa`
-
 # User specific aliases and functions
 
 if [ -x "$(command -v nvim)" ]; then
@@ -98,3 +95,24 @@ fi
 
 alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
 alias libreoffice="GDK_BACKEND=wayland libreoffice"
+
+# Initialize conda if miniconda installation is found
+__conda_setup="$('$HOME/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
+        . "$HOME/miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
+if [[ -n "$PS1" ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
+  # Start tmux if logged in via ssh
+  tmux new -A -t ssh_tmux
+else
+  # Setup ssh agent via keychain only if not starting tmux
+  eval `keychain --nogui --quiet --eval --timeout 600 --agents ssh id_rsa`
+fi
