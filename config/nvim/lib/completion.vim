@@ -1,11 +1,6 @@
 let g:deoplete#enable_smart_case = 1
 set completeopt+=noinsert
 
-" inoremap <silent><expr> <TAB>
-"   \ pumvisible() ? "\<C-n>" :
-"   \ neosnippet#expandable_or_jumpable() ?
-"   \  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>check_back_space() ? "\<TAB>" :
@@ -37,42 +32,6 @@ lua << EOF
 if vim.lsp then
   -- In case I'm reloading.
   vim.lsp.stop_all_clients()
-
-  -- Mappings and settings
-  local function lsp_setup(_)
-    local function focusable_popup()
-      local popup_win
-      return function(winnr)
-        if popup_win and nvim.win_is_valid(popup_win) then
-          if nvim.get_current_win() == popup_win then
-            nvim.ex.wincmd "p"
-          else
-            nvim.set_current_win(popup_win)
-          end
-          return
-        end
-        popup_win = winnr
-      end
-    end
-
-    local diagnostic_popup = focusable_popup()
-    local mappings = {
-      ["K"]    = map_cmd [[call lsp#text_document_hover()]];
-      ["ld"]   = map_cmd [[call lsp#text_document_definition()]];
-      ["lD"]   = { function()
-        local _, winnr = vim.lsp.util.show_line_diagnostics()
-        diagnostic_popup(winnr)
-      end };
-      ["lp"]   = { function()
-        local params = vim.lsp.protocol.make_text_document_position_params()
-        local callback = vim.lsp.builtin_callbacks["textDocument/peekDefinition"]
-        vim.lsp.buf_request(0, 'textDocument/definition', params, callback)
-      end };
-    }
-    nvim.bo.omnifunc = "lsp#omnifunc"
-    nvim_apply_mappings(mappings, { buffer = true; silent = true; })
-  end
-
   local nvim_lsp = require 'nvim_lsp'
   nvim_lsp.pyls.setup {
     root_dir = nvim_lsp.util.root_pattern(".git") or vim.loop.os_homedir;
@@ -85,5 +44,9 @@ if vim.lsp then
 end
 EOF
 
-autocmd Filetype python setl omnifunc=v:lua.vim.lsp.omnifunc
-autocmd CompleteDone * pclose
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
