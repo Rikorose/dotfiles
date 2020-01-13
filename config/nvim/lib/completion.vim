@@ -1,5 +1,5 @@
+let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
-set completeopt+=noinsert
 
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
@@ -30,14 +30,26 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 lua << EOF
 if vim.lsp then
-  -- In case I'm reloading.
-  vim.lsp.stop_all_clients()
   local nvim_lsp = require 'nvim_lsp'
-  nvim_lsp.pyls.setup {
+  nvim_lsp.pyls_ms.setup {
     root_dir = nvim_lsp.util.root_pattern(".git") or vim.loop.os_homedir;
     settings = {
-      pyls = {
-        configurationSources = {"flake8"};
+      python = {
+        jediEnabled = true,
+        autocomplete = {
+          showAdvancedMembers = false,
+          addBrackets = true
+        },
+        linting = {
+          enabled = true,
+          pylintEnabled = false,
+          flake8Path = vim.fn.exepath("flake8");
+          flake8Enabled = true,
+          flake8Args = { "--ignore=E501,E203" }
+        },
+        formatting = {
+          provider = "black"
+        }
       }
     }
   }
