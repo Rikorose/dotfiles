@@ -5,6 +5,7 @@ set -e
 # default timeout is 5 minutes
 CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-5m}
 CIPRUN_USER=${CIPRUN_USER:-1}
+CIPRUN_GPU=${CIPRUN_GPU:-1}
 
 # Execute program in background and get its pid
 ( $@ ) & pid_p=$!
@@ -36,8 +37,8 @@ while user=$(cip-logind-active-user); avail=$?; do
     cleanup
   fi
   # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
-  if [ -x "$(command -v nvidia-smi)" ] &&
-     [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 1024 ];
+  if [ "$CIPRUN_USER" -eq 1 ] && [ -x "$(command -v nvidia-smi)" ] &&
+     [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 200 ];
   then
     echo "Not enough GPU memory available"
     cleanup
