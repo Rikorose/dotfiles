@@ -64,7 +64,6 @@ async def main():
 
     current_track = ""
     current_status = "Stopped"
-    f = open("test_m2", "w+")
     while True:
         if current_status == "timeout" and len(current_track) > 0 and timeout > 0:
             done, pending = await asyncio.wait(
@@ -84,24 +83,23 @@ async def main():
             l = t.result().strip()
             if l == "Playing":
                 if current_status != "timeout":
-                    print(current_track, flush=True)
+                    print(current_track)
                 current_status = l
             elif l == "Paused":
                 if current_status !="Stopped":
                     current_status = "timeout"
             elif l == "Stopped":
                 current_status = l
-                print(flush=True)
+                print()
             elif l == "timeout":
                 current_status = "Paused"
                 print()
             else:
                 current_track = str.lstrip(l, " -")
                 if current_status == "Playing":
-                    print(current_track, file=sys.stdin, flush=True)
+                    print(current_track)
         for t in pending:
             t.cancel()
-        print(f"{current_status} - {current_track}", file=f, flush=True)
 
         if p_meta.stdout.at_eof():
             break
