@@ -27,3 +27,8 @@ Host i5.cluster
   HostName cluster.i5.informatik.uni-erlangen.de
   IdentityFile ~/.ssh/id_rsa
   ForwardAgent yes
+
+Host raspberrypi
+  User pi
+  HostName raspberrypi
+  IdentityFile ~/.ssh/id_rsa
