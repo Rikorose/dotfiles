@@ -10,6 +10,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
   " Color scheme {{{
+  Plug 'joshdick/onedark.vim'
   Plug 'rakr/vim-one'
   " }}}
 
@@ -25,7 +26,14 @@ call plug#begin('~/.local/share/nvim/plugged')
   " }}}
 
   " Language plugin {{{
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/deoplete-lsp'
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
+  "Plug 'honza/vim-snippets'
+  Plug 'neovim/nvim-lsp'
+  Plug 'jiangmiao/auto-pairs'
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " }}}
 
   " FZF {{{
@@ -49,5 +57,5 @@ call plug#begin('~/.local/share/nvim/plugged')
 call plug#end()
 
 " enable full plugin support
-filetype plugin indent on
+filetype plugin on
 syntax enable

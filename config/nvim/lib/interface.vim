@@ -22,10 +22,8 @@
   endfunction
   call s:auto_termguicolors()
 
-  let g:one_allow_italics = 1
-  set background=dark
-  " set background=light " Usefull for beamer presentation
-  colorscheme one
+  let g:onedark_terminal_italics = 1
+  colorscheme onedark
 
 " }}}
 

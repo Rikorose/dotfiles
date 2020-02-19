@@ -1,0 +1,118 @@
+#!/usr/bin/env python3
+
+from shutil import which
+import os
+import sys
+from subprocess import Popen, PIPE
+import asyncio
+import atexit
+from asyncio import create_task
+from asyncio.subprocess import create_subprocess_exec, PIPE
+from icecream import ic
+
+
+# Timout how long to show the track if player is getting paused
+timeout = float(os.environ.get("timeout", 0))
+# Specify a player instance, e.g. vlc, or spotify
+instance = os.environ.get("instance", None)
+# Create args that specifies the instance
+player_args = ["-p", instance] if instance is not None else ["-a"]
+# Get the executable path
+playerctl_path = which("playerctl")
+# Globally define the player format
+player_format = "{{artist}} - {{title}}"
+
+# Dictionary that maps i3block btn events to playectl commands
+input_dict = {
+    1: "next",
+    2: "play-pause",
+    3: "previous",
+    4: "position 5+",
+    5: "position 5-",
+}
+
+
+def process_input():
+    try:
+        btn = int(sys.stdin.readline().strip())
+    except ValueError:
+        return
+    if btn not in input_dict:
+        return
+    player_instance = "".join(a + " " for a in player_args)
+    os.system(playerctl_path + " " + player_instance + " " + input_dict[btn])
+
+
+async def get_stdout(p):
+    co = await p.stdout.readline()
+    return co.decode()
+
+
+async def main():
+    p_meta = await create_subprocess_exec(
+        playerctl_path,
+        *player_args,
+        "metadata",
+        "--format",
+        player_format,
+        "--follow",
+        stdout=PIPE,
+        stderr=PIPE,
+    )
+    p_status = await create_subprocess_exec(
+        playerctl_path, *player_args, "status", "--follow", stdout=PIPE, stderr=PIPE
+    )
+    atexit.register(p_meta.terminate)
+    atexit.register(p_status.terminate)
+
+    current_track = ""
+    current_status = "Stopped"
+    while True:
+        if current_status == "timeout" and len(current_track) > 0 and timeout > 0:
+            done, pending = await asyncio.wait(
+                (
+                    get_stdout(p_meta),
+                    get_stdout(p_status),
+                    asyncio.sleep(timeout, result="timeout"),
+                ),
+                return_when=asyncio.FIRST_COMPLETED,
+            )
+        else:
+            done, pending = await asyncio.wait(
+                (get_stdout(p_meta), get_stdout(p_status)),
+                return_when=asyncio.FIRST_COMPLETED,
+            )
+        for t in done:
+            l = t.result().strip()
+            if l == "Playing":
+                if current_status != "timeout":
+                    print(current_track, flush=True)
+                current_status = l
+            elif l == "Paused":
+                if timeout == 0:
+                    current_status = l
+                    print(flush=True)
+                elif timeout < 0:
+                    current_status = l
+                elif current_status != "Stopped":
+                    current_status = "timeout"
+            elif l == "Stopped":
+                current_status = l
+                print(flush=True)
+            elif l == "timeout":
+                current_status = "Paused"
+                print(flush=True)
+            else:
+                current_track = str.lstrip(l, " -")
+                if current_status == "Playing":
+                    print(current_track, flush=True)
+        for t in pending:
+            t.cancel()
+
+        if p_meta.stdout.at_eof():
+            break
+
+
+loop = asyncio.get_event_loop()
+loop.add_reader(sys.stdin, process_input)
+loop.run_until_complete(main())

@@ -93,7 +93,7 @@ if [ $(pgrep -x sway) ]; then
   export SWAYSOCK
 fi
 
-alias heute-journal='mpv https://www.zdf.de/nachrichten/heute-journal'
+alias heute-journal='mpv --no-resume-playback https://www.zdf.de/nachrichten/heute-journal'
 alias libreoffice="GDK_BACKEND=wayland libreoffice"
 
 # Initialize conda if miniconda installation is found

@@ -1,16 +1,13 @@
-call coc#add_extension('coc-texlab')
-let g:coc_filetypes += ['tex']
-call coc#config('latex', {
-\ 'forwardSearch': {
-\   'executable': 'zathura',
-\   'args': ['--synctex-forward', '%l:1:%f', '%p'],
-\ },
-\})
+function! MyFormatExpr(start, end)
+    silent execute a:start.','.a:end.'s/[.!?]\zs /\r/g'
+endfunction
+
+inoremap <F5> <esc>:TexlabBuild<cr>i
+nnoremap <F5> :TexlabBuild<cr>
+
 
 augroup vimrc-language-tex
   autocmd!
-  autocmd FileType tex let b:coc_pairs = [["$", "$"]]
+  autocmd FileType tex setlocal formatoptions-=tc
+  autocmd FileType tex setlocal formatexpr=MyFormatExpr(v:lnum,v:lnum+v:count-1)
 augroup END
-
-noremap <F5> :CocCommand latex.Build<CR>
-noremap <F6> :CocCommand latex.ForwardSearch<CR>

@@ -1,103 +1,69 @@
-" pop-up (completion) menu mappings {{{
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
 
-  function! s:check_back_space() abort
-  let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ deoplete#manual_complete()
 
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-  inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" }}}
+imap <silent><expr><S-TAB>
+  \ pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" coc.nvim {{{
-  " list of filetypes (that are added in language-specific scripts) for which
-  " coc mappings are enabled
-  let g:coc_filetypes = []
+function! s:check_back_space() abort
+let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-  function! IsCocEnabled()
-    return index(g:coc_filetypes, &filetype) >= 0
-  endfunction
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand)
 
-  augroup vimrc-coc
-    autocmd!
-    autocmd FileType * if IsCocEnabled()
-      \|let &l:formatexpr = "CocAction('formatSelected')"
-      \|let &l:keywordprg = ":call CocAction('doHover')"
-      \|endif
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+inoremap <expr><CR>
+  \ pumvisible() ? "\<C-y>"
+  \ : "\<CR>"
 
-    call coc#config('diagnostic', {
-      \ 'checkCurrentLine': v:true,
-      \ 'refreshOnInsertMode': v:true,
-      \ 'signature.hideOnTextChange': v:true,
-      \ 'coc.source.around.priority': 11,
-      \ 'coc.source.file.priority': 10,
-      \ 'coc.source.buffer.priority': 9,
-      \ 'yank.priority': 8,
-      \ })
-  augroup end
+let g:UltiSnipsUsePythonVersion = 3
+let g:UltiSnipsExpandTrigger='<leader>e'
+let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-  " mappings {{{
-    let g:coc_snippet_next = '<Tab>'
-    let g:coc_snippet_prev = '<S-Tab>'
+lua << EOF
+if vim.lsp then
+  local nvim_lsp = require 'nvim_lsp'
+  nvim_lsp.texlab.setup{}
+  nvim_lsp.bashls.setup{}
+  nvim_lsp.jsonls.setup{}
+  nvim_lsp.ccls.setup{}
+  nvim_lsp.pyls_ms.setup {
+    root_dir = nvim_lsp.util.root_pattern(".git") or vim.loop.os_homedir;
+    settings = {
+      python = {
+        jediEnabled = true,
+        autocomplete = {
+          showAdvancedMembers = false,
+          addBrackets = true
+        },
+        linting = {
+          enabled = true,
+          pylintEnabled = false,
+          flake8Path = vim.fn.exepath("flake8");
+          flake8Enabled = true,
+          flake8Args = { "--ignore=E501,E203" }
+        },
+        formatting = {
+          provider = "black"
+        }
+      }
+    }
+  }
+end
+EOF
 
-    inoremap <silent><expr> <C-Space> coc#refresh()
-
-    nmap <silent> [c <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]c <Plug>(coc-diagnostic-next)
-
-    " Use K to show documentation in preview window
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-    function! s:show_documentation()
-      if (index(['vim','help'], &filetype) >= 0)
-        execute 'h '.expand('<cword>')
-      else
-        call CocAction('doHover')
-      endif
-    endfunction
-
-    " Remap keys for gotos
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
-
-    " Remap for rename current word
-    nmap <leader>lr <Plug>(coc-rename)
-
-    " Remap for format selected region
-    vmap <leader>lsf <Plug>(coc-format-selected)
-    nmap <leader>lsf <Plug>(coc-format-selected)
-
-    " Use `:Format` for format current buffer
-    command! -nargs=0 Format :call CocAction('format')
-    nnoremap <leader>lf :call CocAction('format')<CR> <bar> :w<CR>
-
-    " Use `:Fold` for fold current buffer
-    command! -nargs=? Fold :call CocAction('fold', <f-args>)
-
-    " Highlight symbol under cursor on CursorHold
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-
-    " Search workspace symbols
-    nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
-    " Do default action for next item.
-    nnoremap <silent> <space>j  :<C-u>CocNext<CR>
-    " Do default action for previous item.
-    nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
-    " Resume latest coc list
-    nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-
-    " Show yank list
-    nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<CR>
-  " }}}
-
-  call coc#add_extension('coc-snippets')
-  call coc#add_extension('coc-yank')
-  call coc#add_extension('coc-pairs')
-" }}}
+" nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+" nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>

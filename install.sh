@@ -106,7 +106,7 @@ handle_file_ln "$HOME/.dotfiles/local/bin/on-lid-close" "$HOME/.local/bin/on-lid
 handle_file_ln "$HOME/.dotfiles/local/bin/power" "$HOME/.local/bin/power"
 handle_file_ln "$HOME/.dotfiles/local/bin/scratchterm" "$HOME/.local/bin/scratchterm"
 handle_file_ln "$HOME/.dotfiles/local/bin/snip" "$HOME/.local/bin/snip"
-handle_file_ln "$HOME/.dotfiles/local/bin/squeue_mult_gpu" "$HOME/.local/bin/squeue_mult_gpu"
+handle_file_ln "$HOME/.dotfiles/local/bin/squeue_multi_gpu" "$HOME/.local/bin/squeue_multi_gpu"
 handle_file_ln "$HOME/.dotfiles/local/bin/sway-run" "$HOME/.local/bin/sway-run"
 handle_file_ln "$HOME/.dotfiles/local/bin/update-hosts" "$HOME/.local/bin/update-hosts"
 handle_file_ln "$HOME/.dotfiles/local/bin/update-nvim" "$HOME/.local/bin/update-nvim"

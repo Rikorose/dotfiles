@@ -1,5 +1,5 @@
-call coc#add_extension('coc-json')
-let g:coc_filetypes += ['json']
+" call coc#add_extension('coc-json')
+" let g:coc_filetypes += ['json']
 
 augroup vimrc-languages-json
   autocmd!

@@ -5,12 +5,12 @@ markup=none
 [placeholder]
 full_text= 
 
-[mediaplayer]
+[mediaplayer2]
 instance=mpv
 timeout=10
 interval=persist
 
-[mediaplayer]
+[mediaplayer2]
 instance=spotify
 timeout=30
 interval=persist
