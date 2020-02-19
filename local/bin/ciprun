@@ -37,7 +37,7 @@ while user=$(cip-logind-active-user); avail=$?; do
     cleanup
   fi
   # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
-  if [ "$CIPRUN_USER" -eq 1 ] && [ -x "$(command -v nvidia-smi)" ] &&
+  if [ "$CIPRUN_GPU" -eq 1 ] && [ -x "$(command -v nvidia-smi)" ] &&
      [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 200 ];
   then
     echo "Not enough GPU memory available"
