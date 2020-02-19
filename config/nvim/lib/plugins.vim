@@ -10,6 +10,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
   " Color scheme {{{
+  Plug 'joshdick/onedark.vim'
   Plug 'rakr/vim-one'
   " }}}
 
@@ -27,7 +28,6 @@ call plug#begin('~/.local/share/nvim/plugged')
   " Language plugin {{{
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'Shougo/deoplete-lsp'
-  let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
   "Plug 'honza/vim-snippets'
