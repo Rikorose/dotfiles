@@ -17,7 +17,6 @@ done
 
 bt-device -i $MAC | rg 'Connected: 1' > /dev/null
 CONNECTED=$?
-echo CONNECTED: $CONNECTED >> ~/bt
 if [[ $CONNECTED -eq 0 ]]; then
   echo "" # full text
   echo "Connected" # short text

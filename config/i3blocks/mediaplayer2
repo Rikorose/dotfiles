@@ -5,6 +5,7 @@ import os
 import sys
 from subprocess import Popen, PIPE
 import asyncio
+import atexit
 from asyncio import create_task
 from asyncio.subprocess import create_subprocess_exec, PIPE
 from icecream import ic
@@ -61,6 +62,8 @@ async def main():
     p_status = await create_subprocess_exec(
         playerctl_path, *player_args, "status", "--follow", stdout=PIPE, stderr=PIPE
     )
+    atexit.register(p_meta.terminate)
+    atexit.register(p_status.terminate)
 
     current_track = ""
     current_status = "Stopped"
@@ -83,21 +86,26 @@ async def main():
             l = t.result().strip()
             if l == "Playing":
                 if current_status != "timeout":
-                    print(current_track)
+                    print(current_track, flush=True)
                 current_status = l
             elif l == "Paused":
-                if current_status !="Stopped":
+                if timeout == 0:
+                    current_status = l
+                    print(flush=True)
+                elif timeout < 0:
+                    current_status = l
+                elif current_status != "Stopped":
                     current_status = "timeout"
             elif l == "Stopped":
                 current_status = l
-                print()
+                print(flush=True)
             elif l == "timeout":
                 current_status = "Paused"
-                print()
+                print(flush=True)
             else:
                 current_track = str.lstrip(l, " -")
                 if current_status == "Playing":
-                    print(current_track)
+                    print(current_track, flush=True)
         for t in pending:
             t.cancel()
 
@@ -107,8 +115,4 @@ async def main():
 
 loop = asyncio.get_event_loop()
 loop.add_reader(sys.stdin, process_input)
-try:
-    loop.run_until_complete(main())
-except KeyboardInterrupt:
-    loop.stop()
-exit(1)
+loop.run_until_complete(main())
