@@ -91,7 +91,6 @@ if [ -f ~/.fzf.bash ]; then
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
  source /usr/share/fzf/shell/key-bindings.bash
 fi
-source ~/.fzf-plugins/history-exec.bash
 
 if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
   # Open file with Ctrl-O with default application
