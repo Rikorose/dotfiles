@@ -65,6 +65,14 @@ else
 fi
   alias lth='lt | head'
 
+# use custom tmp dir on lme242
+HOST=$(hostname)
+if [[ "$HOST" == "lme242" ]]; then
+  export TMPDIR="$HOME/tmp"
+  export TMUX_TMPDIR="$HOME/tmp"
+  alias nvim='TMPDIR=$XDG_RUNTIME_DIR nvim'
+  mkdir -p $TMPDIR
+fi
 # tmux 256 color support
 alias tmux="env TERM=xterm-256color tmux"
 
@@ -75,7 +83,7 @@ alias ssh="TERM=xterm ssh"
 alias dnfs='dnf search'
 
 # fzf keybindings
-export FZF_TMUX=1
+export FZF_TMUX=0
 export FZF_CTRL_R_EDIT_KEY=ctrl-e
 export FZF_CTRL_R_EXEC_KEY=enter
 if [ -f ~/.fzf.bash ]; then
@@ -112,10 +120,11 @@ else
 fi
 unset __conda_setup
 
-if [[ -n "$PS1" ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
-  # Start tmux if logged in via ssh
-  tmux new -A -t ssh_tmux
-else
+if [[ $- == *i* ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
+  # Start tmux if logged in via interactive ssh
+  echo "Ataching to tmux session 'ssh_tmux'"
+  tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+elif [[ -x "$(command -v keychain)" ]]; then
   # Setup ssh agent via keychain only if not starting tmux
   eval `keychain --nogui --quiet --eval --timeout 600 --agents ssh id_rsa`
 fi
