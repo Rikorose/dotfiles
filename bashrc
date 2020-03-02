@@ -89,7 +89,10 @@ export FZF_CTRL_R_EXEC_KEY=enter
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
- source /usr/share/fzf/shell/key-bindings.bash
+  source /usr/share/fzf/shell/key-bindings.bash
+fi
+if [ -f ~/.fzf-plugins/history-exec.bash ]; then
+  source ~/.fzf-plugins/history-exec.bash
 fi
 
 if [[ $- == *i* ]] && [ -x "$(command -v sway)" ]; then
