@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [[ "$#" -ne 2 ]]; then
+  echo "Usage: pdf-embed-fonts <in-file.pdf> <out-file.pdf>"
+  exit
+fi
+
+if [[ ! -f "$1" ]]; then
+  echo "Input pdf not found at $1"
+  exit
+fi
+
+gs -dCompatibilityLevel=1.4 \
+  -dPDFSETTINGS=/prepress \
+  -dCompressFonts=true \
+  -dSubsetFonts=true \
+  -dNOPAUSE \
+  -dBATCH \
+  -sDEVICE=pdfwrite \
+  -sOutputFile="$2" \
+  -c ".setpdfwrite <</NeverEmbed [ ]>> setdistillerparams" \
+  -f "$1"
