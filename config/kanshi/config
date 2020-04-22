@@ -1,0 +1,8 @@
+profile {
+  output eDP-1 enable scale 1
+}
+
+profile {
+  output eDP-1 disable
+  output "Goldstar Company Ltd 34UM95 0x00002E72" mode 3440x1440 position 0,0
+}

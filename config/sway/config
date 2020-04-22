@@ -22,13 +22,15 @@ for_window [app_id="nm-connection-editor"] floating enable
 for_window [class="Thunderbird" window_role="Msgcompose"] floating enable
 for_window [title="MEGAsync"] floating enable
 for_window [app_id="gnome-calendar"] floating enable
+for_window [app_id="gnome-calculator"] floating enable
+for_window [class="zoom"] inhibit_idle visible
 
 set $laptop eDP-1
 bindswitch lid:on exec on-lid-close
 bindswitch lid:off output $laptop enable
 
 # Set wallpaper
-output $laptop pos 0 0
+output $laptop pos 0 0 scale 1
 # (2560 - 1920) / 2 = 320
 output "Dell Inc. DELL P2319H FWLB6N2" pos 320 -1080
 output * bg ~/wallpaper fill
@@ -199,7 +201,7 @@ popup_during_fullscreen leave_fullscreen
 bar {
     font pango:DejaVu Sans Mono
     position top
-    status_command i3blocks
+    status_command i3status-rs ~/.config/i3status-rs.toml
     colors {
         separator #666666
         background #222222
@@ -210,5 +212,7 @@ bar {
         urgent_workspace #2f343a #900000 #ffffff
     }
 }
+
+exec kanshi
 
 include ~/.config/sway/config.d/*
