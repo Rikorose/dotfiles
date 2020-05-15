@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "No argument supplied"
+    exit
+fi
+
+echo "Start playing $1"
+
+cmd="mpv $@"
+swaymsg exec \'"$cmd"\'
