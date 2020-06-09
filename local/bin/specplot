@@ -1,0 +1,13 @@
+#!/bin/bash
+
+USAGE="Usage: $0 <audiofile> <soxoption1> <soxoption2> ..."
+
+if [ "$#" -eq 0 ]; then
+  echo "$USAGE"
+  exit 1
+fi
+
+FILE=$1
+shift;
+
+sox "$FILE" -n spectrogram "$@" -o - | imv -
