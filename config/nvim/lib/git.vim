@@ -13,5 +13,7 @@
   nnoremap <leader>gd :Gvdiff<CR>
   nnoremap gdh :diffget //2<CR>
   nnoremap gdl :diffget //3<CR>
+  nnoremap gd2 :diffget //2<CR>
+  nnoremap gd3 :diffget //3<CR>
   nnoremap gdo :diffget <CR>
 " }}}
