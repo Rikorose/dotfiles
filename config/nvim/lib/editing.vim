@@ -76,6 +76,9 @@ inoremap kj <ESC>
 nnoremap j gj
 nnoremap k gk
 
+" Also use Q for quiting
+:command Q q
+
 " Make h/l move across beginning/end of line
 set whichwrap+=hl
 
@@ -184,57 +187,24 @@ set splitright
 " }}}
 
 " Status line {{{
-
-if version >= 704
-  " Show git repo information (if available)
-  let g:activeStatusLine="%{StatuslineTag()}»"
-else
-  let g:activeStatusLine=""
-endif
-" Relative path to file in current buffer
-let g:activeStatusLine.="%<%f "
-" Exclamation mark if not modifiable, + if modified
-let g:activeStatusLine.="%{&readonly ? \"! \" : &modified ? '+ ' : ''}"
-" Start left align, show filetype
-let g:activeStatusLine.="%= %{&filetype == '' ? 'none' : &filetype} "
-" Line/col/percent
-let g:activeStatusLine.="%l:%2c "
-function! StatuslineTag()
-  if exists('b:git_dir')
-    " Shitty unicode character w/o patched fonts
-    return "‡".fugitive#head(7)
-  else
-    return fnamemodify(getwinvar(0, 'getcwd', getcwd()), ':t')
-  endif
-endfunction
-
-let g:quickfixStatusLine="%t (%l of %L)"
-let g:quickfixStatusLine.="%{exists('w:quickfix_title')? ' '.w:quickfix_title : ''}"
-let g:quickfixStatusLine.="%=%-15(%l,%c%V%) %P"
-
-" Default status line
-let statusline=g:activeStatusLine
-
-" Use different status line for active vs. inactive buffers
-function! UpdateStatusLine(status)
-  if &filetype=="qf"
-    let &l:statusline=g:quickfixStatusLine
-  elseif &filetype=="help" || &filetype=="netrw"
-    let &l:statusline=&filetype
-  elseif a:status
-    let &l:statusline=g:activeStatusLine
-  else
-    " Just show filename & modified when inactive
-    let &l:statusline='%f %{&modified ? "+" : ""}'
-  endif
-endfunction
-
-augroup status_line
-  autocmd!
-  autocmd BufWinEnter,BufEnter,TabEnter,VimEnter,WinEnter * call UpdateStatusLine(1)
-  autocmd BufLeave,TabLeave,WinLeave * call UpdateStatusLine(0)
-augroup END
-
+set statusline=
+set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ N\ ':''}
+set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ I\ ':''}
+set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ R\ ':''}
+set statusline+=%#Cursor#%{(mode()=='v')?'\ \ V\ ':''}
+set statusline+=%#QuickFixLine#%{(mode()=='c')?'\ \ C\ ':''}
+set statusline+=%#lCursor#%{(mode()=='t')?'\ \ C\ ':''}
+set statusline+=%#TermCursor# " Color
+set statusline+=\ %n\ 
+set statusline+=%#Pmenu#
+set statusline+=\%m
+set statusline+=\%r
+set statusline+=\ %t
+set statusline+=%= " Right justified
+set statusline+=\ %Y\ \|
+set statusline+=\ %c:3l:%-2c\ 
+set statusline+=%#TermCursor#
+set statusline+=\ %2p%%\ 
 " }}}
 
 " Undo direcotry {{{
