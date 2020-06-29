@@ -1,0 +1,66 @@
+#!/bin/env python3
+
+from argparse import ArgumentParser
+from random import shuffle
+from string import ascii_lowercase
+
+parser = ArgumentParser()
+parser.add_argument("ifile", help="Input file", type=str)
+parser.add_argument("splits", help="Amount per split in [\%].", type=float, nargs="+")
+parser.add_argument("ofiles", help="Output files", type=str, nargs="*")
+parser.add_argument("--shuffle", "-s", action="store_true")
+parser.add_argument("--prefix", type=str, default="x")
+args = parser.parse_args()
+
+
+def numberToBase(n, b):
+    if n == 0:
+        return [0]
+    digits = []
+    while n:
+        digits.append(int(n % b))
+        n //= b
+    return digits[::-1]
+
+
+def intToAscii(n: int, min_len: int = 0):
+    l = list(ascii_lowercase)
+    idcs = numberToBase(n, 26)
+    if len(idcs) < min_len:
+        idcs = [0] * (min_len - len(idcs)) + idcs
+    return "".join(l[i] for i in idcs)
+
+
+n_splits = len(args.splits)
+sum_splits = sum(args.splits)
+if sum_splits != 1.0:
+    print("All splits need to sum up to 1.0")
+    exit(1)
+
+if args.ofiles and len(args.ofiles) != n_splits:
+    print("Number of ofiles must match number of splits")
+    exit(2)
+
+if not args.ofiles:
+    # Generate file names similar to gnu's split program
+    args.ofiles = [args.prefix + intToAscii(n, 2) for n in range(n_splits)]
+
+lines = [l.strip() for l in open(args.ifile, "r")]
+n_lines = len(lines)
+
+if args.shuffle:
+    shuffle(lines)
+
+splits = [None] * n_splits
+for i, s in enumerate(args.splits):
+    n = int(round(n_lines * args.splits[i]))
+    splits[i], lines = lines[:n], lines[n:]
+
+# Make sure the last line is appended to the last split
+if len(lines) == 1:
+    splits[-1].append(lines[0])
+elif len(lines) > 1:
+    raise ValueError()
+
+for s, of in zip(splits, args.ofiles):
+    open(of, "w").writelines(f"{l}\n" for l in s)
