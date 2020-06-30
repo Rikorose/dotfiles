@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+if [ "$#" -lt 2 ]; then
+    echo "Usage: compress-pdf input-file-1 [input-file-2, input-file-3, ...] output-file.pdf"
+    exit 1
+fi
+
+INPUT=${@: 1:$#-1}
+OUTPUT=${@: -1}
+
+if [[ ${OUTPUT: -3}  != "pdf" ]]; then
+    echo "output-file must be pdf, but got '$OUTPUT'."
+    exit 2
+fi
+
+TMP=$(mktemp --suffix='.pdf' /tmp/compress.XXXXXXXXX)
+
+echo "convert $INPUT $TMP"
+convert $INPUT $TMP
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$OUTPUT $TMP
+rm $TMP
