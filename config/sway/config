@@ -183,6 +183,9 @@ bindsym $mod+a focus parent
 # Show scratchterm
 bindsym F12 exec scratchterm
 
+# Play a link in clipboard
+bindsym F11 exec ytplay
+
 mode "resize" {
     bindsym Left resize grow width 10 px or 10 ppt
     bindsym Down resize shrink height 10 px or 10 ppt

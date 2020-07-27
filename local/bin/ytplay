@@ -1,11 +1,20 @@
 #!/bin/sh
 
-if [ -z "$1" ]; then
-    echo "No argument supplied"
-    exit
+if [ -z "$1" ];
+ then
+    LINK=$(wl-paste -n | tr -d '[:space:]')
+  else
+    LINK=$1
+    shift
 fi
 
-echo "Start playing $1"
+if ! curl --head --silent --fail $LINK >/dev/null 2>&1;
+  then
+    echo "This page does not exist."
+    exit 1
+fi
 
-cmd="mpv $@"
+echo "Start playing $LINK"
+
+cmd="mpv $LINK $@"
 swaymsg exec \'"$cmd"\'
