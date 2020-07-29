@@ -1,0 +1,31 @@
+#!/bin/bash
+
+USAGE="Usage: $0 <command> <arg1> ..."
+
+argc=$#
+argv=("$@")
+
+if [ "$argc" -eq 0 ]; then
+  echo "$USAGE"
+  exit 1
+fi
+
+# Loop over arguments and replace files/dirs with its absolute path.
+# Does not work with arguments like --a=rel/file/path, only --a rel/file/path
+cd "$PWD"
+for ((i=0; i < ${#argv[@]}; i++))
+do
+  case argv[i] in 
+    -*) ;;
+    *)  if [ -d "${argv[i]}" ] || [ -f "${argv[i]}" ]; then
+      argv[i]=$(readlink -f "${argv[i]}")
+    fi
+  esac
+done
+
+if ! [ -x ${argv[0]} ]; then
+  echo "${argv[0]} not executable."
+  exit 2
+fi
+
+swaymsg exec "${argv[@]}"
