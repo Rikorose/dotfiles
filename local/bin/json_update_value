@@ -31,6 +31,8 @@ if __name__ == "__main__":
     if not os.path.isfile(file):
         exit(f"{file} not found.")
     content = json.load(open(file))
+    if key not in content:
+        exit(f"key '{key}' not in json file.")
     if isint(new_val):
         new_val = int(new_val)
     elif isfloat(new_val):
