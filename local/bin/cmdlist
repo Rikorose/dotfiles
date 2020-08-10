@@ -1,2 +1,2 @@
 #!/bin/sh
-echo -n "$PATH" | xargs -d: -I{} -r -- fd -L --max-depth 1 --type executable . {} | sort -u
+echo -n "$PATH" | xargs -d: -I{} -r -- fd -L --max-depth 1 --type executable . {} 2>/dev/null | sort -u
