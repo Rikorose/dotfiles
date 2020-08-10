@@ -1,15 +1,13 @@
 #!/bin/sh
 
-cmd="swaymsg -t get_tree | jq '.. | .floating_nodes? | arrays | .. | .name? | strings |
+cmd="swaymsg -t get_tree | jq '.. | .floating_nodes? | arrays | .. | .app_id? | strings |
   select(.==\"scratchterm\")' | wc -l"
 
 if [[ ! $(eval $cmd) -ge 1 ]]; then
-  echo "Launching scratchterm"
-  swaymsg exec "alacritty -t scratchterm"
+  swaymsg exec -q "alacritty --class scratchterm"
   # Wait until sway has updated its tree
-  echo $(eval $cmd)
   while [[ ! $(eval $cmd) -ge 1 ]]; do
-    sleep 0.01
+    sleep 0.001
   done
 fi
-swaymsg "[title=scratchterm] scratchpad show"
+swaymsg -q "[app_id=scratchterm] scratchpad show, resize set 1440 810"
