@@ -8,10 +8,11 @@ if [ -z "$1" ];
     shift
 fi
 
-if ! curl --head --silent --fail $LINK >/dev/null 2>&1;
-  then
-    echo "This page does not exist."
+if ! curl --head --silent --fail $LINK >/dev/null 2>&1; then
+  if ! [ -f $(readlink -f "$LINK") ]; then
+    echo "This file or page does not exist."
     exit 1
+  fi
 fi
 
 echo "Start playing $LINK"
