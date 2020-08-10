@@ -1,0 +1,15 @@
+#!/bin/sh
+
+cmd="swaymsg -t get_tree | jq '.. | .floating_nodes? | arrays | .. | .app_id? | strings |
+  select(.==\"htop-float\")' | wc -l"
+
+if [[ ! $(eval $cmd) -ge 1 ]]; then
+  swaymsg exec -q "alacritty --class htop-float -t htop -e htop -u $USER"
+  # Wait until sway has updated its tree
+  while [[ ! $(eval $cmd) -ge 1 ]]; do
+    sleep 0.001
+  done
+  swaymsg -q "[app_id=htop-float] resize set 1440 810"
+else
+  swaymsg -q "[app_id=htop-float] kill"
+fi
