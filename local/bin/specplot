@@ -1,17 +1,87 @@
 #!/bin/bash
 
-USAGE="Usage: $0 <audiofile> <soxoption1> <soxoption2> ..."
+USAGE="Usage: $0 [-s/--save] <audiofile1> <audiofile2> ..."
 
 if [ "$#" -eq 0 ]; then
   echo "$USAGE"
   exit 1
 fi
 
-FILE=$(readlink -f $1)
-shift;
+set -o errexit -o pipefail -o noclobber -o nounset
+
+# -allow a command to fail with !’s side effect on errexit
+# -use return value from ${PIPESTATUS[0]}, because ! hosed $?
+! getopt --test > /dev/null 
+if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
+    echo 'I’m sorry, `getopt --test` failed in this environment.'
+    exit 1
+fi
+
+OPTIONS=s
+LONGOPTS=save
+
+# -regarding ! and PIPESTATUS see above
+# -temporarily store output to be able to check for errors
+# -activate quoting/enhanced mode (e.g. by writing out “--options”)
+# -pass arguments only via   -- "$@"   to separate them correctly
+! PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@")
+if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+ # e.g. return value is 1
+ #  then getopt has complained about wrong arguments to stdout
+ exit 2
+fi
+# read getopt’s output this way to handle the quoting right:
+eval set -- "$PARSED"
+
+echo "$@"
+save=0
+while true; do
+  echo "1 $1"
+  case $1 in
+    -s|--save)
+      save=1
+      shift 1
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *)
+      echo "Programming error"
+      exit 3
+      ;;
+  esac
+done
+
+echo $#
+# handle non-option arguments
+if [[ $# -lt 1 ]]; then
+  echo "$USAGE"
+  exit 4
+fi
 
 plot() {
-  sox "$FILE" -n spectrogram "$@" -o - | imv -
+  FILE="$1"
+  BASENAME=$(basename "$FILE")
+  echo "Plotting spectrogram of $BASENAME"
+  sox "$FILE" -n spectrogram -t "$BASENAME" -o - | imv -
+  shift;
 }
 
-plot &
+save() {
+  FILE="$1"
+  BASENAME=$(basename "$FILE")
+  echo "Saving spectrogram of $BASENAME"
+  sox $FILE -n spectrogram -t $BASENAME -o "${BASENAME%.*}.png"
+}
+
+for FILE in "$@"
+do
+  if [ "$save" -eq 1 ]; then
+    save $(readlink -f "$FILE") &
+  else
+    plot $(readlink -f "$FILE") &
+  fi
+done
+
+echo
