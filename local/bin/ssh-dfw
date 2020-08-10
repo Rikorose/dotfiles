@@ -30,6 +30,7 @@ p=9999
 while true; do
   case $1 in
     -p|--port)
+      p="$2"
       shift 2
       ;;
     --)
