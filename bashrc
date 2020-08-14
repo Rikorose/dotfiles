@@ -82,6 +82,9 @@ alias ssh="TERM=xterm ssh"
 # dnf
 alias dnfs='dnf search'
 
+# default options for rsync
+alias rsync='rsync -a --info=progress2'
+
 # fzf keybindings
 export FZF_TMUX=0
 export FZF_CTRL_R_EDIT_KEY=ctrl-e
