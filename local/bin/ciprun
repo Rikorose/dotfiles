@@ -36,15 +36,15 @@ while user=$(cip-logind-active-user); avail=$?; do
     echo "User $user logged in at $(date), killing process with pid_p $pid_p"
     cleanup
   fi
-  # Check if there is enough free GPU memory for a new user to login; 1GB should be enough
+  # Check if there is enough free GPU memory for a new user to login
   if [ "$CIPRUN_GPU" -eq 1 ] && [ -x "$(command -v nvidia-smi)" ] &&
-     [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 200 ];
+     [ $(nvidia-smi --query-gpu=memory.free --format=csv,noheader,nounits) -lt 32 ];
   then
     echo "Not enough GPU memory available"
     cleanup
   fi
   # Check if there is enough RAM eavailable for a new user to login
-  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 90 ];
+  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 98 ];
   then
     echo "Not enough RAM available"
     cleanup
