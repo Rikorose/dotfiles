@@ -10,12 +10,12 @@ fi
 
 if ! curl --head --silent --fail $LINK >/dev/null 2>&1; then
   if ! [ -f $(readlink -f "$LINK") ]; then
-    echo "This file or page does not exist."
+    notify-send --category=error "ytplay" "This file or page does not exist."
     exit 1
   fi
 fi
 
-echo "Start playing $LINK"
+notify-send "ytplay" "Start playing $LINK"
 
-cmd="mpv $LINK $@"
+cmd="mpv $LINK $@ --resume-playback"
 swaymsg exec \'"$cmd"\'
