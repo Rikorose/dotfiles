@@ -2,13 +2,13 @@
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 25, // Waybar height
-    // "width": 1280, // Waybar width
+    // "output": ["HDMI-A-2"],
 
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
     "modules-right": [
-      "custom/spotify",
+      // "custom/spotify",
       "pulseaudio",
       // "network#ethernet",
       "network#wlan",
@@ -26,15 +26,15 @@
         "spacing": 10
     },
     "clock": {
-        "tooltip-format": "{:%Y-%m-%d | %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
     "backlight": {
         "device": "acpi_video1",
         "format": "{percent}% {icon}",
         "format-icons": ["", ""],
-        "on-scroll-up": "light -A 5",
-        "on-scroll-down": "light -U 5"
+        "on-scroll-up": "light -A 1",
+        "on-scroll-down": "light -U 1"
     },
     "battery": {
         "states": {
@@ -61,16 +61,22 @@
     //     "tooltip-format": "{ifname}"
     // },
     "pulseaudio": {
-        "scroll-step": 5,
-        "format": "{volume}%  {icon}",
-        "format-bluetooth": "{volume}%  {icon}",
-        "format-muted": "",
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
         "format-icons": {
-            "headphones": "",
-            "headset": "",
-            "default": ["", ""]
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
         },
-        "on-click": "pavucontrol",
+        "on-click": "pavucontrol-qt",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "tooltip": false
     },
@@ -79,7 +85,7 @@
         "return-type": "json",
         "max-length": 40,
         "escape": true,
-        "interval": 3,
+        "interval": 5,
         "exec": "$HOME/.config/waybar/spotify.sh",
         "exec-if": "pgrep -c spotify",
         "on-click": "playerctl next",
