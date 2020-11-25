@@ -92,6 +92,7 @@ set whichwrap+=hl
 " Cursor and Scrolling {{{
 
   set number
+  set relativenumber
   set cursorline
 
   " remember cursor position
@@ -189,11 +190,11 @@ set splitright
 " Status line {{{
 set statusline=
 set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ N\ ':''}
-set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ I\ ':''}
+set statusline+=%#Search#%{(mode()=='i')?'\ \ I\ ':''}
 set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ R\ ':''}
 set statusline+=%#Cursor#%{(mode()=='v')?'\ \ V\ ':''}
-set statusline+=%#QuickFixLine#%{(mode()=='c')?'\ \ C\ ':''}
-set statusline+=%#lCursor#%{(mode()=='t')?'\ \ C\ ':''}
+set statusline+=%#WildMenu#%{(mode()=='c')?'\ \ C\ ':''}
+set statusline+=%#lCursor#%{(mode()=='t')?'\ \ T\ ':''}
 set statusline+=%#TermCursor# " Color
 set statusline+=\ %n\ 
 set statusline+=%#Pmenu#
