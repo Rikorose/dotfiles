@@ -26,14 +26,16 @@ call plug#begin('~/.local/share/nvim/plugged')
   " }}}
 
   " Language plugin {{{
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'Shougo/deoplete-lsp'
+  Plug 'nvim-lua/completion-nvim'
+  Plug 'steelsojka/completion-buffers'
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
-  "Plug 'honza/vim-snippets'
-  Plug 'neovim/nvim-lsp'
+  Plug 'psf/black', { 'branch': 'stable' }
+  Plug 'honza/vim-snippets'
+  Plug 'neovim/nvim-lspconfig'
   Plug 'jiangmiao/auto-pairs'
-  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'tpope/vim-surround'
+  " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   " }}}
 
   " FZF {{{
@@ -47,6 +49,8 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
   " Grammar plugin for latex
   Plug 'rhysd/vim-grammarous'
+  " Line break after each sentence
+  Plug 'Konfekt/vim-sentence-chopper'
   " }}}
   
   " Tmux integration {{{
