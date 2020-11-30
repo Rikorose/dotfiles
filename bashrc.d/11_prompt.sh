@@ -5,6 +5,6 @@ function __branch {
   git branch 2>/dev/null --show-current | ifne awk '{ print "@"$1 }'
 }
 
-[ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u\$(__branch):\W]\\$ "
+[ "$PS1" = "\\s-\\v\\\$ " ] && PS1="[\u\$(__branch):\w]\\$ "
 
-SHEL=/bin/bash
+SHELL=/bin/bash
