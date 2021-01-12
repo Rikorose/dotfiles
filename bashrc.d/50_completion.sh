@@ -1,6 +1,3 @@
-# Global completion
-. /usr/local/etc/profile.d/bash_completion.sh
-
 # Completion for pdf files
 _pdf()
 {

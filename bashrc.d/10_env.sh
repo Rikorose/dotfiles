@@ -38,7 +38,7 @@ alias tmux="env TERM=xterm-256color tmux"
 alias ssh="TERM=xterm ssh"
 
 # dnf
-alias dnfs='dnf search'
+alias dnfs='dnf search -C'
 
 alias pdf='zathura'
 

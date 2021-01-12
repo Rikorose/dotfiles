@@ -5,10 +5,11 @@ export PS1='[\u@\h \w]\$ '
 
 export EDITOR=nvim
 export LANG=en_US.UTF-8
-# export GDK_BACKEND=wayland
 
 # Firefox with kde file picker
 export GTK_USE_PORTAL=1
+# Firefox with wayland
+export MOZ_ENABLE_WAYLAND=1
 
 # User specific environment and startup programs
 export HISTIGNORE=$HISTIGNORE,fg
