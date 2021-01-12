@@ -8,10 +8,18 @@ Host gitlab.cs.fau.de
   HostName gitlab.cs.fau.de
   User git
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
+  IdentitiesOnly yes
 
 Host faui*
   HostName %h.informatik.uni-erlangen.de
+  User ko01jaxu
+  IdentityFile ~/.ssh/id_rsa
+  ForwardAgent yes
+
+Host cip*
+  HostName %h.cip.cs.fau.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_rsa
   ForwardAgent yes
@@ -28,7 +36,13 @@ Host i5.cluster
   IdentityFile ~/.ssh/id_rsa
   ForwardAgent yes
 
-Host raspberrypi
+Host ha
+  User root
+  HostName 192.168.178.31
+  IdentityFile ~/.ssh/id_rsa
+  Port 37159
+
+Host pizero
   User pi
-  HostName raspberrypi
+  HostName pizero
   IdentityFile ~/.ssh/id_rsa
