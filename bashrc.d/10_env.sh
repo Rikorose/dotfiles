@@ -47,7 +47,5 @@ alias rsync='rsync -a --info=progress2'
 alias cp-rsync='rsync'
 alias mv-rsync='rsync --remove-source-files --checksum'
 
-alias heute-journal='ytplay https://www.zdf.de/nachrichten/heute-journal --no-resume-playback'
-
 # Setup nnn plugins
 export NNN_PLUG='o:fzopen;c:fzcd;d:diffs;m:nmount;l:launch'
