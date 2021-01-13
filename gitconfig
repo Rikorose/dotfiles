@@ -102,8 +102,10 @@
   psuoc = !git push -u origin $(git bc)
   psdc = !git push origin :$(git bc)
   #############
-  pl = pull
-  pb = pull --rebase
+  pl = pull  # As specified in config
+  plb = pull --rebase
+  plm = pull --no-rebase  # merge
+  plf = pull --ff-only  # fast forward
   #############
   plo = pull origin
   pbo = pull --rebase origin
