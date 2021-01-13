@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+BASE_URL="https://www.zdf.de"
+LATEST=$(curl -s "$BASE_URL"/nachrichten/heute-journal | sed -n '/<h2.*>Ganze Sendungen<\/h2>/,$p' | rg -m 1 href)
+HREF=$(echo $LATEST | cut -d'"' -f 2)
+TITLE=$(echo $LATEST | cut -d'"' -f 4)
+
+echo "Playing $TITLE"
+ytplay "$BASE_URL$HREF"
