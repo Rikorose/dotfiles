@@ -1,5 +1,1 @@
-exec mako \
-    --icon-path='/usr/share/icons/breeze-dark' \
-    --anchor bottom-right \
-    --layer overlay \
-    --default-timeout 7500
+exec mako
