@@ -17,7 +17,7 @@ if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     exit 1
 fi
 
-OPTIONS=s
+OPTIONS=s,y:
 LONGOPTS=save
 
 # -regarding ! and PIPESTATUS see above
@@ -33,14 +33,17 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-echo "$@"
 save=0
+y=""  # Number of channels in y axis (i.e. frequency bins)
 while true; do
-  echo "1 $1"
   case $1 in
     -s|--save)
       save=1
       shift 1
+      ;;
+    -y)
+      y="-y $2"
+      shift 2
       ;;
     --)
       shift
@@ -53,7 +56,6 @@ while true; do
   esac
 done
 
-echo $#
 # handle non-option arguments
 if [[ $# -lt 1 ]]; then
   echo "$USAGE"
@@ -64,19 +66,21 @@ plot() {
   FILE="$1"
   BASENAME=$(basename "$FILE")
   echo "Plotting spectrogram of $BASENAME"
-  sox "$FILE" -n spectrogram -t "$BASENAME" -o - | imv -
+  sox "$FILE" -n spectrogram $y -t "$BASENAME" -o - | imv -
   shift;
 }
 
 save() {
   FILE="$1"
   BASENAME=$(basename "$FILE")
+  DIR=$(dirname "$FILE")
   echo "Saving spectrogram of $BASENAME"
-  sox $FILE -n spectrogram -t $BASENAME -o "${BASENAME%.*}.png"
+  sox $FILE -n spectrogram $y -t $BASENAME -o "$DIR/${BASENAME%.*}.png"
 }
 
 for FILE in "$@"
 do
+  printf "\n"
   if [ "$save" -eq 1 ]; then
     save $(readlink -f "$FILE") &
   else
@@ -84,4 +88,4 @@ do
   fi
 done
 
-echo
+printf "\n"
