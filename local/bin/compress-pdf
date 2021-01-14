@@ -9,6 +9,7 @@ fi
 
 INPUT=${@: 1:$#-1}
 OUTPUT=${@: -1}
+IMAGE_RES=${IMAGE_RES:-300}
 
 for f in "${INPUT[@]}"; do
     if [[ ! -f $f ]]; then
@@ -24,6 +25,15 @@ fi
 
 TMP=$(mktemp --suffix='.pdf' /tmp/compress.XXXXXXXXX)
 
-gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE \
-    -dQUIET -dBATCH -sOutputFile=$TMP $INPUT
+gs -sDEVICE=pdfwrite \
+    -dCompatibilityLevel=1.5 \
+    -dPDFSETTINGS=/printer \
+    -dDownsampleColorImages=true \
+    -dColorImageResolution="$IMAGE_RES" \
+    -dCompressFonts=true \
+    -dSubsetFonts=true \
+    -dNOPAUSE \
+    -dQUIET \
+    -dBATCH \
+    -sOutputFile=$TMP $INPUT
 mv $TMP $OUTPUT
