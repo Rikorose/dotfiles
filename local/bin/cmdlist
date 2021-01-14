@@ -1,2 +1,8 @@
 #!/bin/sh
-echo -n "$PATH" | xargs -d: -I{} -r -- fd -L --max-depth 1 --type executable . {} 2>/dev/null | sort -u
+
+CMDLIST_CACHE=${CMDLIST_CACHE:-/tmp/cmdlist}
+
+if [[ ! -f $CMDLIST_CACHE ]] || [[ $(date -r $CMDLIST_CACHE +"%Y%m%d") -lt $(date +"%Y%m%d") ]]; then
+  compgen -c | rg -i "^([a-z]|[0-9])" | sort | uniq > $CMDLIST_CACHE
+fi
+cat $CMDLIST_CACHE
