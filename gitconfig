@@ -204,6 +204,10 @@
   subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+	smudge = git-lfs smudge --skip -- %f
+	process = git-lfs filter-process --skip
 	required = true
+[pull]
+	ff = only
+[core]
+	pager = less -F
