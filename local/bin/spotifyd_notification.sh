@@ -1,12 +1,13 @@
 #!/bin/bash
 
-SP_NOTIFY_SOW_ART=${SP_NOTIFY_SOW_ART:-0} # Do not show album cover by default
-SP_NOTIFY_TIMOUT=${SP_NOTIFY_TIMOUT:-5000} # 5 seconds
+SP_NOTIFY_SOW_ART=${SP_NOTIFY_SOW_ART:-1} # Show album art or show play suymbol
+SP_NOTIFY_TIMOUT=${SP_NOTIFY_TIMOUT:-8000} # In ms
 
-if [[ "$PLAYER_EVENT" == "STOP" ]]; then
+if [[ "$PLAYER_EVENT" == "stop" ]]; then
   exit
 fi
 
+# Parse metadata using awk instead of using sp eval, since the latter seems broken.
 # TODO:
 # Remove this when https://github.com/Spotifyd/spotifyd/issues/503 is resolved
 counter=0
@@ -41,7 +42,7 @@ else
 fi
 
 notify-send \
-  --urgency=low \
+  --urgency=normal \
   --expire-time="$SP_NOTIFY_TIMOUT" \
   --icon="$icon" \
   --app-name=spotifyd \
