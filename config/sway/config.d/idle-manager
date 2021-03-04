@@ -9,7 +9,7 @@ exec swayidle -w \
          resume  'light -I' \
     timeout 360  '$display_off' \
          resume  '$display_on' \
-    timeout 390  '$locker' \
+    timeout 600  '$locker' \
     timeout 3600 'systemctl suspend' \
          resume  '$display_on' \
     timeout 30   'if pgrep -x swaylock; then $display_off; fi' \
