@@ -15,17 +15,18 @@ fi
 cd "$PWD"
 for ((i=0; i < ${#argv[@]}; i++))
 do
-  case argv[i] in 
-    -*) ;;
+  case argv[i] in
+    -*) ;; # TODO: arguments like --arg=/path/to/file
     *)  if [ -d "${argv[i]}" ] || [ -f "${argv[i]}" ]; then
-      argv[i]=$(readlink -f "${argv[i]}")
-    fi
+          argv[i]=$(readlink -f "${argv[i]}")
+        fi
   esac
 done
 
-if ! [ -x ${argv[0]} ]; then
-  echo "${argv[0]} not executable."
-  exit 2
-fi
+# if ! [ -x ${argv[0]} ]; then
+#   echo "${argv[0]} not executable."
+#   exit 2
+# fi
 
+# echo swaymsg exec "${argv[@]}"
 swaymsg exec "${argv[@]}"

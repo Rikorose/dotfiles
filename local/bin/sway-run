@@ -1,4 +1,4 @@
 #!/bin/bash -l
 
 . ~/.config/sway/env
-sway --verbose > /tmp/sway.log 2>&1
+sway > /tmp/sway.log 2>&1
