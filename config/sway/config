@@ -9,11 +9,11 @@ set $right l
 
 # Applications
 set $term alacritty
-set $menu exec $term -d 70 20 -t launcher -e env TERMINAL_COMMAND="alacritty -e" launcher
+set $menu exec $term -o window.dimensions.columns=70 -o window.dimensions.lines=20 -t launcher -e env TERMINAL_COMMAND="alacritty -e" launcher
 set $htop-float alacritty -t htop-float -e htop -u schroeter
 # set $htop $term -d 140 40 -t htop -e htop
 set $fzf-open exec $term -t launcher -e "fzf-open"
-set $browser firefox-wayland
+set $browser firefox
 
 # Window roles
 for_window [title="launcher"] floating enable, border pixel 5, sticky enable
@@ -27,6 +27,7 @@ for_window [title="MEGAsync"] floating enable
 for_window [app_id="gnome-calendar"] floating enable
 for_window [app_id="gnome-calculator"] floating enable
 for_window [class="zoom"] inhibit_idle visible
+for_window [shell=".*"] title_format "%title :: %shell
 
 set $laptop eDP-1
 bindswitch lid:on exec on-lid-close
@@ -42,36 +43,26 @@ output * bg ~/wallpaper fill
 input * {
     accel_profile flat
     pointer_accel 0
-    xkb_options caps:escape
-    xkb_numlock enabled
+    tap enabled
     repeat_delay 250
     repeat_rate 50
 }
-input 1267:32:Elan_Touchpad {
-    tap enabled
-    natural_scroll enabled
+input type:keyboard {
+    xkb_options caps:escape
+    xkb_numlock enabled
+    xkb_layout eu
 }
-input 2:7:SynPS/2_Synaptics_TouchPad {
-    tap enabled
+input type:touchpad {
     natural_scroll enabled
 }
 input 2:10:TPPS/2_IBM_TrackPoint {
     pointer_accel 1
 }
 input 1:1:AT_Translated_Set_2_keyboard {
-    xkb_layout de
-    xkb_variant nodeadkeys
+    xkb_layout "eu,de"
+    xkb_variant "basic,nodeadkeys"
 }
-input 1130:269:HID_046a:010d {
-    xkb_layout de
-    xkb_variant nodeadkeys
-}
-input 3064:4108:Fujitsu_Siemens_Computers_GmbH_FSC_KBPC_PX {
-    xkb_layout us
-}
-input 16700:8455:DELL_Dell_USB_Entry_Keyboard {
-    xkb_layout us
-}
+bindsym $mod+i input type:keyboard xkb_switch_layout next
 
 seat * hide_cursor 3000
 
@@ -94,7 +85,7 @@ bindsym --locked $mod+Delete exec systemctl suspend
 bindsym $mod+Shift+Delete exec swaylock -f -i ~/wallpaper -s fill
 
 # start browser
-bindsym $mod+i exec $browser
+bindsym $mod+b exec $browser
 
 floating_modifier $mod
 
@@ -226,5 +217,9 @@ bar {
 }
 
 exec kanshi
+
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 include ~/.config/sway/config.d/*
