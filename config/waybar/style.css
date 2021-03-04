@@ -30,7 +30,7 @@ window#waybar.hidded {
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+    background: #eb4d4b;
 }
 
 #mode {
@@ -44,22 +44,22 @@ window#waybar.hidded {
 }
 
 #clock {
-    background-color: #64727D;
+    background: #64727D;
 }
 
 #battery {
-    background-color: #ffffff;
+    background: #ffffff;
     color: #000000;
 }
 
 #battery.charging {
     color: #ffffff;
-    background-color: #26A65B;
+    background: #26A65B;
 }
 
 @keyframes blink {
     to {
-        background-color: #ffffff;
+        background: #ffffff;
         color: #000000;
     }
 }
@@ -133,14 +133,14 @@ window#waybar.hidded {
 }
 
 #tray {
-    background-color: #2980b9;
+    background: #2980b9;
 }
 
 #idle_inhibitor {
-    background-color: #2d3436;
+    background: #2d3436;
 }
 
 #idle_inhibitor.activated {
-    background-color: #ecf0f1;
+    background: #ecf0f1;
     color: #2d3436;
 }

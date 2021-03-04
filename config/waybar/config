@@ -1,36 +1,33 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 25, // Waybar height
-    // "output": ["HDMI-A-2"],
-
+    "height": 20, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": [
-      // "custom/spotify",
-      "pulseaudio",
-      // "network#ethernet",
-      "network#wlan",
-      "backlight",
-      "battery",
-      "clock",
-      "tray"
-    ],
-
+    "modules-right": ["idle_inhibitor", "pulseaudio", "backlight", "battery", "clock", "tray"],
+    // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        }
     },
     "tray": {
         "icon-size": 21,
         "spacing": 10
     },
     "clock": {
+        // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
     },
     "backlight": {
-        "device": "acpi_video1",
+        // "device": "acpi_video1",
         "format": "{percent}% {icon}",
         "format-icons": ["", ""],
         "on-scroll-up": "light -A 1",
@@ -39,28 +36,19 @@
     "battery": {
         "states": {
             "good": 95,
-            "warning": 10,
-            "critical": 3
+            "warning": 15,
+            "critical": 5
         },
         "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        // "format-good": "", // An empty format will hide the module
+        // "format-full": "",
         "format-icons": ["", "", "", "", ""]
     },
-    "network#wlan": {
-        // "interface": "wlp*",
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-disconnected": "⚠",
-        "format-ethernet": "",
-        "on-click": "nm-connection-editor",
-        "tooltip": false
-    },
-    // "network#ethernet": {
-    //     "format-ethernet": "",
-    //     "format-wifi": "",
-    //     "format-disconnected": "asdf",
-    //     "on-click": "nm-connection-editor",
-    //     "tooltip-format": "{ifname}"
-    // },
     "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
         "format": "{volume}% {icon} {format_source}",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
@@ -69,27 +57,14 @@
         "format-source-muted": "",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "hands-free": "",
+            "headset": "",
             "phone": "",
             "portable": "",
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol-qt",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-        "tooltip": false
+        "on-click": "pavucontrol"
     },
-    "custom/spotify": {
-        "format": "{}",
-        "return-type": "json",
-        "max-length": 40,
-        "escape": true,
-        "interval": 5,
-        "exec": "$HOME/.config/waybar/spotify.sh",
-        "exec-if": "pgrep -c spotify",
-        "on-click": "playerctl next",
-        "on-click-middle": "playerctl play-pause",
-        "on-click-right": "playerctl previous"
-    }
 }
