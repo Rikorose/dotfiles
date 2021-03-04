@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exa -l --sort=modified --reverse $1 | head -n 5
