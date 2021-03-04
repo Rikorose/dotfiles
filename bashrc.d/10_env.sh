@@ -49,3 +49,6 @@ alias mv-rsync='rsync --remove-source-files --checksum'
 
 # Setup nnn plugins
 export NNN_PLUG='o:fzopen;c:fzcd;d:diffs;m:nmount;l:launch'
+
+# Less with colors, smart case sorting and mouse scrolling in tmux
+export LESS='-Ri --mouse --wheel-lines=3'
