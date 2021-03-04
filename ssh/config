@@ -2,7 +2,7 @@ Host github.com
   HostName github.com
   User git
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
 
 Host gitlab.cs.fau.de
   HostName gitlab.cs.fau.de
@@ -15,34 +15,34 @@ Host gitlab.cs.fau.de
 Host faui*
   HostName %h.informatik.uni-erlangen.de
   User ko01jaxu
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
   ForwardAgent yes
 
 Host cip*
   HostName %h.cip.cs.fau.de
   User ko01jaxu
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
   ForwardAgent yes
 
 Host lme*
   HostName %h.informatik.uni-erlangen.de
   User schroeter
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
   ForwardAgent yes
 
 Host i5.cluster
   User schroeter
   HostName cluster.i5.informatik.uni-erlangen.de
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
   ForwardAgent yes
 
 Host ha
   User root
   HostName 192.168.178.31
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
   Port 37159
 
 Host pizero
   User pi
   HostName pizero
-  IdentityFile ~/.ssh/id_rsa
+  IdentityFile ~/.ssh/id_ed25519
