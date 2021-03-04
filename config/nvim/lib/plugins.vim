@@ -26,16 +26,9 @@ call plug#begin('~/.local/share/nvim/plugged')
   " }}}
 
   " Language plugin {{{
-  Plug 'nvim-lua/completion-nvim'
-  Plug 'steelsojka/completion-buffers'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
-  Plug 'psf/black', { 'branch': 'stable' }
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'tpope/vim-surround'
-  " Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
   " }}}
 
   " FZF {{{

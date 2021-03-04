@@ -200,7 +200,7 @@ set statusline+=\ %n\
 set statusline+=%#Pmenu#
 set statusline+=\%m
 set statusline+=\%r
-set statusline+=\ %t
+set statusline+=\ %f
 set statusline+=%= " Right justified
 set statusline+=\ %Y\ \|
 set statusline+=\ %c:3l:%-2c\ 
