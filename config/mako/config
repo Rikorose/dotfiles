@@ -1,7 +1,7 @@
 markup=1
 actions=1
 
-anchor=top-center
+anchor=top-left
 layer=overlay
 default-timeout=7500
 
