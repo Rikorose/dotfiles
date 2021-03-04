@@ -1,9 +1,7 @@
-# QT applications theme and icons
-[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
-export QT_WAYLAND_FORCE_DPI=96
-
-# Java under wayland
+export TERM=alacritty
 export _JAVA_AWT_WM_NONREPARENTING=1
-
-# Tray for electron apps
-export XDG_CURRENT_DESKTOP=Unity
+export XKB_DEFAULT_OPTIONS=caps:escape
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway
+export XDG_DESKTOP_DIR="$HOME"
+export QT_QPA_PLATFORMTHEME=qt5ct
