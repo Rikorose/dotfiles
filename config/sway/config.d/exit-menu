@@ -2,8 +2,8 @@
 
 set $exitmenu "system:  [r]eboot  [s]hutdown  [l]ogout"
 mode $exitmenu {
-    bindsym r exec shutdown -r now
-    bindsym s exec shutdown -P now
+    bindsym r exec reboot
+    bindsym s exec poweroff
     bindsym l exit
 
     bindsym Return    mode "default"

@@ -10,10 +10,10 @@ exec swayidle -w \
     timeout 360  '$display_off' \
          resume  '$display_on' \
     timeout 600  '$locker' \
-    timeout 3600 'systemctl suspend' \
+    timeout 3600 'suspend' \
          resume  '$display_on' \
     timeout 30   'if pgrep -x swaylock; then $display_off; fi' \
          resume  '$display_on' \
-    timeout 60   'if $get_outputs | rg -v "focused.*true"; then systemctl suspend; fi' \
+    timeout 60   'if $get_outputs | rg -v "focused.*true"; then suspend; fi' \
     before-sleep '$locker' \
     after-resume '$display_on'

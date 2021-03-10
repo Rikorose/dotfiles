@@ -52,3 +52,7 @@ export NNN_PLUG='o:fzopen;c:fzcd;d:diffs;m:nmount;l:launch'
 
 # Less with colors, smart case sorting and mouse scrolling in tmux
 export LESS='-Ri --mouse --wheel-lines=3'
+
+alias suspend='sudo systemctl suspend'
+alias reboot='sudo systemctl reboot'
+alias poweroff='sudo systemctl poweroff'

@@ -79,7 +79,7 @@ bindsym $mod+d exec $menu
 bindsym $mod+o exec $fzf-open
 
 # suspend
-bindsym --locked $mod+Delete exec systemctl suspend
+bindsym --locked $mod+Delete exec suspend
 
 # lockscreen
 bindsym $mod+Shift+Delete exec swaylock -f -i ~/wallpaper -s fill
