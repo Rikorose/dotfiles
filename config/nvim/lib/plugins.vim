@@ -29,6 +29,7 @@ call plug#begin('~/.local/share/nvim/plugged')
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
+  Plug 'tpope/vim-surround'
   " }}}
 
   " FZF {{{
