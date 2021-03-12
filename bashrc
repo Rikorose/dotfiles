@@ -19,5 +19,3 @@ done; unset f
 
 # Also source host specific rc file
 [[ -e ~/.bashrc.d/hosts/$(hostname).sh ]] && . ~/.bashrc.d/hosts/$(hostname).sh
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -18,3 +18,6 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH:/var/lib/snapd/snap/bin"
 
 # Python shell auto completion
 export PYTHONSTARTUP=~/.pythonrc
+
+# Cargo/rust setup
+source "$HOME/.cargo/env"
