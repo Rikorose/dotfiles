@@ -24,3 +24,13 @@ done
 # Complete exa
 complete -F _complete_alias ls
 complete -F _complete_alias ll
+
+# Complete flatpak-run
+_flatpak_run()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local IFS=$'\n'
+  APPS=$(flatpak list --app --columns=app)
+  COMPREPLY=( $( compgen -W "$APPS" -f -- $cur ) )
+}
+complete -F _flatpak_run flatpak-run 
