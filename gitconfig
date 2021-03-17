@@ -103,7 +103,7 @@
   psdc = !git push origin :$(git bc)
   #############
   pl = pull  # As specified in config
-  plb = pull --rebase
+  plrb = pull --rebase
   plm = pull --no-rebase  # merge
   plf = pull --ff-only  # fast forward
   #############
