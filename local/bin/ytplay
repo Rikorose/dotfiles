@@ -17,5 +17,5 @@ fi
 
 notify-send "ytplay" "Start playing $LINK"
 
-cmd="mpv $LINK $@ --resume-playback"
+cmd="mpv $LINK $@ --resume-playback > /tmp/mpv.log 2>&1"
 swaymsg exec \'"$cmd"\'
