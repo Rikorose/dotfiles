@@ -23,9 +23,23 @@
   call s:auto_termguicolors()
 
   let g:one_allow_italics = 1
-  set background=dark
   colorscheme one
-
+  function! UpdateColorsheme()
+    silent let islight = system('rg -c "COLORSCHEME.*onelight" ~/.config/alacritty/alacritty.yml')
+    if islight == 1
+      set background=light
+    else
+      set background=dark
+    endif
+    if &background == "light"
+      " Better contrast
+      call one#highlight("Normal", "383838", "", "none")
+    endif
+  endfunction
+  augroup colorsheme
+    autocmd!
+    autocmd VimEnter,BufEnter * call UpdateColorsheme()
+  augroup END
 " }}}
 
 " configure behaviour of wildmenu when I press <Tab> in the Vim command prompt
