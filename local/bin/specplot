@@ -17,8 +17,8 @@ if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     exit 1
 fi
 
-OPTIONS=s,y:
-LONGOPTS=save
+OPTIONS=s,n,r:
+LONGOPTS=save,bins,rate
 
 # -regarding ! and PIPESTATUS see above
 # -temporarily store output to be able to check for errors
@@ -34,15 +34,22 @@ fi
 eval set -- "$PARSED"
 
 save=0
-y=""  # Number of channels in y axis (i.e. frequency bins)
+bin=""  # Number of channels in y axis (i.e. frequency bins)
+rate=""
 while true; do
+  echo "$1"
   case $1 in
     -s|--save)
       save=1
       shift 1
       ;;
-    -y)
-      y="-y $2"
+    -n|--bins)
+      bins="-y $2"
+      shift 2
+      ;;
+    -r|--rate)
+      rate="rate $2"
+      echo "rate: $rate"
       shift 2
       ;;
     --)
@@ -66,7 +73,7 @@ plot() {
   FILE="$1"
   BASENAME=$(basename "$FILE")
   echo "Plotting spectrogram of $BASENAME"
-  sox "$FILE" -n spectrogram $y -t "$BASENAME" -o - | imv -
+  sox "$FILE" -n $rate spectrogram $bins -t "$BASENAME" -o - | imv -
   shift;
 }
 
@@ -75,7 +82,7 @@ save() {
   BASENAME=$(basename "$FILE")
   DIR=$(dirname "$FILE")
   echo "Saving spectrogram of $BASENAME"
-  sox $FILE -n spectrogram $y -t $BASENAME -o "$DIR/${BASENAME%.*}.png"
+  sox $FILE -n $rate spectrogram $bins -t $BASENAME -o "$DIR/${BASENAME%.*}.png"
 }
 
 for FILE in "$@"
