@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CMDLIST_CACHE=${CMDLIST_CACHE:-/tmp/cmdlist}
+CMDLIST_CACHE=${CMDLIST_CACHE:-~/.cache/cmdlist}
 
 if [[ ! -f $CMDLIST_CACHE ]] || [[ $(date -r $CMDLIST_CACHE +"%Y%m%d") -lt $(date +"%Y%m%d") ]]; then
   compgen -c | rg -i "^([a-z]|[0-9])" | sort | uniq > $CMDLIST_CACHE
