@@ -64,7 +64,7 @@ input 1:1:AT_Translated_Set_2_keyboard {
 }
 bindsym $mod+i input type:keyboard xkb_switch_layout next
 
-seat * hide_cursor 3000
+seat * hide_cursor 10000
 
 # start a terminal
 bindsym $mod+Return exec $term
@@ -79,7 +79,7 @@ bindsym $mod+d exec $menu
 bindsym $mod+o exec $fzf-open
 
 # suspend
-bindsym --locked $mod+Delete exec suspend
+bindsym --locked $mod+Delete exec sudo systemctl suspend
 
 # lockscreen
 bindsym $mod+Shift+Delete exec swaylock -f -i ~/wallpaper -s fill
@@ -184,7 +184,7 @@ bindsym $mod+a focus parent
 bindsym F12 exec scratchterm
 
 # Play a link in clipboard
-bindsym $mod+F11 exec ytplay
+bindsym $mod+F11 exec yt
 
 # Display htop window
 bindsym $mod+F10 exec htop-float
@@ -218,8 +218,10 @@ bar {
 
 exec kanshi
 
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 exec hash dbus-update-activation-environment 2>/dev/null && \
-     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
+# XWayland scaling workaround
+exec xrdb -load ~/.Xresource
 
 include ~/.config/sway/config.d/*

@@ -2,7 +2,7 @@
 
 set $exitmenu "system:  [r]eboot  [s]hutdown  [l]ogout"
 mode $exitmenu {
-    bindsym r exec reboot
+    bindsym r exec sudo systemctl reboot
     bindsym s exec poweroff
     bindsym l exit
 
