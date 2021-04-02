@@ -10,7 +10,6 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
   " Color scheme {{{
-  Plug 'joshdick/onedark.vim'
   Plug 'rakr/vim-one'
   " }}}
 

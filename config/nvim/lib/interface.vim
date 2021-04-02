@@ -22,8 +22,9 @@
   endfunction
   call s:auto_termguicolors()
 
-  let g:onedark_terminal_italics = 1
-  colorscheme onedark
+  let g:one_allow_italics = 1
+  set background=dark
+  colorscheme one
 
 " }}}
 
