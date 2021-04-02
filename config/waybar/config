@@ -5,7 +5,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -25,6 +25,18 @@
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}"
+    },
+    "network": {
+        "interface": "wlp61s0",
+        "format": "{ifname}",
+        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-ethernet": "{ifname} ",
+        "format-disconnected": "", //An empty format will hide the module.
+        "tooltip-format": "{ifname}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "Disconnected",
+        "max-length": 50
     },
     "backlight": {
         // "device": "acpi_video1",
