@@ -4,24 +4,12 @@
 alias ..="cd .."
 
 # ls
-if [ -x "$(command -v exa)" ]; then
-  alias ls=exa
-  alias ll='exa -l'
-  alias l1='exa -1'
-  alias la='exa -a'
-  alias lla='exa -al'
-  alias lh='exa -l'
-  alias lt='exa -l --sort=modified --reverse'
-  alias tree='exa --tree'
-else
-  alias ls='ls --color=auto'
-  alias ll='ls -l'
-  alias l1='ls -1'
-  alias la='ls -a'
-  alias lla='ls -al'
-  alias lt='ll -t'
-  alias lh='ll -h'
-fi
+alias ls='ls --color=auto'
+alias la='ls -a'
+alias ll='ls -lAGh1vX --group-directories-first'
+alias lh='ll'
+alias lt='lt'
+alias d='git diff | delta --side-by-side'
 
 # use custom tmp dir on lme242
 HOST=$(hostname)
