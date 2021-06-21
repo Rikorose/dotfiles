@@ -8,6 +8,21 @@ basenames() {
   printf '%s\n' "${f%.*}"
 }
 
+function d ()
+{
+  if [ "$#" -ge 1 ]; then
+    git diff "$@" | delta --side-by-side
+  else
+    git diff | delta --side-by-side
+  fi
+}
+# Also overwrite dc (cmd calculator) since the usage is pritty meh anyways
+function dc ()
+{
+  git diff --cached | delta --side-by-side
+}
+
+
 man() {
   LESS_TERMCAP_md=$'\e[01;31m' \
   LESS_TERMCAP_me=$'\e[0m' \

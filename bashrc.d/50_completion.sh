@@ -21,9 +21,15 @@ for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
 
-# Complete exa
-complete -F _complete_alias ls
-complete -F _complete_alias ll
+# Complete delta alias
+_complete_delta()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local IFS=$'\n'
+  local W=$(git -C $PWD diff --name-only --relative=$(basename $PWD))
+  COMPREPLY=( $( compgen -W "$W" -- $cur ) )
+}
+complete -F _complete_delta d
 
 # Complete flatpak-run
 _flatpak_run()

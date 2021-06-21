@@ -9,7 +9,6 @@ alias la='ls -a'
 alias ll='ls -lAGh1vX --group-directories-first'
 alias lh='ll'
 alias lt='lt'
-alias d='git diff | delta --side-by-side'
 
 # use custom tmp dir on lme242
 HOST=$(hostname)
