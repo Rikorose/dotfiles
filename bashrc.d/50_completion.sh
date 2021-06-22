@@ -26,10 +26,26 @@ _complete_delta()
 {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local IFS=$'\n'
-  local W=$(git -C $PWD diff --name-only --relative=$(basename $PWD))
+  if [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
+    local W=$(git -C $PWD diff --name-only)
+  else
+    local W=$(git -C $PWD diff --name-only --relative=$(basename $PWD))
+  fi
   COMPREPLY=( $( compgen -W "$W" -- $cur ) )
 }
 complete -F _complete_delta d
+_complete_delta_cached()
+{
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local IFS=$'\n'
+  if [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
+    local W=$(git -C $PWD diff --name-only --cached)
+  else
+    local W=$(git -C $PWD diff --name-only --cached --relative=$(basename $PWD))
+  fi
+  COMPREPLY=( $( compgen -W "$W" -- $cur ) )
+}
+complete -F _complete_delta_cached dc
 
 # Complete flatpak-run
 _flatpak_run()
