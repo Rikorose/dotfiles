@@ -1,11 +1,11 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 20, // Waybar height (to be removed for auto height)
+    "height": 21, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -16,6 +16,9 @@
             "activated": "",
             "deactivated": ""
         }
+    },
+    "sway/language": {
+        "format": "{short} {variant}",
     },
     "tray": {
         "icon-size": 21,
@@ -78,5 +81,21 @@
         },
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click": "pavucontrol"
+    },
+    "custom/spotify": {
+        "format": "{icon}{}",
+        "return-type": "json",
+        "format-icons": {
+            "Playing": " ",
+            "Paused": " ",
+        },
+        "max-length": 40,
+        "escape": true,
+        // "interval": 30,
+        // "exec": "$HOME/.config/waybar/spotify.sh",
+        "exec": "$HOME/.config/waybar/spotify2.sh",
+        "on-click": "playerctl --player=spotify next",
+        "on-click-right": "playerctl --player=spotify previous",
+        "on-click-middle": "playerctl --player=spotify play-pause",
     },
 }
