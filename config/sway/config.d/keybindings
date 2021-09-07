@@ -2,9 +2,10 @@
 bindsym --locked $mod+p exec playerctl play-pause
 bindsym --locked $mod+m exec amixer set Master toggle
 # audio keys
-bindsym --locked XF86AudioRaiseVolume exec /usr/bin/amixer set Master 5%+
-bindsym --locked XF86AudioLowerVolume exec /usr/bin/amixer set Master 5%-
-bindsym --locked XF86AudioMute exec /usr/bin/amixer set Master 1+ toggle
+bindsym --locked XF86AudioRaiseVolume exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --locked XF86AudioLowerVolume exec pactl -- set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --locked XF86AudioMute exec exec pactl -- set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --locked XF86AudioMicMute exec exec pactl -- set-source-mute @DEFAULT_SOURCE@ toggle
 # Screen brightness
 bindsym --locked XF86MonBrightnessUp exec light -A 5%
 bindsym --locked XF86MonBrightnessDown exec light -U 5%
