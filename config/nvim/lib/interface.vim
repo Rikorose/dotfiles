@@ -33,7 +33,7 @@
     endif
     if &background == "light"
       " Better contrast
-      call one#highlight("Normal", "383838", "", "none")
+      call one#highlight("Normal", "141518", "", "none")
     endif
   endfunction
   augroup colorsheme

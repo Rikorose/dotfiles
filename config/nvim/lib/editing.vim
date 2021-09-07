@@ -168,10 +168,12 @@ set splitright
 
 " Formatting {{{
 
-  " don't insert a comment after hitting 'o' or 'O' in the Normal mode
   augroup vimrc-editing-formatting
     autocmd!
+    " don't insert a comment after hitting 'o' or 'O' in the Normal mode
     autocmd FileType * set formatoptions-=o
+    " don't insert line breaks
+    autocmd FileType * set formatoptions-=t
   augroup END
 
 " }}}
