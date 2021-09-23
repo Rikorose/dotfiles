@@ -5,7 +5,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "custom/mpv", "custom/firefox", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -91,11 +91,37 @@
         },
         "max-length": 40,
         "escape": true,
-        // "interval": 30,
-        // "exec": "$HOME/.config/waybar/spotify.sh",
-        "exec": "$HOME/.config/waybar/spotify2.sh",
+        "exec": "$HOME/.config/waybar/mpd_player.sh spotify",
         "on-click": "playerctl --player=spotify next",
         "on-click-right": "playerctl --player=spotify previous",
         "on-click-middle": "playerctl --player=spotify play-pause",
+    },
+    "custom/mpv": {
+        "format": "{icon}{}",
+        "return-type": "json",
+        "format-icons": {
+            "Playing": " ",
+            "Paused": " ",
+        },
+        "max-length": 20,
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mpd_player.sh mpv",
+        "on-click": "playerctl --player=mpv next",
+        "on-click-right": "playerctl --player=mpv previous",
+        "on-click-middle": "playerctl --player=mpv play-pause",
+    },
+    "custom/firefox": {
+        "format": "{icon}{}",
+        "return-type": "json",
+        "format-icons": {
+            "Playing": " ",
+            "Paused": " ",
+        },
+        "max-length": 20,
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mpd_player.sh firefox",
+        "on-click": "playerctl --player=firefox next",
+        "on-click-right": "playerctl --player=firefox previous",
+        "on-click-middle": "playerctl --player=firefox play-pause",
     },
 }
