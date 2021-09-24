@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+
+cur_player_f="/tmp/.cur_player"
+
+# First check if a player is currently playing
+players=($(playerctl -l))
+if [ ${#players[@]} -eq 0 ]; then
+  echo "No active players found"
+  exit 1
+fi
+cur_player=""
+# Iterate over players and find playing
+for p in ${players[@]}; do
+  s=$(playerctl -p $p status)
+  echo $p $s
+  if [ "$s" == "Playing" ]; then
+    cur_player="$p"
+  fi
+  status+="$s "
+done
+# Check if cur_player is set
+if [ -z "$cur_player" ]; then
+  # if not read the last active player from file
+  if [ -f "$cur_player_f" ]; then
+    cur_player=$(cat $cur_player_f)
+  else
+    # Otherwise just take the first player
+    cur_player=${players[0]}
+  fi
+fi
+
+# Play or pause for the current player
+playerctl -p "$cur_player" play-pause
+
+# Save which player is active
+echo "$cur_player" > "$cur_player_f"

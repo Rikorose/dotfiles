@@ -1,5 +1,5 @@
 # Media player
-bindsym --locked $mod+p exec playerctl play-pause
+bindsym --locked $mod+p exec play-pause
 bindsym --locked $mod+m exec amixer set Master toggle
 # audio keys
 bindsym --locked XF86AudioRaiseVolume exec pactl -- set-sink-volume @DEFAULT_SINK@ +5%
