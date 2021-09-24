@@ -115,15 +115,19 @@ window#waybar.hidded {
     background: #66cc99;
     color: #2a5c45;
 }
-
 .custom-spotify {
     background: #66cc99;
+}
+#custom-spotify.Paused {
+    background: #6d6d6d;
 }
 
 #custom-mpv {
     background: #420143;
 }
-
+#custom-mpv.Paused {
+    background: #6d6d6d;
+}
 .custom-mpv {
     background: #420143;
 }
@@ -131,7 +135,9 @@ window#waybar.hidded {
 #custom-firefox {
     background: #ff7c16;
 }
-
+#custom-firefox.Paused {
+    background: #6d6d6d;
+}
 .custom-firefox {
     background: #ff7c16;
 }
