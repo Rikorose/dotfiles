@@ -56,3 +56,4 @@ call plug#end()
 " enable full plugin support
 filetype plugin on
 syntax enable
+syntax spell toplevel
