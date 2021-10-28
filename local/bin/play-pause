@@ -25,6 +25,11 @@ if [ -z "$cur_player" ]; then
   # if not read the last active player from file
   if [ -f "$cur_player_f" ]; then
     cur_player=$(cat $cur_player_f)
+    # Check if this player is still an active player
+    if [[ ! " ${players[*]} " =~ " ${cur_player} " ]]; then
+      # Its not; fall back to first player
+      cur_player=${players[0]}
+    fi
   else
     # Otherwise just take the first player
     cur_player=${players[0]}
