@@ -19,8 +19,17 @@ for f in "${INPUT[@]}"; do
 done
 
 if [[ ${OUTPUT: -3}  != "pdf" ]]; then
-    echo "output-file must be pdf, but got '$OUTPUT'."
-    exit 3
+    if [[ -d $OUTPUT ]]; then
+        # OUTPUT is a directory; just use the same basename as the input
+        OUTPUT="$OUTPUT/$(basename $INPUT)"
+    else
+        echo "output-file must be pdf, but got '$OUTPUT'."
+        exit 3
+    fi
+fi
+if [[ $INPUT -ef $OUTPUT ]]; then
+    echo "Input and output path cannot be the same: $OUTPUT"
+    exit 4
 fi
 
 TMP=$(mktemp --suffix='.pdf' /tmp/compress.XXXXXXXXX)
