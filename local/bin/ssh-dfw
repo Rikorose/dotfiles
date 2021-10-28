@@ -51,4 +51,6 @@ if [[ $# -ne 1 ]]; then
 fi
 host="$1"
 
+echo Connecting to "$host"
 ssh -fgN -D "$p" "$host" 2>/dev/null
+echo Connected
