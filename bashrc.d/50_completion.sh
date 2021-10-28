@@ -26,12 +26,15 @@ _complete_delta()
 {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local IFS=$'\n'
-  if [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
+  if [ isgitdir > 0 ]; then
+    COMPREPLY=( $( compgen -f -- $cur ) )
+  elif [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
     local W=$(git -C $PWD diff --name-only)
+    COMPREPLY=( $( compgen -W "$W" -- $cur ) )
   else
     local W=$(git -C $PWD diff --name-only --relative=$(basename $PWD))
+    COMPREPLY=( $( compgen -W "$W" -- $cur ) )
   fi
-  COMPREPLY=( $( compgen -W "$W" -- $cur ) )
 }
 complete -F _complete_delta d
 _complete_delta_cached()
