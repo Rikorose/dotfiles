@@ -1,21 +1,67 @@
 #!/bin/sh
 
-if [ -z "$1" ];
- then
-    LINK=$(wl-paste -n | tr -d '[:space:]')
-  else
-    LINK=$1
-    shift
+USAGE="Usage: $0 [-h/--hq] [-a/--audio-only] <URL>"
+
+set -o errexit -o pipefail -o noclobber -o nounset
+
+# -allow a command to fail with !’s side effect on errexit
+# -use return value from ${PIPESTATUS[0]}, because ! hosed $?
+! getopt --test > /dev/null 
+if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
+    echo '`getopt --test` failed in this environment.'
+    exit 1
+fi
+
+OPTS=h,a
+LONGOPTS=hq,audio-only
+! PARSED=$(getopt --options=$OPTS --longoptions=$LONGOPTS --name "$0" -- "$@")
+if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+ exit 2
+fi
+eval set -- "$PARSED"
+
+# Default format is specified in mpv.conf
+FORMAT=""
+while true; do
+  case $1 in
+    -h|--hq)
+      HEIGHT=$(swaymsg -t get_outputs | jq '.[] | select(.active) | .current_mode.height')
+      FORMAT="--ytdl-format='bestvideo[height<=?$HEIGHT,ext!=webm]+bestaudio/best'"
+      shift 1
+      ;;
+    -a|--audio-only)
+      FORMAT="--ytdl-format=bestaudio/best"
+      shift 1
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *)
+      echo "Programming error"
+      exit 3
+      ;;
+  esac
+done
+
+
+# handle non-option arguments
+if [[ $# -lt 1 ]]; then
+  # Link might be provided via clipboard
+  LINK=$(wl-paste -n | tr -d '[:space:]')
+else
+  LINK=$1
+  shift
 fi
 
 if ! curl --head --silent --fail $LINK >/dev/null 2>&1; then
   if ! [ -f $(readlink -f "$LINK") ]; then
     notify-send --category=error "ytplay" "This file or page does not exist."
-    exit 1
+    exit 4
   fi
 fi
 
 notify-send "ytplay" "Start playing $LINK"
 
-cmd="mpv $LINK $@ --resume-playback > /tmp/mpv.log 2>&1"
-swaymsg exec \'"$cmd"\'
+cmd="mpv --force-window=yes $FORMAT $LINK $@ --resume-playback > /tmp/mpv.log 2>&1"
+swaymsg exec "\"$cmd\""
