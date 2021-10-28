@@ -1,9 +1,9 @@
 #!bash
 
 # If SWAYSOCK is empty check if there is a running sway instance
-if [[ -z $SWAYSOCK ]]; then
-  SWAYSOCK=$(sway --get-socketpath 2>/dev/null)
-  if [ "$?" -eq 0 ]; then
+if [[ -z $SWAYSOCK ]] || [[ "$SWAYSOCK" == -1 ]]; then
+  : ${SWAYSOCK:=/run/user/$(id -u)/sway-ipc.$(id -u).$(pidof sway).sock}
+  if [ -d "$SWAYSOCK" ]; then
     export SWAYSOCK
   else
     export SWAYSOCK=-1

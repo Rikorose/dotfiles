@@ -8,7 +8,7 @@ alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -lAGh1vX --group-directories-first'
 alias lh='ll'
-alias lt='lt'
+alias lt='ll -t'
 
 # use custom tmp dir on lme242
 HOST=$(hostname)
@@ -24,9 +24,14 @@ alias tmux="env TERM=xterm-256color tmux"
 # set term variable over ssh
 alias ssh="TERM=xterm ssh"
 
+# Use podman istead of docker
+alias docker=podman
+
 # dnf
 alias dnfs='dnf search -C'
 
+# Use pdf shortcut for zathura.
+# When running sway, this will be overwritten so it uses swayexec.
 alias pdf='zathura'
 
 # default options for rsync
