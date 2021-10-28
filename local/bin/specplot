@@ -1,13 +1,18 @@
 #!/bin/bash
 
-USAGE="Usage: $0 [-s/--save] <audiofile1> <audiofile2> ..."
+USAGE="Usage: $0 [-s/--save] [-l] [-n/--bins <bins>] [-r/--rate <rate>] [-c/--channels <ch>] [-t/--trim <start end>] [-o/--outdir <outdir>] [-t/--title <title>] [-z <dynamic range>] <audiofile1> <audiofile2> ..."
 
 if [ "$#" -eq 0 ]; then
   echo "$USAGE"
   exit 1
 fi
 
-set -o errexit -o pipefail -o noclobber -o nounset
+set -o pipefail -o noclobber -o nounset
+
+function is_power_of_two () {
+    declare -i n=$1
+    (( n > 0 && (n & (n - 1)) == 0 ))
+}
 
 # -allow a command to fail with !’s side effect on errexit
 # -use return value from ${PIPESTATUS[0]}, because ! hosed $?
@@ -17,8 +22,8 @@ if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
     exit 1
 fi
 
-OPTIONS=s,n,r:
-LONGOPTS=save,bins,rate
+OPTIONS=s,n:,r:,t:,l,o:,c:,T:,z:
+LONGOPTS=save,bins:,rate:,trim:,outdir:,channels:,title:
 
 # -regarding ! and PIPESTATUS see above
 # -temporarily store output to be able to check for errors
@@ -34,22 +39,60 @@ fi
 eval set -- "$PARSED"
 
 save=0
-bin=""  # Number of channels in y axis (i.e. frequency bins)
-rate=""
+BINS=""   # Number of channels in y axis (i.e. frequency BINS)
+RATE=""   # Override sampling rate
+TRIM=""   # Trim audio using sox trim effect; parameter must position as
+CHANNELS="channels 1" # Number of channels; default 1
+          # specified in the sox man file
+L=""      # Printer friendly version via 'sox spectrogram -l'
+OUTDIR="" # Optional out dir for saving spectrogram image
+Z=""      # Default dynamic range: 120dB
+TITLE=""
 while true; do
-  echo "$1"
   case $1 in
     -s|--save)
       save=1
       shift 1
       ;;
+    -l)
+      L="-l"
+      shift 1
+      ;;
     -n|--bins)
-      bins="-y $2"
+      if is_power_of_two "$2"; then
+        BINS="-y $(("$2"+1))"
+      else
+        BINS="-y $2"
+      fi
       shift 2
       ;;
     -r|--rate)
-      rate="rate $2"
-      echo "rate: $rate"
+      RATE="rate $2"
+      shift 2
+      ;;
+    -c|--channels)
+      CHANNELS="channels $2"
+      shift 2
+      ;;
+    -t|--trim)
+      trim_params=( $2 )
+      if [ ${#trim_params[@]} -eq 1 ]; then
+        # Start from zero if not specified other
+        trim_params=( 0 ${trim_params[0]})
+      fi
+      TRIM="trim ${trim_params[@]}"
+      shift 2
+      ;;
+    -o|--outdir)
+      OUTDIR="$2"
+      shift 2
+      ;;
+    -T|--title)
+      TITLE="$2"
+      shift 2
+      ;;
+    -z)
+      Z="-z $2"
       shift 2
       ;;
     --)
@@ -69,30 +112,69 @@ if [[ $# -lt 1 ]]; then
   exit 4
 fi
 
+# Check if basenames are the same
+have_same_basenames=0
+basenames=""
+for f in $(ls $@); do
+  f=$(basename "$f")
+  if $(echo "$basenames" | grep -w -q $f); then
+    have_same_basenames=1
+  fi
+  basenames="$basenames $f"
+done
+
+outname() {
+  fn=$(basename "$1")
+  if [ $have_same_basenames -eq 1 ]; then
+    parentdir="$(dirname "$1")"
+    parentdir="$(basename "$parentdir")"
+    echo "$parentdir/$fn" | tr / _
+  else
+    echo "$fn"
+  fi
+}
+
 plot() {
+  set -e
+
   FILE="$1"
-  BASENAME=$(basename "$FILE")
-  echo "Plotting spectrogram of $BASENAME"
-  sox "$FILE" -n $rate spectrogram $bins -t "$BASENAME" -o - | imv -
-  shift;
+  echo $FILE
+  NAME=$(outname "$FILE")
+  if [ -z "$TITLE" ]; then
+    T="${NAME:0:100}"  # Limit length
+  else
+    T="$TITLE"
+  fi
+  echo "$NAME"
+  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o - | imv - &
 }
 
 save() {
   FILE="$1"
-  BASENAME=$(basename "$FILE")
-  DIR=$(dirname "$FILE")
-  echo "Saving spectrogram of $BASENAME"
-  sox $FILE -n $rate spectrogram $bins -t $BASENAME -o "$DIR/${BASENAME%.*}.png"
+  NAME=$(outname "$FILE")
+  if [ -z "$TITLE" ]; then
+    T="${NAME:0:100}"  # Limit length
+  else
+    T="$TITLE"
+  fi
+  local loutdir=$OUTDIR
+  if [[ $OUTDIR == "" ]]; then
+    loutdir=$(dirname "$FILE")
+  fi
+  SAVEFILE="$loutdir/${NAME%.*}.png"
+  echo "$SAVEFILE"
+  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $BINS -t $T -o $SAVEFILE
 }
 
 for FILE in "$@"
 do
-  printf "\n"
-  if [ "$save" -eq 1 ]; then
-    save $(readlink -f "$FILE") &
+  if ! [ -f $FILE ]; then
+    echo "File $FILE not found"
+    continue
+  fi
+  if [[ "$save" -eq 1 ]]; then
+    save $(readlink -f "$FILE")
   else
-    plot $(readlink -f "$FILE") &
+    plot $(readlink -f "$FILE")
   fi
 done
-
-printf "\n"
