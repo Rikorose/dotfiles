@@ -1,17 +1,21 @@
 #!/bin/bash
 
-
 BASE_URL="https://www.zdf.de"
 
-if ! [ -x $(command -v pup) ]; then
+if ! [ -x "$(command -v pup)" ]; then
   echo "Html command line parsing tool 'pup' not found"
   exit 1
 fi
 
-PLAYER=""
-if [ -x $(command -v yt) ]; then
+PLAYER=${PLAYER:-}
+if [ -n "$PLAYER" ]; then
+  command -v "$PLAYER" || (
+    echo "Player $PLAYER not found"
+    exit 2
+  )
+elif [ -x "$(command -v yt)" ]; then
   PLAYER="yt"
-elif [ -x $(command -v mpv) ]; then
+elif [ -x "$(command -v mpv)" ]; then
   PLAYER="mpv"
 else
   echo "No player found"
@@ -19,13 +23,14 @@ else
 fi
 
 d=$(date -I)
-while true; do 
+while true; do
   d=$(date -I -d "$d - 1 day")
-  formated=$(date --date $d +%d.%m.%Y)
+  formated=$(date --date "$d" +%d.%m.%Y | sed -e 's/^0//g')
   title="heute journal vom $formated"
+  curl -s "$BASE_URL"/nachrichten/heute-journal | pup 'a[title="'"$title"'"] attr{href}'
   HREF=$(curl -s "$BASE_URL"/nachrichten/heute-journal | pup 'a[title="'"$title"'"] attr{href}' | head -n 1)
   URL=$BASE_URL$HREF
-  if curl --head --silent --fail $URL >/dev/null 2>&1; then
+  if curl --head --silent --fail "$URL" >/dev/null 2>&1; then
     break
   fi
 done
