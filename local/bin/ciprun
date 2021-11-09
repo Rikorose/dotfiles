@@ -3,9 +3,11 @@
 set -e
 
 # default timeout is 5 minutes
-CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-5m}
+CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-23h}
 CIPRUN_USER=${CIPRUN_USER:-1}
-CIPRUN_GPU=${CIPRUN_GPU:-1}
+CIPRUN_GPU=${CIPRUN_GPU:-0}
+
+renice -n 10 $$
 
 # Execute program in background and get its pid
 ( $@ ) & pid_p=$!
@@ -44,11 +46,11 @@ while user=$(cip-logind-active-user); avail=$?; do
     cleanup
   fi
   # Check if there is enough RAM eavailable for a new user to login
-  if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 98 ];
-  then
-    echo "Not enough RAM available"
-    cleanup
-  fi
+  # if [ $(free | awk '/Mem/{printf("%.0f\n"), $3/$2*100}') -gt 98 ];
+  # then
+  #   echo "Not enough RAM available"
+  #   cleanup
+  # fi
   # Check if process still exist and was not killed due to timeout or SIGINT
   ps -p $pid_p >/dev/null 2>&1; killed=$?
   if [ $killed -eq 1 ]; then
