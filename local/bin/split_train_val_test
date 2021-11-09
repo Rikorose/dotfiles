@@ -7,9 +7,9 @@ from string import ascii_lowercase
 parser = ArgumentParser()
 parser.add_argument("ifile", help="Input file", type=str)
 parser.add_argument("splits", help="Amount per split in [\%].", type=float, nargs="+")
-parser.add_argument("ofiles", help="Output files", type=str, nargs="*")
 parser.add_argument("--shuffle", "-s", action="store_true")
-parser.add_argument("--prefix", type=str, default="x")
+parser.add_argument("--ofiles", "-o", help="Output files", type=str, nargs="*")
+parser.add_argument("--prefix", "-p", type=str, default="x")
 args = parser.parse_args()
 
 
