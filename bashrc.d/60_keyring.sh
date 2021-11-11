@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 if [[ -n "$DESKTOP_SESSION" ]] && [[ -x $(command -v gnome-keyring-daemon) ]]; then
   eval $(gnome-keyring-daemon --start --components=ssh,se)

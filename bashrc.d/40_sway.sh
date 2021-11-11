@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 # If SWAYSOCK is empty check if there is a running sway instance
 if [[ -z $SWAYSOCK ]] || [[ "$SWAYSOCK" == -1 ]]; then

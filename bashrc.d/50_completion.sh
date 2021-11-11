@@ -1,3 +1,4 @@
+#!/bin/bash
 # Completion for pdf files
 _pdf()
 {

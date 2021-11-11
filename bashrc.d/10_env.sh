@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 # cd
 alias ..="cd .."

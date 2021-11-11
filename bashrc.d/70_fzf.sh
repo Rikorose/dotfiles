@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 # fzf keybindings
 export FZF_DEFAULT_COMMAND='fd --type f --follow'
