@@ -4,9 +4,14 @@
 alias ..="cd .."
 
 # ls
-alias ls='ls --color=auto'
+if [[ -x $(which lsd) ]]; then
+  alias ls=lsd
+  alias ll='ls -l --group-dirs first'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -lAGh1vX --group-directories-first'
+fi
 alias la='ls -a'
-alias ll='ls -lAGh1vX --group-directories-first'
 alias lh='ll'
 alias lt='ll -t'
 
@@ -16,16 +21,13 @@ if [[ "$HOST" == "lme242" ]]; then
   export TMPDIR="$HOME/tmp"
   export TMUX_TMPDIR="$HOME/tmp"
   alias nvim='TMPDIR=$XDG_RUNTIME_DIR nvim'
-  mkdir -p $TMPDIR
+  mkdir -p "$TMPDIR"
 fi
 # tmux 256 color support
 alias tmux="env TERM=xterm-256color tmux"
 
 # set term variable over ssh
 alias ssh="TERM=xterm ssh"
-
-# Use podman istead of docker
-alias docker=podman
 
 # dnf
 alias dnfs='dnf search -C'
