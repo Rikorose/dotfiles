@@ -1,8 +1,17 @@
 # This is Git's per-user configuration file.
 [user]
 # Please adapt and uncomment the following lines:
-  name = Hendrik Schröter
-  email = hendrik.m.schroeter@fau.de
+  name = Hendrik Schroeter
+  email = h.schroeter@pm.me
+	signingKey = 0815C2AC5DC34944
+[commit]
+	gpgSign = true
+[pull]
+	ff = only
+[core]
+	pager = less -F
+[init]
+	defaultBranch = main
 [merge]
   tool = vimdiff
 [mergetool]
@@ -207,7 +216,3 @@
 	smudge = git-lfs smudge --skip -- %f
 	process = git-lfs filter-process --skip
 	required = true
-[pull]
-	ff = only
-[core]
-	pager = less -F
