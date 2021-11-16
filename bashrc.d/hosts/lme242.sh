@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 # use custom tmp dir on lme242
 export TMPDIR="$HOME/tmp"
