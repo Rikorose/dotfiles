@@ -65,7 +65,8 @@ local leader = {
     },
     h = { "<cmd>Telescope command_history<cr>", "Command History" },
     m = { "<cmd>Telescope marks<cr>", "Jump to Mark" },
-    r = { "<cmd>lua require('spectre').open()<CR>", "Replace (Spectre)" },
+    r = { "<cmd>lua require('spectre').open_visual({select_word=true})<CR>", "Replace word below cursor (Spectre)" },
+    R = { "<cmd>lua require('spectre').open()<CR>", "Replace (Spectre)" },
   },
   ["f"] = { "<cmd>Telescope find_files<cr>", "Find File" },
   ["h"] = {
@@ -140,6 +141,13 @@ local leader = {
     q = { "<cmd>copen<cr>", "Open Quickfix List" },
   },
 }
+local visual_leader = {
+  s = {
+    name = "+search",
+    r = { "<cmd>lua require('spectre').open_visual()<CR>", "Replace visual selection (Spectre)" },
+  },
+}
 wk.register(leader, { prefix = "<leader>" })
+wk.register(visual_leader, { prefix = "<leader>", mode = "v" })
 
 wk.register({ g = { name = "+goto", h = "Hop Word" }, s = "Hop Word1" })

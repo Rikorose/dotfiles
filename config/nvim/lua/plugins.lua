@@ -121,6 +121,11 @@ return require("packer").startup(function()
     end,
   })
 
+  -- Search/replace
+  use({
+    "windwp/nvim-spectre",
+  })
+
   -- Git integration
   use({
     "lewis6991/gitsigns.nvim",
