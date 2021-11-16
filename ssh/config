@@ -16,18 +16,21 @@ Host faui*
   HostName %h.informatik.uni-erlangen.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host cip*
   HostName %h.cip.cs.fau.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host lme*
   HostName %h.informatik.uni-erlangen.de
   User schroeter
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host i5.cluster
