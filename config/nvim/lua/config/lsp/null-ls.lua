@@ -8,7 +8,7 @@ function M.setup(options)
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua,
       nls.builtins.formatting.fixjson.with({ filetypes = { "jsonc" } }),
-      nls.builtins.formatting.isort.with({ args = { "--resolve-all-configs", "--stdout", "--profile", "black", "-" } }),
+      nls.builtins.formatting.isort,
       nls.builtins.formatting.black,
       nls.builtins.diagnostics.shellcheck,
       nls.builtins.formatting.shfmt,
