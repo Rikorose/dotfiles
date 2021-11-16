@@ -2,10 +2,6 @@ local util = require("util")
 
 local M = {}
 
--- vim.lsp.handlers["textDocument/hover"] = function(_, method, result)
---   print(vim.inspect(result))
--- end
-
 M.autoformat = true
 
 function M.toggle()
@@ -28,7 +24,10 @@ function M.setup(client, buf)
   local nls = require("config.lsp.null-ls")
 
   local enable = false
-  if nls.has_formatter(ft) then
+  if client.name == "pyright" or client.name == "ltex" then
+    -- Use null-ls instead for python and tex files
+    enable = false
+  elseif nls.has_formatter(ft) then
     enable = client.name == "null-ls"
   else
     enable = not (client.name == "null-ls")
@@ -37,12 +36,13 @@ function M.setup(client, buf)
   client.resolved_capabilities.document_formatting = enable
   -- format on save
   if client.resolved_capabilities.document_formatting then
-    vim.cmd([[
-      augroup LspFormat
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua require("config.lsp.formatting").format()
-      augroup END
-    ]])
+    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()")
+    -- vim.cmd([[
+    --   augroup LspFormat
+    --     autocmd! * <buffer>
+    --     autocmd BufWritePre <buffer> lua require("config.lsp.formatting").format()
+    --   augroup END
+    -- ]])
   end
 end
 

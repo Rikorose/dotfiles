@@ -4,11 +4,12 @@ function M.setup(options)
   local nls = require("null-ls")
   nls.config({
     debounce = 150,
-    save_after_format = false,
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua,
       nls.builtins.formatting.fixjson.with({ filetypes = { "jsonc" } }),
+      nls.builtins.formatting.isort.with({ args = { "--resolve-all-configs", "--stdout", "--profile", "black", "-" } }),
+      nls.builtins.formatting.black,
       nls.builtins.diagnostics.shellcheck,
       nls.builtins.formatting.shfmt,
       nls.builtins.diagnostics.markdownlint,
@@ -20,10 +21,12 @@ function M.setup(options)
 end
 
 function M.has_formatter(ft)
-  local config = require("null-ls.config").get()
-  local formatters = config._generators["NULL_LS_FORMATTING"]
-  for _, f in ipairs(formatters) do
-    if vim.tbl_contains(f.filetypes, ft) then
+  local sources = require("null-ls").get_source({
+    filetypes = { [ft] = true },
+    method = require("null-ls").methods.FORMATTING,
+  })
+  for _, f in ipairs(sources) do
+    if f.filetypes[ft] == true then
       return true
     end
   end

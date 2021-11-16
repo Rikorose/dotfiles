@@ -1,24 +1,13 @@
 require("config.lsp.diagnostics")
 
 local function on_attach(client, bufnr)
-  if client.name ~= "ltex" then
-    require("config.lsp.formatting").setup(client, bufnr)
-  end
+  require("config.lsp.formatting").setup(client, bufnr)
   require("config.lsp.keys").setup(client, bufnr)
   require("lsp_signature").on_attach()
 end
 
 local servers = {
-  pyright = {
-    settings = {
-      python = {
-        formatting = {
-          provider = "black",
-          blackArgs = { "--quiet", "--experimental-string-processing" },
-        },
-      },
-    },
-  },
+  pyright = {},
   bashls = {},
   jsonls = {},
   rust_analyzer = {
