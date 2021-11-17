@@ -102,12 +102,6 @@ return require("packer").startup(function()
   })
   -- LSP code actions
   use({
-    "kosayoda/nvim-lightbulb",
-    config = function()
-      require("config/lightbulb")
-    end,
-  })
-  use({
     "weilbith/nvim-code-action-menu",
     cmd = "CodeActionMenu",
   })
@@ -147,16 +141,19 @@ return require("packer").startup(function()
     end,
   })
 
-  -- Smooth Scrolling
-  use({
-    "karb94/neoscroll.nvim",
-    keys = { "<C-u>", "<C-d>", "gg", "G" },
-    config = function()
-      require("config.scroll")
-    end,
-  })
-
   -- Fuzzy finder
+  use({
+    "ibhagwan/fzf-lua",
+    config = function()
+      require("config.fzf")
+    end,
+    opt = true,
+    cmd = { "FzfLua" },
+    module = { "fzf-lua" },
+    requires = {
+      "vijaymarupudi/nvim-fzf",
+    },
+  })
   use({
     "nvim-telescope/telescope.nvim",
     opt = true,
@@ -204,16 +201,6 @@ return require("packer").startup(function()
         auto_open = false,
         use_lsp_diagnostic_signs = true, -- en
       })
-    end,
-  })
-
-  -- Todo highlighting and list
-  use({
-    "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble", "TodoTelescope" },
-    event = "BufReadPost",
-    config = function()
-      require("config.todo")
     end,
   })
 
