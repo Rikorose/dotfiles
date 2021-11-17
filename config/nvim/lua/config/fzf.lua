@@ -1,10 +1,12 @@
 local fzf = require("fzf-lua")
 
-local previewers = vim.tbl_deep_extend("force", fzf.config.globals.previewers, {
-  files = {
-    cmd = "lsd",
-    args = "-l",
-  },
-})
-
-fzf.setup({ previewers = { files = { cmd = "ls", args = "-l" } }, fzf_opts = { ["--layout"] = "default" } })
+local config = fzf.config.globals
+config["fzf_opts"]["--layout"] = "default"
+-- Todo:
+-- config["previewers"] = vim.tbl_deep_extend("force", config.previewers, {
+--   files = {
+--     cmd = "lsd",
+--     args = "-l",
+--   },
+--  [[ $COLORTERM =~ ^(truecolor|24bit)$ ]] && echo support})
+fzf.setup(config)

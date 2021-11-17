@@ -147,9 +147,6 @@ return require("packer").startup(function()
     config = function()
       require("config.fzf")
     end,
-    opt = true,
-    cmd = { "FzfLua" },
-    module = { "fzf-lua" },
     requires = {
       "vijaymarupudi/nvim-fzf",
     },
