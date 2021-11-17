@@ -36,7 +36,7 @@ return require("packer").startup(function()
 
   -- Color sheme
   use({
-    "Mofiqul/vscode.nvim",
+    "Th3Whit3Wolf/one-nvim",
     config = function()
       require("config.theme")
     end,
