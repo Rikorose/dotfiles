@@ -4,6 +4,7 @@ function M.setup(options)
   local nls = require("null-ls")
   nls.config({
     debounce = 150,
+    debug = true,
     sources = {
       nls.builtins.formatting.prettierd,
       nls.builtins.formatting.stylua,

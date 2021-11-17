@@ -25,8 +25,8 @@ function M.setup(client, bufnr)
       },
     },
     x = {
-      s = { "<cmd>Telescope lsp_document_diagnostics<cr>", "Search Document Diagnostics" },
-      w = { "<cmd>Telescope lsp_workspace_diagnostics<cr>", "Workspace Diagnostics" },
+      s = { "<cmd>FzfLua lsp_document_diagnostics<cr>", "Search Document Diagnostics" },
+      w = { "<cmd>FzfLua lsp_workspace_diagnostics<cr>", "Workspace Diagnostics" },
     },
   }
 
@@ -39,7 +39,7 @@ function M.setup(client, bufnr)
 
   local keymap_goto = {
     name = "+goto",
-    r = { "<cmd>Telescope lsp_references<cr>", "References" },
+    r = { "<cmd>FzfLua lsp_references<cr>", "References" },
     R = { "<cmd>Trouble lsp_references<cr>", "Trouble References" },
     d = { "<Cmd>lua vim.lsp.buf.definition()<CR>", "Goto Definition" },
     dv = { "<Cmd>vsplit | lua vim.lsp.buf.definition()<CR>", "Goto Definition" },
