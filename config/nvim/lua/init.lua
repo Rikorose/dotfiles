@@ -89,10 +89,6 @@ vim.g.loaded_node_provider = 0
 
 -- Disable some in built plugins completely
 local disabled_built_ins = {
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
   "gzip",
   "zip",
   "zipPlugin",
