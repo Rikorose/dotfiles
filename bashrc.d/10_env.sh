@@ -45,7 +45,13 @@ alias mv-rsync='rsync --remove-source-files --checksum'
 export NNN_PLUG='o:fzopen;c:fzcd;d:diffs;m:nmount;l:launch'
 
 # Less with colors, smart case sorting and mouse scrolling in tmux
-export LESS='-Ri --mouse --wheel-lines=3'
+export LESS="-Ri"
+# Less version 543+ support mouse options. Less' version numbers may
+# include a dot for bugfix releases such as 543.2; thus interpret as float.
+LESS_VERSION=$(less --version | head -n 1 | cut -d ' ' -f2)
+if (( $(echo "$LESS_VERSION >= 543" | bc -l) )); then
+  export LESS="$LESS --mouse --wheel-lines=3"
+fi
 
 alias suspend='sudo systemctl suspend'
 alias reboot='sudo systemctl reboot'
