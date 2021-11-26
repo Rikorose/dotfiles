@@ -9,17 +9,17 @@ fi
 
 set -o pipefail -o noclobber -o nounset
 
-function is_power_of_two () {
-    declare -i n=$1
-    (( n > 0 && (n & (n - 1)) == 0 ))
+function is_power_of_two() {
+  declare -i n=$1
+  ((n > 0 && (n & (n - 1)) == 0))
 }
 
 # -allow a command to fail with !’s side effect on errexit
 # -use return value from ${PIPESTATUS[0]}, because ! hosed $?
-! getopt --test > /dev/null 
+! getopt --test >/dev/null
 if [[ ${PIPESTATUS[0]} -ne 4 ]]; then
-    echo 'I’m sorry, `getopt --test` failed in this environment.'
-    exit 1
+  echo 'I’m sorry, `getopt --test` failed in this environment.'
+  exit 1
 fi
 
 OPTIONS=s,n:,r:,t:,l,o:,c:,T:,z:
@@ -31,78 +31,78 @@ LONGOPTS=save,bins:,rate:,trim:,outdir:,channels:,title:
 # -pass arguments only via   -- "$@"   to separate them correctly
 ! PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTS --name "$0" -- "$@")
 if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
- # e.g. return value is 1
- #  then getopt has complained about wrong arguments to stdout
- exit 2
+  # e.g. return value is 1
+  #  then getopt has complained about wrong arguments to stdout
+  exit 2
 fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
 save=0
-BINS=""   # Number of channels in y axis (i.e. frequency BINS)
-RATE=""   # Override sampling rate
-TRIM=""   # Trim audio using sox trim effect; parameter must position as
+BINS=""               # Number of channels in y axis (i.e. frequency BINS)
+RATE=""               # Override sampling rate
+TRIM=""               # Trim audio using sox trim effect; parameter must position as
 CHANNELS="channels 1" # Number of channels; default 1
-          # specified in the sox man file
+# specified in the sox man file
 L=""      # Printer friendly version via 'sox spectrogram -l'
 OUTDIR="" # Optional out dir for saving spectrogram image
 Z=""      # Default dynamic range: 120dB
 TITLE=""
 while true; do
   case $1 in
-    -s|--save)
-      save=1
-      shift 1
-      ;;
-    -l)
-      L="-l"
-      shift 1
-      ;;
-    -n|--bins)
-      if is_power_of_two "$2"; then
-        BINS="-y $(("$2"+1))"
-      else
-        BINS="-y $2"
-      fi
-      shift 2
-      ;;
-    -r|--rate)
-      RATE="rate $2"
-      shift 2
-      ;;
-    -c|--channels)
-      CHANNELS="channels $2"
-      shift 2
-      ;;
-    -t|--trim)
-      trim_params=( $2 )
-      if [ ${#trim_params[@]} -eq 1 ]; then
-        # Start from zero if not specified other
-        trim_params=( 0 ${trim_params[0]})
-      fi
-      TRIM="trim ${trim_params[@]}"
-      shift 2
-      ;;
-    -o|--outdir)
-      OUTDIR="$2"
-      shift 2
-      ;;
-    -T|--title)
-      TITLE="$2"
-      shift 2
-      ;;
-    -z)
-      Z="-z $2"
-      shift 2
-      ;;
-    --)
-      shift
-      break
-      ;;
-    *)
-      echo "Programming error"
-      exit 3
-      ;;
+  -s | --save)
+    save=1
+    shift 1
+    ;;
+  -l)
+    L="-l"
+    shift 1
+    ;;
+  -n | --bins)
+    if is_power_of_two "$2"; then
+      BINS="-y $(("$2" + 1))"
+    else
+      BINS="-y $2"
+    fi
+    shift 2
+    ;;
+  -r | --rate)
+    RATE="rate $2"
+    shift 2
+    ;;
+  -c | --channels)
+    CHANNELS="channels $2"
+    shift 2
+    ;;
+  -t | --trim)
+    trim_params=($2)
+    if [ ${#trim_params[@]} -eq 1 ]; then
+      # Start from zero if not specified other
+      trim_params=(0 ${trim_params[0]})
+    fi
+    TRIM="trim ${trim_params[@]}"
+    shift 2
+    ;;
+  -o | --outdir)
+    OUTDIR="$2"
+    shift 2
+    ;;
+  -T | --title)
+    TITLE="$2"
+    shift 2
+    ;;
+  -z)
+    Z="-z $2"
+    shift 2
+    ;;
+  --)
+    shift
+    break
+    ;;
+  *)
+    echo "Programming error"
+    exit 3
+    ;;
   esac
 done
 
@@ -141,19 +141,19 @@ plot() {
   echo $FILE
   NAME=$(outname "$FILE")
   if [ -z "$TITLE" ]; then
-    T="${NAME:0:100}"  # Limit length
+    T="${NAME:0:100}" # Limit length
   else
     T="$TITLE"
   fi
   echo "$NAME"
-  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o - | imv - &
+  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o - | imv -u nearest_neighbour - &
 }
 
 save() {
   FILE="$1"
   NAME=$(outname "$FILE")
   if [ -z "$TITLE" ]; then
-    T="${NAME:0:100}"  # Limit length
+    T="${NAME:0:100}" # Limit length
   else
     T="$TITLE"
   fi
@@ -166,8 +166,7 @@ save() {
   sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $BINS -t $T -o $SAVEFILE
 }
 
-for FILE in "$@"
-do
+for FILE in "$@"; do
   if ! [ -f $FILE ]; then
     echo "File $FILE not found"
     continue
