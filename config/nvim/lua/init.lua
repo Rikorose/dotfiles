@@ -109,6 +109,10 @@ for _, plugin in pairs(disabled_built_ins) do
   vim.g["loaded_" .. plugin] = 1
 end
 
+-- Latex filetype stuff
+vim.g.tex_flavor = "latex"
+vim.cmd("autocmd BufReadPost *.tikz set filetype=tex")
+
 require("plugins")
 -- no need to load this immediately, since we have packer_compiled
 -- vim.defer_fn(function()
