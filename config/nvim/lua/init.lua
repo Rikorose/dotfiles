@@ -56,7 +56,7 @@ o.autowriteall = true
 vim.api.nvim_command("autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! wall")
 vim.api.nvim_command("autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! checktime")
 
--- Remember curser position
+-- Remember cursor position
 vim.api.nvim_command('autocmd BufReadPost * silent! normal! g`"zv')
 
 -- Highlight on yank

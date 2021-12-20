@@ -1,8 +1,9 @@
 local M = {}
 
 function M.setup(options)
+  require("util").log(vim.inspect(options))
   local nls = require("null-ls")
-  nls.config({
+  nls.setup({
     debounce = 150,
     debug = true,
     sources = {
@@ -10,11 +11,11 @@ function M.setup(options)
       nls.builtins.formatting.stylua,
       nls.builtins.formatting.fixjson.with({ filetypes = { "jsonc" } }),
       nls.builtins.formatting.isort,
-      nls.builtins.formatting.black,
+      nls.builtins.formatting.black.with({ args = { "--quiet", "-" } }),
       nls.builtins.diagnostics.shellcheck,
       nls.builtins.formatting.shfmt,
       nls.builtins.diagnostics.markdownlint,
-      nls.builtins.diagnostics.selene,
+      -- nls.builtins.diagnostics.selene,
       nls.builtins.code_actions.gitsigns,
     },
   })
@@ -22,9 +23,10 @@ function M.setup(options)
 end
 
 function M.has_formatter(ft)
-  local sources = require("null-ls").get_source({
+  local nls = require("null-ls")
+  local sources = nls.get_source({
     filetypes = { [ft] = true },
-    method = require("null-ls").methods.FORMATTING,
+    method = nls.methods.FORMATTING,
   })
   for _, f in ipairs(sources) do
     if f.filetypes[ft] == true then
