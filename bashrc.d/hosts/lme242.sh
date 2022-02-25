@@ -4,7 +4,7 @@
 export TMPDIR="$HOME/tmp"
 export TMUX_TMPDIR="$HOME/tmp"
 alias nvim='TMPDIR=$XDG_RUNTIME_DIR nvim'
-mkdir -p $TMPDIR
+mkdir -p "$TMPDIR"
 
 if [[ $- == *i* ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_CONNECTION" ]]; then
   # Start tmux if logged in via interactive ssh

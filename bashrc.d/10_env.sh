@@ -12,7 +12,6 @@ else
   alias ll='ls -lAGh1vX --group-directories-first'
 fi
 alias la='ll -a'
-alias lh='ll'
 alias lt='ll -t'
 alias lll='ll -L'
 
