@@ -3,7 +3,9 @@
 export PROMPT_DIRTRIM=2
 export PS1='[\u@\h \w]\$ '
 
-export EDITOR=nvim
+export EDITOR=vim
+export VISUAL=vim
+export SUDOEDIT=vim
 export LANG=en_US.UTF-8
 
 # Firefox with kde file picker
@@ -19,5 +21,4 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH:/var/lib/snapd/snap/bin"
 # Python shell auto completion
 export PYTHONSTARTUP=~/.pythonrc
 
-# Cargo/rust setup
-source "$HOME/.cargo/env"
+export XDG_CONFIG_HOME="$HOME/.config"
