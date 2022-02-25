@@ -5,7 +5,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "custom/mpv", "custom/firefox", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "custom/mpv", "custom/firefox", "custom/spotifyd", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -81,6 +81,20 @@
         },
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click": "pavucontrol"
+    },
+    "custom/spotifyd": {
+        "format": "{icon}{}",
+        "return-type": "json",
+        "format-icons": {
+            "Playing": " ",
+            "Paused": " ",
+        },
+        "max-length": 40,
+        "escape": true,
+        "exec": "$HOME/.config/waybar/mpd_player.sh spotifyd",
+        "on-click": "playerctl --player=spotifyd next",
+        "on-click-right": "playerctl --player=spotifyd previous",
+        "on-click-middle": "playerctl --player=spotifyd play-pause",
     },
     "custom/spotify": {
         "format": "{icon}{}",

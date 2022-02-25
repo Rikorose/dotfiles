@@ -38,7 +38,7 @@ window#waybar.hidded {
     border-bottom: 3px solid #ffffff;
 }
 
-#clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-firefox, #custom-mpv, #custom-spotify, #mpd, #tray, #mode, #idle_inhibitor {
+#clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-firefox, #custom-mpv, #custom-spotify, #custom-spotifyd, #mpd, #tray, #mode, #idle_inhibitor {
     padding: 0 10px;
     margin: 0 5px;
 }
@@ -111,6 +111,16 @@ window#waybar.hidded {
     color: #2a5c45;
 }
 
+#custom-spotifyd {
+    background: #66cc99;
+    color: #2a5c45;
+}
+.custom-spotifyd {
+    background: #66cc99;
+}
+#custom-spotifyd.Paused {
+    background: #6d6d6d;
+}
 #custom-spotify {
     background: #66cc99;
     color: #2a5c45;
