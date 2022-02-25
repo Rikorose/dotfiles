@@ -3,13 +3,14 @@
 # Please adapt and uncomment the following lines:
   name = Hendrik Schroeter
   email = h.schroeter@pm.me
-	signingKey = 0815C2AC5DC34944
+  signingKey = 0815C2AC5DC34944
 [commit]
 	gpgSign = true
 [pull]
 	ff = only
 [core]
-	pager = less -F
+	pager = less -F -X
+	autocrlf = input
 [init]
 	defaultBranch = main
 [merge]
