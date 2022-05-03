@@ -1,1 +1,1 @@
-/home/schroeter/.dotfiles/submodules/fzf.vim/
+../../../submodules/fzf.vim/
