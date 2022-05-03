@@ -55,6 +55,20 @@ if !has('nvim')
   set ttymouse=xterm2
   " Makes filename tab completion more bash-like
   set wildmenu
+ " Fvigator_no_mappings = 1zf plugin
+  set rtp+=~/.fzf
+  set rtp+=~/.config/vim/plugins/fzf.vim
+  let fzfplug=expand("~/.config/vim/plugins/fzf.vim/plugin/fzf.vim")
+  if filereadable(fzfplug)
+    execute 'source '.fnameescape(fzfplug)
+    inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
+  endif
+  " black plugin
+  set rtp+=~/.config/vim/plugins/black
+  let blackplug=expand("~/.config/vim/plugins/black/plugin/black.vim")
+  if filereadable(blackplug)
+    execute 'source '.fnameescape(blackplug)
+  endif
 endif
 " }}}
 
@@ -90,6 +104,13 @@ set ttimeoutlen=10
 if exists('+breakindent')
   set breakindent
 endif
+
+" Return to last edit position when opening files
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
 
 " Highlight textwidth column
 set colorcolumn=+1
@@ -127,6 +148,9 @@ set noshowmode
 
 " Use 5 characters for number well
 set numberwidth=5
+
+" Show line numbers
+set number
 
 " Disable visual bell
 set noerrorbells
@@ -196,7 +220,10 @@ set wildignore+=*.gif,*.jpg,*.jpeg,*.otf,*.png,*.svg,*.ttf
 set wildignorecase
 
 " Use the system clipboard
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
+set clipboard=unnamed
+vmap <C-c> :<Esc>`>a<CR><Esc>mx`<i<CR><Esc>my'xk$v'y!xclip -selection c<CR>u
+map <Insert> :set paste<CR>i<CR><CR><Esc>k:.!xclip -o<CR>JxkJx:set nopaste<CR> 
 " }}}
 
 " Status line {{{
@@ -235,7 +262,7 @@ function! UpdateStatusLine(status)
   if &filetype=="qf"
     let &l:statusline=g:quickfixStatusLine
   elseif &filetype=="help" || &filetype=="netrw"
-    let &l:statusline=&filetype
+    let &l:statusline=&FILETYPE
   elseif a:status
     let &l:statusline=g:activeStatusLine
   else
@@ -365,51 +392,6 @@ endfunction
 " */# in visual mode searches for selected text, similar to normal mode
 vnoremap * :<C-u>call <SID>VisualSetSearch('/')<cr>/<C-R>=@/<cr><cr>
 vnoremap # :<C-u>call <SID>VisualSetSearch('#')<cr>/<C-R>=@/<cr><cr>
-
-" Change to git root of current file (if in a repo)
-function! FindGitRootCD()
-  let root = systemlist('git -C ' . expand('%:p:h') . ' rev-parse --show-toplevel')[0]
-  if v:shell_error
-    return ''
-  else
-    return {'dir': root}
-  endif
-endfunction
-
-function! GitRootCD()
-  let result = FindGitRootCD()
-  if type(result) == type({})
-    execute 'lcd' fnameescape(result['dir'])
-    echo 'Now in '.result['dir']
-  else
-    echo 'Not in git repo!'
-  endif
-endfunction
-command! GitRootCD :call GitRootCD()
-
-" K searches for word under cursor in root of project (remove default binding)
-nnoremap K :GitRootCD<cr>:silent! lgrep! "<C-R><C-W>"<cr>
-" Grep for visual selection, just like in normal mode. Note that this clears /
-" uses the `s` register
-vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:silent! lgrep! "<C-R>s"<cr>
-" Never use Ex-mode, map to project search command instead
-nnoremap Q :GitRootCD<cr>:lgrep!<SPACE>
-
-" Use ag instead of grep, if available
-if executable('ag')
-  " Use smart case, match whole words, and output in vim-friendly format
-  set grepprg=ag\ -S\ -Q\ --nogroup\ --nocolor\ --vimgrep
-  set grepformat^=%f:%l:%c:%m
-else
-  " Mimic ag settings (literal, recursive, ignore common directories)
-  set grepprg=grep\ -FIinrw\ --exclude-dir=.git\ --exclude-dir=node_modules
-
-  " Unlike ag, grep needs to have a file path after the search command. Add that
-  " in for the K bindings (default to current directory)
-  nnoremap K :GitRootCD<cr>:lgrep! "<C-R><C-W>" .<cr>
-  vnoremap K :<C-u>norm! gv"sy<cr>:GitRootCD<cr>:lgrep! "<C-R>s" .<cr>
-  nnoremap Q :GitRootCD<cr>:lgrep!<SPACE><SPACE>.<LEFT><LEFT>
-endif
 " }}}
 
 " Efficiency Shortcuts {{{
@@ -492,6 +474,15 @@ nnoremap <leader>p :bp<cr>
 " Delete current buffer
 nnoremap <leader>d :bd<cr>
 
+" current buffer
+nnoremap <leader><space> :e#<cr>
+
+" FZF
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>gf :<cr>
+nnoremap <leader>b :Buffers<cr>
+nnoremap <leader>s :Rg<cr>
+
 " Change local directory to current file
 nnoremap <leader>lcd :lcd %:p:h<cr>
 " Go back to root
@@ -506,10 +497,6 @@ nnoremap <leader>tn :tabnew<cr>
 " Close a tab
 nnoremap <leader>tc :tabclose<cr>
 
-" Sort lines within braces with <leader>s{
-nnoremap <leader>s{ vi{:sort<cr>
-" }}}
-"
 " Filetype configuration {{{
 augroup filetype_tweaks
   autocmd!

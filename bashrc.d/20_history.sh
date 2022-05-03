@@ -1,4 +1,4 @@
-#!bash
+#!/bin/bash
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -9,8 +9,8 @@ shopt -s histappend
 history -a
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=5000
-HISTFILESIZE=5000
+HISTSIZE=10000
+HISTFILESIZE=10000
 
 # disable history expansion (!)
 set +o histexpand

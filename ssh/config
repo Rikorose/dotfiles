@@ -16,18 +16,21 @@ Host faui*
   HostName %h.informatik.uni-erlangen.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host cip*
   HostName %h.cip.cs.fau.de
   User ko01jaxu
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host lme*
   HostName %h.informatik.uni-erlangen.de
   User schroeter
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
 Host i5.cluster
@@ -45,4 +48,20 @@ Host ha
 Host pizero
   User pi
   HostName pizero
+  IdentityFile ~/.ssh/id_ed25519
+
+Host pil
+  User pi
+  HostName 192.168.178.40
+  IdentityFile ~/.ssh/id_ed25519
+
+Host pio
+  User pi
+  HostName ha-rpi-hshr.duckdns.org
+  IdentityFile ~/.ssh/id_ed25519
+  Port 59999
+
+Host olchi
+  User root
+  HostName 192.168.178.55
   IdentityFile ~/.ssh/id_ed25519

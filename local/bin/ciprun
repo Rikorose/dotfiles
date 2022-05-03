@@ -6,11 +6,13 @@ set -e
 CIPRUN_TIMEOUT=${CIPRUN_TIMEOUT:-23h}
 CIPRUN_USER=${CIPRUN_USER:-1}
 CIPRUN_GPU=${CIPRUN_GPU:-0}
+CIPRUN_NICE=${CIPRUN_NICE:-19}
 
-renice -n 10 $$
+renice -n "$CIPRUN_NICE" $$
 
 # Execute program in background and get its pid
 ( $@ ) & pid_p=$!
+echo "started ciprun process with pid $pid_p"
 
 # cleanup will kill the background process
 function cleanup {
@@ -32,9 +34,20 @@ sigint_program () {
 }
 trap sigint_program INT
 
+other_user_logind () {
+  if [[ -x $(command -v cip-logind-active-user) ]]; then
+    cip-logind-active-user
+  else
+    OTHER_USERS=$(who | cut -d " " -f1 | sort | uniq | rg -v $USER)
+    if [[ -n "$OTHER_USERS" ]]; then
+      echo "$OTHER_USERS"
+    fi
+  fi
+}
+
 # Check for user that are logged in and not idle
-while user=$(cip-logind-active-user); avail=$?; do
-  if [ $avail -eq 0 ] && [ "$CIPRUN_USER" -eq 1 ]; then
+while user=$(other_user_logind); do
+  if [ -n "$user" ] && [ "$CIPRUN_USER" -eq 1 ]; then
     echo "User $user logged in at $(date), killing process with pid_p $pid_p"
     cleanup
   fi
