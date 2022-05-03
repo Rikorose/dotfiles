@@ -57,10 +57,15 @@ if !has('nvim')
   set wildmenu
  " Fvigator_no_mappings = 1zf plugin
   set rtp+=~/.fzf
-  set rtp+=~/.config/vim/plugins/fzf.vim
-  let fzfplug=expand("~/.config/vim/plugins/fzf.vim/plugin/fzf.vim")
+  set rtp+=~/.config/vim/plugins/fzf
+  let fzfplug=expand("~/.config/vim/plugins/fzf/plugin/fzf.vim")
   if filereadable(fzfplug)
     execute 'source '.fnameescape(fzfplug)
+  endif
+  set rtp+=~/.config/vim/plugins/fzf.vim
+  let fzfvimplug=expand("~/.config/vim/plugins/fzf.vim/plugin/fzf.vim")
+  if filereadable(fzfvimplug)
+    execute 'source '.fnameescape(fzfvimplug)
     inoremap <expr> <c-x><c-f> fzf#vim#complete#path('fd')
   endif
   " black plugin
@@ -70,8 +75,14 @@ if !has('nvim')
     execute 'source '.fnameescape(blackplug)
   endif
   " Tmux navigation
+  set rtp+=~/.config/vim/plugins/vim-tmux-navigator
+  let tmuxplug=expand("~/.config/vim/plugins/vim-tmux-navigator/plugin/tmux_navigator.vim")
+  let g:tmux_navigator_no_mappings = 1
   let g:tmux_navigator_save_on_switch = 2
   let g:tmux_navigator_disable_when_zoomed = 1
+  if filereadable(tmuxplug)
+    execute 'source '.fnameescape(tmuxplug)
+  endif
 endif
 " }}}
 
@@ -485,6 +496,13 @@ nnoremap <leader>f :Files<cr>
 nnoremap <leader>gf :<cr>
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>s :Rg<cr>
+
+" TMUX
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 " Change local directory to current file
 nnoremap <leader>lcd :lcd %:p:h<cr>
