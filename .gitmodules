@@ -1,3 +1,12 @@
 [submodule "ssh/ssh-ident"]
 	path = ssh/ssh-ident
 	url = git@github.com:ccontavalli/ssh-ident.git
+[submodule "submodules/black"]
+	path = submodules/black
+	url = https://github.com/psf/black.git
+[submodule "submodules/fzf.vim"]
+	path = submodules/fzf.vim
+	url = git@github.com:junegunn/fzf.vim.git
+[submodule "submodules/vim-tmux-navigator"]
+	path = submodules/vim-tmux-navigator
+	url = git@github.com:christoomey/vim-tmux-navigator.git
