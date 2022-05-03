@@ -25,11 +25,12 @@
   tool = vimdiff
 [alias]
   a = add --all
+  ap = add --all --patch
   ai = add -i
   #############
-  ap = apply
-  as = apply --stat
-  ac = apply --check
+  ; ap = apply
+  ; as = apply --stat
+  ; ac = apply --check
   #############
   ama = am --abort
   amr = am --resolved
@@ -214,6 +215,8 @@
   subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory
 [filter "lfs"]
 	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge --skip -- %f
-	process = git-lfs filter-process --skip
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
 	required = true
+[credential]
+	helper = store
