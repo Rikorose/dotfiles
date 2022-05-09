@@ -1,20 +1,21 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
   name = Hendrik Schroeter
   email = h.schroeter@pm.me
   signingKey = 0815C2AC5DC34944
 [commit]
 	gpgSign = true
 [pull]
-	ff = only
+  ff = only
 [core]
-	pager = less -F -X
-	autocrlf = input
+  pager = diff-so-fancy | less --tabs=4 -RFX
+[interactive]
+  diffFilter = diff-so-fancy --patch
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [merge]
   tool = vimdiff
+  conflictstyle = diff3
 [mergetool]
   prompt = true
 [mergetool "vimdiff"]
@@ -23,14 +24,29 @@
   prompt = false
 [diff]
   tool = vimdiff
+  colorMoved = default
+[color]
+  ui = true
+[color "diff"]
+  meta = 11
+  frag = magenta bold
+  func = 146 bold
+  commit = yellow bold
+  old = red bold
+  new = green bold
+  whitespace = red reverse
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 [alias]
   a = add --all
-  ap = add --all --patch
   ai = add -i
   #############
-  ; ap = apply
-  ; as = apply --stat
-  ; ac = apply --check
+  ap = apply
+  as = apply --stat
+  ac = apply --check
   #############
   ama = am --abort
   amr = am --resolved
@@ -213,10 +229,3 @@
   ours = "!f() { git checkout --ours $@ && git add $@; }; f"
   theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
   subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[credential]
-	helper = store
