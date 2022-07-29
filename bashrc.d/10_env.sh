@@ -44,6 +44,9 @@ if (($(echo "$LESS_VERSION >= 543" | bc -l))); then
   export LESS="$LESS --mouse --wheel-lines=3"
 fi
 
+# Use bat to colorize man pages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
 alias suspend='sudo systemctl suspend'
 alias reboot='sudo systemctl reboot'
 alias poweroff='sudo systemctl poweroff'
