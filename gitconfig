@@ -229,3 +229,5 @@
   ours = "!f() { git checkout --ours $@ && git add $@; }; f"
   theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
   subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory
+[credential]
+  helper = store
