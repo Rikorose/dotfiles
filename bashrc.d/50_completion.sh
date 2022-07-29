@@ -20,8 +20,8 @@ for bcfile in ~/.bash_completion.d/*; do
   . $bcfile
 done
 
-# Complete delta alias
-_complete_delta() {
+# Complete diff alias
+_complete_diff() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local IFS=$'\n'
   if ! isgitdir; then
@@ -34,8 +34,8 @@ _complete_delta() {
     COMPREPLY=($(compgen -W "$W" -- $cur))
   fi
 }
-complete -F _complete_delta d
-_complete_delta_cached() {
+complete -F _complete_diff d
+_complete_diff_cached() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local IFS=$'\n'
   if [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
@@ -45,7 +45,7 @@ _complete_delta_cached() {
   fi
   COMPREPLY=($(compgen -W "$W" -- $cur))
 }
-complete -F _complete_delta_cached dc
+complete -F _complete_diff_cached dc
 
 # Complete flatpak-run
 _flatpak_run() {
