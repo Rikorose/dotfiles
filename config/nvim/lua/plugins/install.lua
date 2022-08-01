@@ -13,7 +13,7 @@ vim.api.nvim_create_autocmd(
 local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-	packer_bootstrap = fn.system({
+	PackerBootstrap = fn.system({
 		"git",
 		"clone",
 		"--depth",
@@ -70,6 +70,26 @@ return require("packer").startup(function(use)
 			require("plugins.lsp")
 		end,
 	})
+	use("ray-x/lsp_signature.nvim")
+	use("simrat39/rust-tools.nvim")
+	use("folke/lsp-colors.nvim")
+	use("folke/trouble.nvim")
+
+	use({
+		"luukvbaal/stabilize.nvim",
+		config = function()
+			require("stabilize").setup()
+		end,
+	})
+
+	-- Treesitter
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		requires = "nvim-treesitter/nvim-treesitter-context",
+		config = function()
+			require("plugins.treesitter")
+		end,
+	})
 
 	use({
 		"windwp/nvim-autopairs",
@@ -118,19 +138,20 @@ return require("packer").startup(function(use)
 	-- -- Fuzzy finder
 	use({ "junegunn/fzf", run = "./install --all" })
 	use({ "junegunn/fzf.vim" })
-	-- use({
-	--   "ibhagwan/fzf-lua",
-	--   config = function()
-	--     require("plugins.fzf")
-	--   end,
-	--   requires = {
-	--     "vijaymarupudi/nvim-fzf",
-	--   },
-	-- })
+	use({ "gfanto/fzf-lsp.nvim" })
+
+	-- Status line
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "kyazdani42/nvim-web-devicons", opt = true },
+		config = function()
+			require("plugins.statusline")
+		end,
+	})
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
-	if packer_bootstrap then
+	if PackerBootstrap then
 		require("packer").sync()
 	end
 end)
