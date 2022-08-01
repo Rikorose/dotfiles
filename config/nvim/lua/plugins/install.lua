@@ -112,6 +112,9 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+	-- Tmux navigation
+	use("christoomey/vim-tmux-navigator")
+
 	-- -- Fuzzy finder
 	use({ "junegunn/fzf", run = "./install --all" })
 	use({ "junegunn/fzf.vim" })
