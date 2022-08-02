@@ -2,3 +2,4 @@ mpv/watch_later
 nvim/.netrwhist
 nvim/spell/*.spl
 packer_compiled.json
+.luarc.json

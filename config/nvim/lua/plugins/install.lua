@@ -70,6 +70,10 @@ return require("packer").startup(function(use)
 			require("plugins.lsp")
 		end,
 	})
+	use({
+		"jose-elias-alvarez/null-ls.nvim",
+		requires = "nvim-lua/plenary.nvim",
+	})
 	use("ray-x/lsp_signature.nvim")
 	use("simrat39/rust-tools.nvim")
 	use("folke/lsp-colors.nvim")

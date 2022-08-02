@@ -53,9 +53,8 @@ bind("n", "<leader>wh", "<C-W>s") -- split below (horizontal)
 bind("n", "<leader>wv", "<C-W>v") -- split right (vertical)
 
 -- Search
--- bind("n", "<leader>s", "<cmd>FzfLua grep_project<cr>")
--- bind("n", "<leader>b", "<cmd>FzfLua grep_curbuf<cr>")
--- bind("n", "<leader>f", "<cmd>FzfLua files<cr>")
 bind("n", "<leader>s", "<cmd>Rg<cr>")
 bind("n", "<leader>b", "<cmd>Buffers<cr>")
 bind("n", "<leader>f", "<cmd>Files<cr>")
+bind("n", "<leader>.", "<cmd>History:<cr>")
+bind("n", "<leader>/", "<cmd>History/<cr>")
