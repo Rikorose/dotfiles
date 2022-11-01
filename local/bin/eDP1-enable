@@ -1,0 +1,14 @@
+#!/bin/bash
+
+HAS_34UM95=0
+for m in $(swaymsg -t get_outputs | jq '.[].model'); do
+  if [[ "$m" == *"34UM95"* ]]; then
+    HAS_34UM95=1
+  fi
+done
+
+if [ "$HAS_34UM95" -eq 1 ]; then
+  swaymsg output eDP-1 pos 3440 0 enable
+else
+  swaymsg output eDP-1 enable 
+fi

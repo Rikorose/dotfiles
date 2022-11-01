@@ -1,0 +1,12 @@
+#!/bin/bash
+
+IS_ENABLED=$(swaymsg -t get_outputs | jq '.[] | select(.name=="eDP-1").active')
+
+if [ "$IS_ENABLED" == "false" ]; then
+  echo is false
+fi
+if [ "$IS_ENABLED" == "true" ]; then
+  swaymsg output eDP-1 disable
+else
+  swaymsg output eDP-1 enable
+fi
