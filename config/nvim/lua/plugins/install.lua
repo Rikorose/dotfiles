@@ -88,8 +88,15 @@ return require("packer").startup(function(use)
 
 	-- Treesitter
 	use({
-		"nvim-treesitter/nvim-treesitter",
-		requires = "nvim-treesitter/nvim-treesitter-context",
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+		requires = {
+		  "nvim-treesitter/nvim-treesitter-context",
+		  "nvim-treesitter/nvim-treesitter-refactor",
+    },
 		config = function()
 			require("plugins.treesitter")
 		end,
@@ -139,7 +146,7 @@ return require("packer").startup(function(use)
 	-- Tmux navigation
 	use("christoomey/vim-tmux-navigator")
 
-	-- -- Fuzzy finder
+	-- Fuzzy finder
 	use({ "junegunn/fzf", run = "./install --all" })
 	use({ "junegunn/fzf.vim" })
 	use({ "gfanto/fzf-lsp.nvim" })

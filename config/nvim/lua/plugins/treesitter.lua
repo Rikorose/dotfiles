@@ -10,28 +10,13 @@ local _ = require("nvim-treesitter.configs").setup({
 
 	highlight = {
 		enable = true,
-		use_languagetree = false,
+		use_languagetree = true,
 	},
 
 	refactor = {
-		highlight_definitions = { enable = true },
+    enable = true,
+		highlight_definitions = { enable = true, clear_on_cursor_move = true },
 		highlight_current_scope = { enable = false },
-
-		smart_rename = {
-			enable = false,
-			keymaps = {
-				-- mapping to rename reference under cursor
-				smart_rename = "grr",
-			},
-		},
-
-		navigation = {
-			enable = false,
-			keymaps = {
-				goto_definition = "gnd", -- mapping to go to definition of symbol under cursor
-				list_definitions = "gnD", -- mapping to list all definitions in current file
-			},
-		},
 	},
 
 	context_commentstring = {
@@ -47,4 +32,13 @@ local _ = require("nvim-treesitter.configs").setup({
 			rust = "/// %s",
 		},
 	},
+})
+
+vim.api.nvim_create_autocmd({'BufEnter','BufAdd','BufNew','BufNewFile','BufWinEnter'}, {
+  group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
+  callback = function()
+    vim.opt.foldmethod     = 'expr'
+    vim.opt.foldexpr       = 'nvim_treesitter#foldexpr()'
+    vim.opt.foldenable     = false
+  end
 })
