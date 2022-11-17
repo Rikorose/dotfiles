@@ -2,9 +2,9 @@
 [user]
   name = Hendrik Schroeter
   email = h.schroeter@pm.me
-#   signingKey = 0815C2AC5DC34944
-# [commit]
-#   gpgSign = true
+  signingKey = 0815C2AC5DC34944
+[commit]
+  gpgSign = true
 [pull]
   ff = only
 [core]

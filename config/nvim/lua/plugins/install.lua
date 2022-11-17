@@ -160,6 +160,9 @@ return require("packer").startup(function(use)
 		end,
 	})
 
+  -- Save session for tmux resurrect
+	use({"tpope/vim-obsession"})
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PackerBootstrap then
