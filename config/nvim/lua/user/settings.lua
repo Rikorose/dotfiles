@@ -55,6 +55,8 @@ o.writebackup = false
 o.inccommand = "split" -- live substitution
 o.whichwrap = o.whichwrap + "hl" -- Make h/l move across beginning/end of line
 
+vim.cmd [[ set formatoptions-=t ]] -- No line break in insert mode
+
 --Automatically load changed files
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
