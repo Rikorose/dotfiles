@@ -1,5 +1,6 @@
-local lsp = require("lsp-zero")
+local lsp = require "lsp-zero"
 local log = require("plugins.log")
+require "plugins.snips" -- load custom snippets
 
 vim.diagnostic.config({
   underline = {
