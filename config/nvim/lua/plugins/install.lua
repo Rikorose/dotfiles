@@ -31,7 +31,7 @@ return require("packer").startup(function(use)
 
 	-- Color sheme
 	use({
-		"Th3Whit3Wolf/one-nvim",
+    "navarasu/onedark.nvim",
 		config = function()
 			require("plugins.theme")
 		end,
