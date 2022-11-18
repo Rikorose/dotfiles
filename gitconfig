@@ -7,8 +7,8 @@
   gpgSign = true
 [pull]
   ff = only
-[core]
-  pager = diff-so-fancy | less --tabs=4 -RFX
+[pager]
+  diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
 [delta]
   side-by-side = true
   syntax-theme = OneHalfDark
@@ -34,6 +34,8 @@
   whitespace-error-style        = reverse red
 [interactive]
   diffFilter = diff-so-fancy --patch
+[add.interactive]
+  useBuiltin = false
 [init]
   defaultBranch = main
 [merge]
