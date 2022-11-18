@@ -2,20 +2,42 @@
 [user]
   name = Hendrik Schroeter
   email = h.schroeter@pm.me
-  signingKey = 0815C2AC5DC34944
-[commit]
-	gpgSign = true
+#   signingKey = 0815C2AC5DC34944
+# [commit]
+#   gpgSign = true
 [pull]
   ff = only
 [core]
   pager = diff-so-fancy | less --tabs=4 -RFX
+[delta]
+  side-by-side = true
+  syntax-theme = OneHalfDark
+
+  line-numbers-zero-style = white
+  hunk-header-style = file line-number syntax
+  hunk-header-line-number-style = bold
+  file-modified-label = modified:
+
+  hunk-header-decoration-style  = bold black omit
+  zero-style                    = dim syntax
+
+  minus-style                   = red
+  minus-non-emph-style          = dim red
+  minus-emph-style              = bold red
+  minus-empty-line-marker-style = bold red 52
+
+  plus-style                    = green
+  plus-non-emph-style           = dim green
+  plus-emph-style               = bold green
+  plus-empty-line-marker-style  = bold green 22
+
+  whitespace-error-style        = reverse red
 [interactive]
   diffFilter = diff-so-fancy --patch
 [init]
   defaultBranch = main
 [merge]
   tool = vimdiff
-  conflictstyle = diff3
 [mergetool]
   prompt = true
 [mergetool "vimdiff"]
