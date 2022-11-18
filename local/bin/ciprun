@@ -11,28 +11,23 @@ CIPRUN_NICE=${CIPRUN_NICE:-19}
 renice -n "$CIPRUN_NICE" $$
 
 # Execute program in background and get its pid
-( $@ ) & pid_p=$!
+( timeout --preserve-status -s SIGUSR1 -k 10 "$CIPRUN_TIMEOUT" $@ ) & pid_p=$!
 echo "started ciprun process with pid $pid_p"
-
-# cleanup will kill the background process
-function cleanup {
-  ps -p $pid_p >/dev/null 2>&1; killed=$?
-  if [ $killed -eq 0 ]; then
-    kill $pid_p
-  fi
-  exit
-}
-
-# Add timeout to kill the background process finally
-( sleep $CIPRUN_TIMEOUT; cleanup ) & pid_w=$!
 
 # Forward SIGINT
 sigint_program () {
-  kill $pid_p 2>/dev/null
+  kill -s SIGINT $pid_p 2>/dev/null
   kill $pid_w 2>/dev/null
+  sleep 10s
+  kill $pid_p 2>/dev/null
   exit
 }
 trap sigint_program INT
+
+cleanup () {
+  kill $pid_p 2>/dev/null
+  exit
+}
 
 other_user_logind () {
   if [[ -x $(command -v cip-logind-active-user) ]]; then
