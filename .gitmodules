@@ -13,3 +13,6 @@
 [submodule "submodules/fzf"]
 	path = submodules/fzf
 	url = git@github.com:junegunn/fzf.git
+[submodule "submodules/vim-obsession"]
+	path = submodules/vim-obsession
+	url = git@github.com:tpope/vim-obsession.git
