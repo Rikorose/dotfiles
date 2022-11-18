@@ -83,6 +83,9 @@ if !has('nvim')
   if filereadable(tmuxplug)
     execute 'source '.fnameescape(tmuxplug)
   endif
+  " Save session i.e. for tmux-resurrect
+  set rtp+=~/.config/vim/plugins/vim-obession
+  let tmuxplug=expand("~/.config/vim/plugins/vim-obession/plugin/obession.vim")
 endif
 " }}}
 
@@ -275,8 +278,6 @@ let statusline=g:activeStatusLine
 function! UpdateStatusLine(status)
   if &filetype=="qf"
     let &l:statusline=g:quickfixStatusLine
-  elseif &filetype=="help" || &filetype=="netrw"
-    let &l:statusline=&FILETYPE
   elseif a:status
     let &l:statusline=g:activeStatusLine
   else
