@@ -14,3 +14,6 @@ HISTFILESIZE=10000
 
 # disable history expansion (!)
 set +o histexpand
+
+# Flush bash history immediately
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
