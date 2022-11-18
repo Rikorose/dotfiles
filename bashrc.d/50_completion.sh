@@ -25,7 +25,8 @@ _complete_diff() {
   local cur=${COMP_WORDS[COMP_CWORD]}
   local IFS=$'\n'
   if ! isgitdir; then
-    COMPREPLY=($(compgen -f -- $cur))
+    # COMPREPLY=($(compgen -o bashdefault -d -f -- $cur))
+    compopt -o default; COMPREPLY=()
   elif [ "$PWD" == "$(git rev-parse --show-toplevel)" ]; then
     local W=$(git -C $PWD diff --name-only)
     COMPREPLY=($(compgen -W "$W" -- $cur))
