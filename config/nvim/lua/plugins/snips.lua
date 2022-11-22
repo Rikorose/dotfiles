@@ -112,16 +112,4 @@ ls.add_snippets("python", {
   ),
 })
 
-function _G.ls_select_or_jump(direction)
-  if ls.jumpable(direction) then
-    return ls.jump(direction)
-  elseif ls.choice_active() then
-    return ls.change_choice(direction)
-  -- else
-  --   return [[\<C-N>]]
-  end
-end
-
--- todo Fix this
--- vim.api.nvim_set_keymap("i", "<C-n>", "v:lua.ls_select_or_jump(1)", {expr=true, noremap=true})
--- vim.api.nvim_set_keymap("i", "<C-p>", "v:lua.ls_select_or_jump(-1)", {expr=true, noremap=true})
+-- Snippet movment in insert mode with <ctrl-d> and <ctrl-b>
