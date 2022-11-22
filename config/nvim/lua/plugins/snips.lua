@@ -31,7 +31,7 @@ ls.add_snippets("rust", {
   s(
     { trig = "test" },
     fmt(
-    [[
+      [[
     #[test]
     fn {}(){}{{
       {}
@@ -71,7 +71,7 @@ ls.add_snippets("python", {
   s(
     "plt",
     fmt(
-    [[
+      [[
     import matplotlib.pyplot as plt
 
     ]],
@@ -81,7 +81,7 @@ ls.add_snippets("python", {
   s(
     "icecream",
     fmt(
-    [[
+      [[
     from icecream import ic
 
     ]],
@@ -102,7 +102,7 @@ ls.add_snippets("python", {
   s(
     "ic",
     fmt(
-    [[
+      [[
     ic({})
     ]],
       {

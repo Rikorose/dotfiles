@@ -60,19 +60,19 @@ vim.cmd [[ set formatoptions-=t ]] -- No line break in insert mode
 --Automatically load changed files
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-	command = "if mode() != 'c' | checktime | endif",
-	pattern = { "*" },
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
 })
 -- Automatically save buffers
 o.autowriteall = true
-vim.api.nvim_command("autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! wall")
-vim.api.nvim_command("autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! checktime")
+vim.api.nvim_command "autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! wall"
+vim.api.nvim_command "autocmd BufLeave,FocusLost,InsertLeave,TextChanged * silent! checktime"
 
 -- Remember cursor position
-vim.api.nvim_command('autocmd BufReadPost * silent! normal! g`"zv')
+vim.api.nvim_command 'autocmd BufReadPost * silent! normal! g`"zv'
 
 -- Highlight on yank
-vim.api.nvim_command("au TextYankPost * lua vim.highlight.on_yank {}")
+vim.api.nvim_command "au TextYankPost * lua vim.highlight.on_yank {}"
 
 -- Look for a tag file in the git folder
 -- I shouldn't have to use `cwd` but here we are
@@ -86,8 +86,8 @@ vim.api.nvim_set_keymap("n", "Y", "y$", { noremap = true })
 
 -- Set grep default grep command with ripgrep
 o.grepprg = "rg --vimgrep --no-heading --smart-case --follow"
-o.errorformat:append("%f:%l:%c%p%m")
+o.errorformat:append "%f:%l:%c%p%m"
 
 -- Latex filetype stuff
 vim.g.tex_flavor = "latex"
-vim.cmd("autocmd BufReadPost *.tikz set filetype=tex")
+vim.cmd "autocmd BufReadPost *.tikz set filetype=tex"

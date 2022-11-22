@@ -9,12 +9,12 @@
 -- c compiler - gcc or tcc or zig
 
 -- Basic editor options
-require("user.settings")
+require "user.settings"
 
 -- Plugin management and config
-require("plugins.install")
+require "plugins.install"
 
 -- Keybindings
-require("user.keymaps")
+require "user.keymaps"
 
-require("user.disable_builtin")
+require "user.disable_builtin"
