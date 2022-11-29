@@ -1,0 +1,11 @@
+[Unit]
+Description=A deep-filter sink daemon
+Documentation=https://github.com/rikorose/DeepFilterNet
+Wants=sound.target
+Wants=network-online.target
+
+[Service]
+ExecStart=pipewire -c filter-chain-sink-mono.conf
+Restart=always
+RestartSec=12
+Environment="RUST_LOG=DEBUG"
