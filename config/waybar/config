@@ -1,11 +1,12 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
+    /* "output": "HDMI-A-2", */
     "height": 21, // Waybar height (to be removed for auto height)
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["idle_inhibitor", "custom/mpv", "custom/firefox", "custom/spotifyd", "custom/spotify", "sway/language", "pulseaudio", "network", "backlight", "battery", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "custom/mpv", "custom/firefox", "custom/spotifyd", "custom/spotify", "sway/language", "pulseaudio", "custom/deep-filter", "network", "backlight", "battery", "clock", "tray"],
     // Modules configuration
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -82,6 +83,16 @@
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-click": "pavucontrol"
     },
+    "custom/deep-filter": {
+        "format": "DF {}",
+        "return-type": "json",
+        "interval": 30,
+        "exec-on-event": true,
+        "escape": true,
+        "exec": "$HOME/.config/waybar/deep_filter.sh status",
+        "on-click": "$HOME/.config/waybar/deep_filter.sh sink",
+        "on-click-right": "$HOME/.config/waybar/deep_filter.sh source",
+    },
     "custom/spotifyd": {
         "format": "{icon}{}",
         "return-type": "json",
@@ -95,6 +106,8 @@
         "on-click": "playerctl --player=spotifyd next",
         "on-click-right": "playerctl --player=spotifyd previous",
         "on-click-middle": "playerctl --player=spotifyd play-pause",
+        "on-scroll-up": "playerctl --player=spotifyd position '10+'",
+        "on-scroll-down": "playerctl --player=spotifyd position '10-'",
     },
     "custom/spotify": {
         "format": "{icon}{}",
@@ -109,6 +122,8 @@
         "on-click": "playerctl --player=spotify next",
         "on-click-right": "playerctl --player=spotify previous",
         "on-click-middle": "playerctl --player=spotify play-pause",
+        "on-scroll-up": "playerctl --player=spotify position '10+'",
+        "on-scroll-down": "playerctl --player=spotify position '10-'",
     },
     "custom/mpv": {
         "format": "{icon}{}",
@@ -123,6 +138,8 @@
         "on-click": "playerctl --player=mpv next",
         "on-click-right": "playerctl --player=mpv previous",
         "on-click-middle": "playerctl --player=mpv play-pause",
+        "on-scroll-up": "playerctl --player=mpv position '10+'",
+        "on-scroll-down": "playerctl --player=mpv position '10-'",
     },
     "custom/firefox": {
         "format": "{icon}{}",

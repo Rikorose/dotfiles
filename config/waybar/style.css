@@ -38,7 +38,7 @@ window#waybar.hidded {
     border-bottom: 3px solid #ffffff;
 }
 
-#clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-firefox, #custom-mpv, #custom-spotify, #custom-spotifyd, #mpd, #tray, #mode, #idle_inhibitor {
+#clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-firefox, #custom-mpv, #custom-spotify, #custom-spotifyd, #custom-deep-filter, #mpd, #tray, #mode, #idle_inhibitor {
     padding: 0 10px;
     margin: 0 5px;
 }
@@ -107,6 +107,15 @@ window#waybar.hidded {
 }
 
 #pulseaudio.muted {
+    background: #90b1b1;
+    color: #2a5c45;
+}
+
+#custom-deep-filter {
+    background: #ffcc66;
+    color: #2a5c45;
+}
+#custom-deep-filter.INACTIVE {
     background: #90b1b1;
     color: #2a5c45;
 }
