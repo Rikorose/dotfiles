@@ -1,4 +1,6 @@
 local lsp = require "lsp-zero"
+local nnoremap = require("util").nnoremap
+local nmap = require("util").nmap
 require "plugins.snips" -- load custom snippets
 
 vim.diagnostic.config {
@@ -10,6 +12,7 @@ vim.diagnostic.config {
 -- LSP zero setup
 lsp.ensure_installed {
   "texlab",
+  "ltex",
 }
 lsp.preset "recommended"
 lsp.set_preferences {
@@ -60,6 +63,7 @@ lsp.configure("texlab", {
 })
 
 lsp.nvim_workspace()
+lsp.setup_nvim_cmp(require("plugins.cmp").cmp_config())
 lsp.setup()
 
 -- Null ls
@@ -96,21 +100,18 @@ require("lsp-colors").setup {
 }
 
 -- Formatting
-vim.keymap.set("n", "<F5>", function()
+nmap("<F5>", function()
   vim.lsp.buf.format {
     async = true,
     filter = function(client)
-      if client.name == "sumneko_lua" then
-        return false
-      end
-      return true
+      return client.name ~= "sumneko_lua"
     end,
   }
 end)
 
-vim.keymap.set("n", "<leader>cs", "<cmd>WorkspaceSymbols<cr>")
-vim.keymap.set("n", "<leader>ca", "<cmd>CodeActions<cr>")
-vim.keymap.set("n", "<leader>cd", "<cmd>DiagnosticsAll<cr>")
-vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { silent = true, noremap = true })
-vim.keymap.set("n", "<leader>cR", "<cmd>Trouble lsp_references<cr>", { silent = true, noremap = true })
+nmap("<leader>cs", "<cmd>WorkspaceSymbols<cr>")
+nmap("<leader>ca", "<cmd>CodeActions<cr>")
+nmap("<leader>cd", "<cmd>DiagnosticsAll<cr>")
+nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true })
+nnoremap("<leader>cr", vim.lsp.buf.rename, { silent = true })
+nnoremap("<leader>cR", "<cmd>Trouble lsp_references<cr>", { silent = true })

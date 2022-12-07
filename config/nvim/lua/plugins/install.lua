@@ -61,6 +61,7 @@ return require("packer").startup(function(use)
       { "saadparwaiz1/cmp_luasnip" },
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-nvim-lua" },
+      { "f3fora/cmp-spell" },
 
       -- Snippets
       { "L3MON4D3/LuaSnip" },
@@ -73,6 +74,16 @@ return require("packer").startup(function(use)
   use {
     "jose-elias-alvarez/null-ls.nvim",
     requires = "nvim-lua/plenary.nvim",
+  }
+  use {
+    "saecki/crates.nvim",
+    tag = "v0.3.0",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("crates").setup {
+        null_ls = { enabled = true, name = "crates.nvim" },
+      }
+    end,
   }
   use "ray-x/lsp_signature.nvim"
   use "simrat39/rust-tools.nvim"
