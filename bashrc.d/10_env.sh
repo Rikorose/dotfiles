@@ -45,7 +45,11 @@ if (($(echo "$LESS_VERSION >= 543" | bc -l))); then
 fi
 
 # Use bat to colorize man pages
+export MANROFFOPT="-c"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# Always show rust backtraces
+export RUST_BACKTRACE=1
 
 alias suspend='sudo systemctl suspend'
 alias reboot='sudo systemctl reboot'
