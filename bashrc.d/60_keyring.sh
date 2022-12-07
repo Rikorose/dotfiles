@@ -12,8 +12,10 @@ function start_agent {
 }
 
 if [[ -n "$DESKTOP_SESSION" ]] && [[ -x $(command -v gnome-keyring-daemon) ]]; then
-  eval "$(gnome-keyring-daemon --start --components=ssh,se)"
-  export SSH_AUTH_SOCK
+  # eval "$(gnome-keyring-daemon --start --components=ssh,secrets)"
+  # export SSH_AUTH_SOCK
+  SSH_AUTH_SOCK=$(ss -xl | grep -o '/run/user/1000/keyring*/ssh')
+  [ -z "$SSH_AUTH_SOCK" ] || export SSH_AUTH_SOCK
 elif [ -f "${SSH_ENV}" ]; then
   . "${SSH_ENV}" > /dev/null
   ps ${SSH_AGENT_PID} > /dev/null
