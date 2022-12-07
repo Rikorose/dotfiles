@@ -2,9 +2,15 @@
 
 set -e
 
-OUTFILE=snippet.png
-# Snipping tool
-sleep 0.5s; slurp | grim -g - "$OUTFILE"
+OUTFILE=${OUTFILE:-"$HOME/snippet.png"}
+N=$(pgrep -x snip -c)
+
+if [[ "$N" -gt 1 ]]; then
+  echo "Snip already running"
+  exit 1
+fi
+
+slurp | grim -g - "$OUTFILE"
 
 OUTFILE=$(readlink -f "$OUTFILE")
-cat $OUTFILE | wl-copy
+wl-copy < "$OUTFILE"
