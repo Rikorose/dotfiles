@@ -10,8 +10,11 @@ for ((i = 0; i < 100; i++)); do
   sleep 10ms
 done
 if [ -f "$LOCK_FILE" ]; then
-  echo "Could not lock .edp1lock"
-  exit 1
+  if ! [[ $(find "$LOCK_FILE" -cmin +10 -print) ]]; then
+    # LOCK_FILE exists and is younger than 10 minutes
+    echo "Could not lock .edp1lock"
+    exit 1
+  fi
 fi
 
 touch $LOCK_FILE
@@ -28,7 +31,7 @@ if [ "$IS_ENABLED" == "true" ]; then
     exit 1
   fi
 else
-  swaymsg output eDP-1 enable
+  eDP1-enable
 fi
 
 rm "$LOCK_FILE"
