@@ -89,6 +89,9 @@ while true; do
     ;;
   -T | --title)
     TITLE="$2"
+    if [[ "$TITLE" == "%date%" ]]; then
+      TITLE=$(date)
+    fi
     shift 2
     ;;
   -z)
@@ -114,19 +117,30 @@ fi
 
 # Check if basenames are the same
 have_same_basenames=0
-basenames=""
-for f in $(ls $@); do
+have_same_pardirs=0
+basenames=()
+pardirs=()
+for f in $(ls "$@"); do
   f=$(basename "$f")
-  if $(echo "$basenames" | grep -w -q $f); then
+  p=$(dirname "$1")
+  echo "Got file $f in dir $p"
+  if echo ${basenames[*]} | grep -w -q "$f"; then
     have_same_basenames=1
   fi
-  basenames="$basenames $f"
+  if echo ${pardirs[*]} | grep -w -q "$p"; then
+    have_same_pardirs=1
+  fi
+  basenames+=("$f")
+  pardirs+=("$p")
 done
 
 outname() {
   fn=$(basename "$1")
   if [ $have_same_basenames -eq 1 ]; then
     parentdir="$(dirname "$1")"
+    if [ $have_same_pardirs -eq 1 ]; then
+      parentdir="$(dirname "$parentdir")"
+    fi
     parentdir="$(basename "$parentdir")"
     echo "$parentdir/$fn" | tr / _
   else
@@ -138,15 +152,16 @@ plot() {
   set -e
 
   FILE="$1"
-  echo $FILE
   NAME=$(outname "$FILE")
+  echo "Plotting "$FILE" with display name $NAME"
   if [ -z "$TITLE" ]; then
     T="${NAME:0:100}" # Limit length
   else
     T="$TITLE"
   fi
   echo "$NAME"
-  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o - | imv -u nearest_neighbour - &
+  echo sox "$FILE" -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o -
+  sox "$FILE" -n $RATE $TRIM $CHANNELS spectrogram $Z $L $BINS -t "$T" -o - | imv -u nearest_neighbour - &
 }
 
 save() {
@@ -156,6 +171,7 @@ save() {
     T="${NAME:0:100}" # Limit length
   else
     T="$TITLE"
+    echo "T: $T"
   fi
   local loutdir=$OUTDIR
   if [[ $OUTDIR == "" ]]; then
@@ -163,17 +179,18 @@ save() {
   fi
   SAVEFILE="$loutdir/${NAME%.*}.png"
   echo "$SAVEFILE"
-  sox $FILE -n $RATE $TRIM $CHANNELS spectrogram $Z $BINS -t $T -o $SAVEFILE
+  echo sox "$FILE" -n $RATE $TRIM $CHANNELS spectrogram $Z $BINS -t "$T" -o "$SAVEFILE"
+  sox "$FILE" -n $RATE $TRIM $CHANNELS spectrogram $Z $BINS -t "$T" -o "$SAVEFILE"
 }
 
 for FILE in "$@"; do
-  if ! [ -f $FILE ]; then
+  if ! [ -f "$FILE" ]; then
     echo "File $FILE not found"
     continue
   fi
   if [[ "$save" -eq 1 ]]; then
-    save $(readlink -f "$FILE")
+    save "$(readlink -f $FILE)"
   else
-    plot $(readlink -f "$FILE")
+    plot "$(readlink -f $FILE)"
   fi
 done
