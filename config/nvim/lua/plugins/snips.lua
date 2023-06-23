@@ -112,4 +112,36 @@ ls.add_snippets("python", {
   ),
 })
 
--- Snippet movment in insert mode with <ctrl-d> and <ctrl-b>
+-- Latex
+ls.add_snippets("tex", {
+  s("eq:acm", 
+    fmt(
+      [[
+        \begin{{equation}}
+          {}
+          \label{{eq:{}}}
+        \end{{equation}}
+      ]],
+    {i(0, "equation"), i(1, "label")})
+  ),
+  s("eq:split:acm", 
+    fmt(
+      [[
+        \begin{{equation}}
+          \begin{{split}}
+            {}
+            \label{{eq:{}}}
+          \end{{split}}
+        \end{{equation}}
+      ]],
+    {i(0, "equation"), i(1, "label")})
+  ),
+  s("eq:ref", 
+    fmt("(\\ref{{eq:{}}}){}", {i(0, "ref"), i(1)})
+  ),
+  s("Eq:ref", 
+    fmt("Eq.~(\\ref{{eq:{}}}){}", {i(0, "ref"), i(1)})
+  ),
+})
+
+-- snippet movment in insert mode with <ctrl-d> and <ctrl-b>
