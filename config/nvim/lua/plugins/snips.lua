@@ -122,7 +122,7 @@ ls.add_snippets("tex", {
           \label{{eq:{}}}
         \end{{equation}}
       ]],
-    {i(0, "equation"), i(1, "label")})
+    {i(1, "equation"), i(0, "label")})
   ),
   s("eq:split:acm", 
     fmt(
@@ -137,10 +137,13 @@ ls.add_snippets("tex", {
     {i(0, "equation"), i(1, "label")})
   ),
   s("eq:ref", 
-    fmt("(\\ref{{eq:{}}}){}", {i(0, "ref"), i(1)})
+    fmt("(\\ref{{eq:{}}}){}", {i(1, "ref"), i(0)})
   ),
   s("Eq:ref", 
-    fmt("Eq.~(\\ref{{eq:{}}}){}", {i(0, "ref"), i(1)})
+    fmt("Eq.~(\\ref{{eq:{}}}){}", {i(1, "ref"), i(0)})
+  ),
+  s("frac", 
+    fmt("\\frac{{{}}}{{{}}}", {i(1), i(0)})
   ),
 })
 
