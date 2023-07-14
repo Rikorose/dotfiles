@@ -69,6 +69,16 @@ ls.add_snippets("rust", {
 -- Python
 ls.add_snippets("python", {
   s(
+    "np",
+    fmt(
+      [[
+    import numpy as np
+
+    ]],
+      {}
+    )
+  ),
+  s(
     "plt",
     fmt(
       [[
@@ -77,6 +87,15 @@ ls.add_snippets("python", {
     ]],
       {}
     )
+  ),
+  s(
+    "fig",
+    fmt(
+      [[
+    fig, ax = plt.subplots(nrows={}, ncols={}, figsize=({}), sharex={}, sharey={})
+
+    ]],
+      { i(1, "1"), i(2, "1"), i(3, "6.4, 4.8"), i(4, "False"), i(5, "False") })
   ),
   s(
     "icecream",
@@ -114,7 +133,7 @@ ls.add_snippets("python", {
 
 -- Latex
 ls.add_snippets("tex", {
-  s("eq:acm", 
+  s("eq:acm",
     fmt(
       [[
         \begin{{equation}}
@@ -122,9 +141,9 @@ ls.add_snippets("tex", {
           \label{{eq:{}}}
         \end{{equation}}
       ]],
-    {i(1, "equation"), i(0, "label")})
+      { i(1, "equation"), i(0, "label") })
   ),
-  s("eq:split:acm", 
+  s("eq:split:acm",
     fmt(
       [[
         \begin{{equation}}
@@ -134,17 +153,19 @@ ls.add_snippets("tex", {
           \end{{split}}
         \end{{equation}}
       ]],
-    {i(0, "equation"), i(1, "label")})
+      { i(0, "equation"), i(1, "label") })
   ),
-  s("eq:ref", 
-    fmt("(\\ref{{eq:{}}}){}", {i(1, "ref"), i(0)})
+  s("eq:ref",
+    fmt("(\\ref{{eq:{}}}){}", { i(1, "ref"), i(0) })
   ),
-  s("Eq:ref", 
-    fmt("Eq.~(\\ref{{eq:{}}}){}", {i(1, "ref"), i(0)})
+  s("Eq:ref",
+    fmt("Eq.~(\\ref{{eq:{}}}){}", { i(1, "ref"), i(0) })
   ),
-  s("frac", 
-    fmt("\\frac{{{}}}{{{}}}", {i(1), i(0)})
+  s("frac",
+    fmt("\\frac{{{}}}{{{}}}", { i(1), i(0) })
   ),
 })
 
 -- snippet movment in insert mode with <ctrl-d> and <ctrl-b>
+vim.keymap.set({"i", "s"}, "<C-D>", function() ls.jump( 1) end, {silent = true})
+vim.keymap.set({"i", "s"}, "<C-B>", function() ls.jump(-1) end, {silent = true})
