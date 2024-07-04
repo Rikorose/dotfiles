@@ -1,117 +1,67 @@
-local lsp = require "lsp-zero"
-local nnoremap = require("util").nnoremap
-local nmap = require("util").nmap
-require "plugins.snips" -- load custom snippets
+return {
+  -- { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
 
-vim.diagnostic.config {
-  underline = {
-    severity = { min = vim.diagnostic.severity.ERROR },
+  -- LSP Support
+  { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
+  { "neovim/nvim-lspconfig" },
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    build = ":MasonUpdate",
   },
-}
-
--- LSP zero setup
-lsp.ensure_installed {
-  "texlab",
-  "ltex",
-}
-lsp.preset "recommended"
-lsp.set_preferences {
-  set_lsp_keymaps = false,
-}
-lsp.on_attach(function(_, bufnr)
-  vim.api.nvim_create_autocmd("CursorHold", {
-    buffer = bufnr,
-    callback = function()
-      -- Only open diagnostic float if no other floating windows are open
-      for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-        if vim.api.nvim_win_get_config(winid).zindex then
-          return
-        end
-      end
-      local opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = "rounded",
-        source = "always",
-        prefix = " ",
-        scope = "line",
-      }
-      vim.diagnostic.open_float(nil, opts)
-    end,
-  })
-
-  local noremap = { buffer = bufnr, remap = false }
-  local bind = vim.keymap.set
-  bind("n", "K", vim.lsp.buf.hover, noremap)
-  bind("n", "gd", vim.lsp.buf.definition, noremap)
-  bind("n", "gD", vim.lsp.buf.declaration, noremap)
-  bind("n", "gt", vim.lsp.buf.type_definition, noremap)
-  bind("n", "<ctrl-k>", vim.lsp.buf.signature_help, noremap)
-end)
-lsp.configure("texlab", {
-  settings = {
-    texlab = {
-      chktex = { onEdit = true },
-      formatterLineLength = 120,
-      latexFormatter = "latexindent",
-      forwardSearch = {
-        args = { "--synctex-forward", "%l:1:%f", "%p" },
-        executable = "zathura",
+  { "williamboman/mason-lspconfig.nvim" },
+  -- Formatter
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "gq",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = "",
+        desc = "Format buffer",
       },
     },
-  },
-})
-
-lsp.nvim_workspace()
-lsp.setup_nvim_cmp(require("plugins.cmp").cmp_config())
-lsp.setup()
-
--- Null ls
-local null_ls = require "null-ls"
-local null_opts = lsp.build_options("null-ls", {})
-null_ls.setup {
-  on_attach = null_opts.on_attach,
-  sources = {
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.code_actions.gitsigns,
-    null_ls.builtins.formatting.fixjson.with { filetypes = { "jsonc", "json" } },
-    null_ls.builtins.formatting.isort,
-    null_ls.builtins.formatting.black.with { args = { "--quiet", "-" } },
-    null_ls.builtins.diagnostics.shellcheck,
-    null_ls.builtins.formatting.shfmt,
-    null_ls.builtins.formatting.yamlfmt,
-    null_ls.builtins.diagnostics.markdownlint,
-  },
-}
-
--- Show signatures in insert mode
-require("lsp_signature").setup()
-
--- Diagnostics in extra split
-require("trouble").setup {
-  auto_open = false,
-  use_diagnostic_signs = true,
-}
-require("lsp-colors").setup {
-  Error = "#db4b4b",
-  Warning = "#e0af68",
-  Information = "#0db9d7",
-  Hint = "#10B981",
-}
-
--- Formatting
-nmap("<F5>", function()
-  vim.lsp.buf.format {
-    async = true,
-    filter = function(client)
-      return client.name ~= "sumneko_lua"
+    -- Everything in opts will be passed to setup()
+    opts = {
+      -- Define your formatters
+      formatters_by_ft = {
+        lua = { "stylua" },
+        yaml = { "yamlfmt" },
+        python = { "isort", "black" },
+        bash = { "shfmt" },
+        rust = { "rust_analyzer" },
+      },
+      -- Set up format-on-save
+      format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      -- Customize formatters
+      formatters = {
+        shfmt = {
+          prepend_args = { "-i", "2" },
+        },
+        isort = {
+          prepend_args = { "--float-to-top" },
+        },
+      },
+    },
+    init = function()
+      -- If you want the formatexpr, here is the place to set it
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
-  }
-end)
-
-nmap("<leader>cs", "<cmd>WorkspaceSymbols<cr>")
-nmap("<leader>ca", "<cmd>CodeActions<cr>")
-nmap("<leader>cd", "<cmd>DiagnosticsAll<cr>")
-nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true })
-nnoremap("<leader>cr", vim.lsp.buf.rename, { silent = true })
-nnoremap("<leader>cR", "<cmd>Trouble lsp_references<cr>", { silent = true })
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    opts = {
+      extra_trigger_chars = { "(", "," },
+      auto_close_after = 5,
+    },
+    config = function(_, opts)
+      require("lsp_signature").setup(opts)
+    end,
+  },
+}
