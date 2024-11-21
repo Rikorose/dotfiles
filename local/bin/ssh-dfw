@@ -26,7 +26,7 @@ fi
 # read getopt’s output this way to handle the quoting right:
 eval set -- "$PARSED"
 
-p=9999
+p=7655
 while true; do
   case $1 in
     -p|--port)
