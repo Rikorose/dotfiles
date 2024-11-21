@@ -1,10 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
-  name = Hendrik Schroeter
-  email = h.schroeter@pm.me
+	name = Hendrik Schroeter
   signingKey = 0815C2AC5DC34944
-[commit]
-  gpgSign = true
 [pull]
   ff = only
 [pager]
@@ -254,4 +251,8 @@
   theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
   subrepo = !sh -c 'git filter-branch --prune-empty --subdirectory
 [credential]
-  helper = store
+	helper = store
+[core]
+	autocrlf = input
+[lfs]
+	locksverify = true
