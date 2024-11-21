@@ -39,6 +39,16 @@ return {
       })
     end,
   },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup({
+        -- Configuration here, or leave empty to use defaults
+      })
+    end,
+  },
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
@@ -105,6 +115,8 @@ return {
             fallback()
           end
         end, { "i", "s" }),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
       })
     end,
   },
@@ -172,5 +184,13 @@ return {
         map("n", "<leader>td", gs.toggle_deleted)
       end,
     },
+  },
+  {
+    "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    tag = "stable",
+    config = function()
+      require("crates").setup()
+    end,
   },
 }

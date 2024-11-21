@@ -1,20 +1,12 @@
--- ========================================================================== --
--- ==                            DEPENDENCIES                              == --
--- ========================================================================== --
+-- User Settings
+require("config.options")
 
--- ripgrep    - https://github.com/BurntSushi/ripgrep
--- fd         - https://github.com/sharkdp/fd
--- git        - https://git-scm.com/
--- make       - https://www.gnu.org/software/make/
--- c compiler - gcc or tcc or zig
+-- Key Maps and Autocomands
+require("config.keymaps")
+require("config.autocmds")
 
--- Basic editor options
-require "user.settings"
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
 
--- Plugin management and config
-require "plugins.install"
-
--- Keybindings
-require "user.keymaps"
-
-require "user.disable_builtin"
+-- LSP Settings
+require("config.lsp")

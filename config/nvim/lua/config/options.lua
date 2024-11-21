@@ -35,6 +35,7 @@ o.swapfile = false
 o.writebackup = false
 o.inccommand = "split" -- live substitution
 o.whichwrap = o.whichwrap + "hl" -- Make h/l move across beginning/end of line
+o.scrolloff = 3
 
 -- Better tab matching in command mode
 o.wildmode = "longest:full,full"
