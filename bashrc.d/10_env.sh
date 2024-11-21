@@ -19,7 +19,7 @@ alias lll='ll -L'
 alias tmux="env TERM=xterm-256color tmux"
 
 # set term variable over ssh
-alias ssh="TERM=xterm ssh"
+alias ssh="TERM=xterm-256color ssh"
 
 # dnf
 alias dnfs='dnf search -C'
@@ -40,7 +40,7 @@ export LESS="-Ri"
 # Less version 543+ support mouse options. Less' version numbers may
 # include a dot for bugfix releases such as 543.2; thus interpret as float.
 LESS_VERSION=$(less --version | head -n 1 | cut -d ' ' -f2)
-if (($(echo "$LESS_VERSION >= 543" | bc -l))); then
+if [ "$LESS_VERSION" -ge 543 ]; then
   export LESS="$LESS --mouse --wheel-lines=3"
 fi
 

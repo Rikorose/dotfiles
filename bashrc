@@ -22,4 +22,3 @@ unset f
 
 # Also source host specific rc file
 [[ -e ~/.bashrc.d/hosts/$(hostname).sh ]] && . ~/.bashrc.d/hosts/$(hostname).sh
-[[ $(hostname) =~ "cip" ]] && . ~/.bashrc.d/hosts/cip.sh

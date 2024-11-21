@@ -9,6 +9,9 @@ export FZF_CTRL_T_COMMAND='fd --follow'
 export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 if [ -f ~/.fzf.bash ]; then
   source ~/.fzf.bash
+elif [ -f ~/.fzf/shell/key-bindings.bash ]; then
+  ll ~/.fzf/shell/key-bindings.bash 
+  source ~/.fzf/shell/key-bindings.bash 
 elif [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
   source /usr/share/fzf/shell/key-bindings.bash
 fi

@@ -1,7 +1,6 @@
 #!/bin/bash
 
-isgitdir()
-{
+isgitdir() {
   if [ -z "$1" ]; then
     DIR=$PWD
   else
@@ -10,8 +9,7 @@ isgitdir()
   git -C "$DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1
 }
 
-function d ()
-{
+function d() {
   if isgitdir; then
     git diff "$@"
   else
@@ -19,13 +17,11 @@ function d ()
   fi
 }
 # Also overwrite dc (cmd calculator) since the usage is pritty meh anyways
-function dc ()
-{
+function dc() {
   git diff --cached "$@" | diff-so-fancy
 }
 
-function md ()
-{
+function md() {
   if [ ! -f "$1" ]; then
     echo "usage: md <file.md>"
     exit 0
@@ -33,8 +29,7 @@ function md ()
   pandoc -t plain "$1" | bat
 }
 
-function md-lynx ()
-{
+function md-lynx() {
   if [ ! -f "$1" ]; then
     echo "usage: md-lynx <file.md>"
     exit 0
@@ -42,7 +37,13 @@ function md-lynx ()
   pandoc "$1" | lynx -stdin
 }
 
+if [ -x "$(command -v fdfind)" ]; then
+  alias fd=fdfind
+fi
+
+alias gs='git status'
+
 alias bathelp='bat --plain --language=help'
 help() {
-    "$@" --help 2>&1 | bathelp
+  "$@" --help 2>&1 | bathelp
 }
