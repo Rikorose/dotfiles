@@ -4,27 +4,28 @@ Host github.com
   PreferredAuthentications publickey
   IdentityFile ~/.ssh/id_ed25519
 
-Host gitlab.cs.fau.de
-  HostName gitlab.cs.fau.de
+Host ssh.dev.azure.com
+  HostName ssh.dev.azure.com
   User git
   PreferredAuthentications publickey
-  IdentityFile ~/.ssh/id_ed25519
-  TCPKeepAlive yes
-  IdentitiesOnly yes
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedKeyTypes +ssh-rsa
+  IdentityFile ~/.ssh/id_rsa_wsa
 
-Host faui*
-  HostName %h.informatik.uni-erlangen.de
-  User ko01jaxu
-  IdentityFile ~/.ssh/id_ed25519
-  TCPKeepAlive yes
-  ForwardAgent yes
+Host tfs.audiology-solutions.net
+  HostName tfs.audiology-solutions.net
+  User git
+  PreferredAuthentications publickey
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedKeyTypes +ssh-rsa
+  IdentityFile ~/.ssh/id_rsa_wsa
 
-Host cip*
-  HostName %h.cip.cs.fau.de
-  User ko01jaxu
-  IdentityFile ~/.ssh/id_ed25519
-  TCPKeepAlive yes
-  ForwardAgent yes
+Host sipcalc*
+  HostName %h.audiology-solutions.net
+  User sipcalc
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedKeyTypes +ssh-rsa
+  IdentityFile ~/.ssh/id_rsa_sipcalc
 
 Host lme*
   HostName %h.informatik.uni-erlangen.de
@@ -33,35 +34,14 @@ Host lme*
   TCPKeepAlive yes
   ForwardAgent yes
 
-Host i5.cluster
+Host git5.cs.fau.de
+  HostName git5.cs.fau.de
   User schroeter
-  HostName cluster.i5.informatik.uni-erlangen.de
   IdentityFile ~/.ssh/id_ed25519
+  TCPKeepAlive yes
   ForwardAgent yes
 
-Host ha
-  User root
-  HostName 192.168.178.31
-  IdentityFile ~/.ssh/id_ed25519
-  Port 37159
-
-Host pizero
-  User pi
-  HostName pizero
-  IdentityFile ~/.ssh/id_ed25519
-
-Host pil
-  User pi
-  HostName 192.168.178.40
-  IdentityFile ~/.ssh/id_ed25519
-
-Host pio
-  User pi
-  HostName ha-rpi-hshr.duckdns.org
-  IdentityFile ~/.ssh/id_ed25519
-  Port 59999
-
-Host olchi
-  User root
-  HostName 192.168.178.55
+Host pi
+  HostName ha-rpi-hshr.mywire.org
+  User hendrik
   IdentityFile ~/.ssh/id_ed25519
