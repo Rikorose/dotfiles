@@ -1,0 +1,8 @@
+[virtualenvs]
+in-project = true
+
+[solver]
+lazy-wheel = true
+
+[repositories.artifactory]
+url = "https://artifactory-cloud.wsa.com/api/pypi/pypi/simple"
