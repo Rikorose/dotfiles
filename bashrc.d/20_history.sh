@@ -9,8 +9,8 @@ shopt -s histappend
 history -a
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=20000
-HISTFILESIZE=20000
+HISTSIZE=999999
+HISTFILESIZE=-1
 
 # disable history expansion (!)
 set +o histexpand

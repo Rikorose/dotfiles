@@ -15,15 +15,39 @@ if [ -x "$(command -v virtualenvwrapper.sh)" ]; then
 fi
 
 # Setup mambaforge if found; this isn't done lazily, so expect some bash starup delay
-export MAMBA_EXE="$HOME/.local/bin/micromamba"
-export MAMBA_ROOT_PREFIX="$HOME/micromamba"
-__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2>/dev/null)"
-if [ $? -eq 0 ]; then
-  eval "$__mamba_setup"
-else
-  alias micromamba="$MAMBA_EXE" # Fallback on help from mamba activate
+if [ -d "$HOME/micromamba" ]; then
+  export MAMBA_EXE="$HOME/.local/bin/micromamba"
+  export MAMBA_ROOT_PREFIX="$HOME/micromamba"
+  __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2>/dev/null)"
+  if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+  else
+    alias micromamba="$MAMBA_EXE" # Fallback on help from mamba activate
+  fi
+  unset __mamba_setup
 fi
-unset __mamba_setup
+
+if [ -d "$HOME/miniforge" ]; then
+  __conda_setup="$($HOME/miniforge/bin/conda shell.bash hook >/dev/null)"
+  eval "$__conda_setup"
+  unset __conda_setup
+fi
+
+
+# >>> conda initialize >>>
+__conda_setup="$('$HOME/miniforge/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/miniforge/etc/profile.d/conda.sh" ]; then
+        . "$HOME/miniforge/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/miniforge/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
 alias poetry_activate="source \"\$(poetry env list --full-path | grep Activated | cut -d' ' -f1 )/bin/activate\""
 alias poetry_activate_dfn="source \"\$(poetry -C DeepFilterNet env list --full-path | grep Activated | cut -d' ' -f1 )/bin/activate\""
