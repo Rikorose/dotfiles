@@ -56,9 +56,14 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
     opts = {
       extra_trigger_chars = { "(", "," },
       auto_close_after = 5,
+      bind = true,
+      handler_opts = {
+        border = "rounded"
+      },
     },
     config = function(_, opts)
       require("lsp_signature").setup(opts)
