@@ -1,0 +1,29 @@
+{
+    "import icecream": {
+        "prefix": "icimp",
+        "body": [
+          "from icecream import ic",
+          ""
+        ],
+        "description": "Import icecream"
+    },
+    "install icecream": {
+        "prefix": "icinstall",
+        "body": [
+          "from icecream import install",
+          "install()",
+          ""
+        ],
+        "description": "Install icecream"
+    },
+    "install icecream": {
+        "prefix": "icinstallcontext",
+        "body": [
+          "from icecream import ic,install",
+          "ic.includeContext=True",
+          "install()",
+          ""
+        ],
+        "description": "Install icecream and configure to print line numbers"
+    }
+}

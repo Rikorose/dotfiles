@@ -54,12 +54,18 @@ return {
   {
     "L3MON4D3/LuaSnip",
     dependencies = { "rafamadriz/friendly-snippets" },
+    version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    -- install jsregexp (optional!).
+    build = "make install_jsregexp",
     keys = function()
       return {}
     end,
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load({
         exclude = { "javascript" },
+      })
+      require("luasnip.loaders.from_vscode").load({
+        paths = { "./snippets/" },
       })
     end,
   },
