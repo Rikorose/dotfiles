@@ -56,17 +56,28 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
-    opts = {
-      extra_trigger_chars = { "(", "," },
-      auto_close_after = 5,
-      bind = true,
-      handler_opts = {
-        border = "rounded"
-      },
-    },
+    event = "InsertEnter",
     config = function(_, opts)
       require("lsp_signature").setup(opts)
-    end,
+      local status_ok, sig = pcall(require, "lsp_signature")
+      if not status_ok then
+        return
+      end
+
+      local my_opts = {
+        extra_trigger_chars = { "(", "," },
+        auto_close_after = 5,
+        bind = true,
+        handler_opts = {
+          border = "rounded"
+        },
+        hint_prefix = " ",
+        hi_parameter = "Search", -- LSP did not work reliably
+        zindex = 1002, -- by default it will be on top of all floating windows, set to 50 send it to bottom
+        padding = ""
+      }
+      for k,v in pairs(my_opts) do opts[k] = v end
+      sig.setup(opts)
+    end
   },
 }
