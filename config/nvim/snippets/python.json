@@ -25,5 +25,21 @@
           ""
         ],
         "description": "Install icecream and configure to print line numbers"
+    },
+    "import numpy": {
+        "prefix": "npimport",
+        "body": [
+          "import numpy as np",
+          ""
+        ],
+        "description": "Import numpy"
+    },
+    "import matplotlib": {
+        "prefix": "pltimport",
+        "body": [
+          "import matplotlib.pyplot as plt",
+          ""
+        ],
+        "description": "Import matplotlib"
     }
 }
