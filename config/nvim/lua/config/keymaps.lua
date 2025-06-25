@@ -79,6 +79,15 @@ bind("n", "<leader>qf", quickfix, { silent = true })
 bind("n", "<leader>ga", vim.lsp.buf.code_action)
 
 -- LuaSnip: For changing choices in choiceNodes (not strictly necessary for a basic setup).
+
+bind({ "i", "s" }, "<C-L>", function()
+  local ls = require("luasnip")
+  ls.jump(1)
+end, { silent = true })
+bind({ "i", "s" }, "<C-J>", function()
+  local ls = require("luasnip")
+  ls.jump(-1)
+end, { silent = true })
 bind({ "i", "s" }, "<C-E>", function()
   local ls = require("luasnip")
   if ls.choice_active() then
