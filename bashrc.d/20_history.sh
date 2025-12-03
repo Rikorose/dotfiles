@@ -9,11 +9,15 @@ shopt -s histappend
 history -a
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=999999
-HISTFILESIZE=-1
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_history_eternal
 
 # disable history expansion (!)
 set +o histexpand
 
 # Flush bash history immediately
-PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; history -r; $PROMPT_COMMAND"
