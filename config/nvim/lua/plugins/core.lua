@@ -121,8 +121,16 @@ return {
             fallback()
           end
         end, { "i", "s" }),
-        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-b>"] = cmp.mapping(function()
+          luasnip.jump(-1)
+          cmp.mapping.scroll_docs(-4)
+        end, { "n", "i", "s" }),
+        ["<C-f>"] = cmp.mapping(function()
+          luasnip.jump(1)
+          cmp.mapping.scroll_docs(4)
+        end, { "n", "i", "s" }),
+        ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-j>"] = cmp.mapping.scroll_docs(4),
       })
     end,
   },
